@@ -1,0 +1,83 @@
+# vim:syn=zsh
+# borra prompt theme
+
+autoload colors && colors
+
+_zsh_prompt_item() {
+  local res
+  (eval "${1}" 2>/dev/null || return 1) | read res
+  [ $? = 0 ] || return
+  echo "${ZSH_PROMPT_PLUGIN_PREFIX}${res}${ZSH_PROMPT_PLUGIN_SUFFIX}"
+}
+
+_zsh_prompt_plugins() {
+  local res="" plugin
+
+  for plugin in ${ZSH_PROMPT_PLUGINS[@]}
+  do
+    res="${res}$(_zsh_prompt_item "${plugin}")"
+  done
+
+  echo "${res}"
+}
+
+_zsh_prompt_create() {
+  local plugins="$(_zsh_prompt_plugins)" res=""
+
+  if [ ! -z "${plugins}" ]
+  then
+    res="${ZSH_PROMPT_PREFIX_TOP}$(_zsh_prompt_plugins)
+${ZSH_PROMPT_PREFIX_BOTTOM}"
+  fi
+  echo "${res}${ZSH_PROMPT}"
+}
+
+_zsh_prompt_userhost() {
+  echo '%(!.%SROOT%s.%n)%{$fg[blue]%}@%{$reset_color%}%m'
+}
+
+_zsh_prompt_pts() {
+  echo '/dev/%y'
+}
+
+rvm_prompt_info() {
+  which rvm &>/dev/null || return 1
+  local rb="$(rvm-prompt s)"
+  [ -z "${rb}" ] && echo "$(rvm-prompt i v p r)" || echo "${rb}"
+}
+
+git_prompt_info() {
+  local res=""
+  local ref
+  (/usr/bin/git symbolic-ref HEAD 2>/dev/null || return 1) | read ref
+  [ $? = 0 ] || return 1
+  ref="${ref#refs/heads/}"
+  if [ -z "$(git cherry -v origin/${ref} 2>/dev/null)" ]
+  then
+    res='%{$fg_bold[green]%}✓%{$reset_color%}'
+  else
+    res='%{$fg_bold[red]%}✗%{$reset_color%}'
+  fi
+  echo "${ref} ${res}"
+}
+
+ZSH_PROMPT_PLUGINS=(_zsh_prompt_userhost _zsh_prompt_pts rvm_prompt_info git_prompt_info)
+ZSH_PROMPT_PLUGIN_PREFIX='%{$reset_color%}%{$fg[blue]%}─(%{$reset_color%}'
+ZSH_PROMPT_PLUGIN_SUFFIX='%{$reset_color%}%{$fg[blue]%})%{$reset_color%}'
+ZSH_PROMPT_PREFIX_TOP='%{$fg[blue]%}╭%{$reset_color%}'
+ZSH_PROMPT_PREFIX_BOTTOM='%{$fg[blue]%}╰─%{$reset_color%}'
+ZSH_PROMPT='%{$fg[blue]%}(%{$reset_color%}%B%$((COLUMNS / 2))<...<%~%<<%b%{$fg[blue]%})%{$fg[yellow]%}>%{$reset_color%} '
+
+precmd() {
+  PROMPT="$(_zsh_prompt_create)"
+  which pre_cmd &>/dev/null && pre_cmd
+}
+
+preexec() {
+  which pre_exec &>/dev/null && pre_exec 2>/dev/null
+}
+
+PROMPT="${ZSH_PROMPT}"
+RPS1='%(?..%{$fg[red]%}%? ↵%{$reset_color%})'
+
+export ZSH_PROMPT_PLUGINS ZSH_PROMPT_PLUGIN_PREFIX ZSH_PROMPT_PLUGIN_SUFFIX ZSH_PROMPT_PREFIX_TOP ZSH_PROMPT_PREFIX_BOTTOM ZSH_PROMPT

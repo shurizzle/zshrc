@@ -1,0 +1,66 @@
+#!/bin/zsh
+
+function v2avi
+{
+	: ${2?"USAGE: v2avi inputvideo outputvideo"}
+	mencoder $1 -ovc xvid -xvidencopts bitrate=1000:autoaspect -vf pp=lb -oac mp3lame -lameopts fast:preset=standard -o $2
+}
+
+function v2mp3
+{
+	: ${2?"USAGE: v2mp3 inputvideo outputaudio"}
+	ffmpeg -i $1 -ab 192596 -ac 2 -ar 44100 -vn $2
+}
+
+function v2mp4
+{
+	: ${2?"USAGE: v2mp4 inputvideo outputaudio"}
+	ffmpeg -i $1  -f mp4  -maxrate 1000 -qmin 3 -qmax 5 -bufsize 4096 -g 300 -s 320x180 -padtop 30 -padbottom 30 -ab 128 -b 400 $2
+}
+function m4a2mp3
+{
+  : ${1?"USAGE m4a2mp3 <file.ext>"}
+  faad -o audiodump.wav "${1}"
+  lame audiodump.wav "${1%.m4a}.mp3"
+  rm audiodump.wav
+}
+
+function v23gp
+{
+    : ${2?"USAGE: v23gp infile.ext outfile.3gp"}
+    ffmpeg -i "${1}" -s 176x144 -vcodec h263 -r 25 -b 200 -ab 6.7k -sameq -acodec libopencore_amrnb -ac 1 -ar 8000 "${2}"
+}
+
+function all2wav
+{
+  : ${1?"USAGE: all2wav <file.ext> [outfile]"}
+  local OUTFILE="${2}"
+  [ -z "${2}" ] && OUTFILE="${1%.*}.wav"
+  mplayer "${1}" -ao pcm:file="${OUTFILE}" -novideo
+}
+
+function all2mp3
+{
+  : ${1?"USAGE: all2mp3 <file.ext> [outfile]"}
+  local OUTFILE="${2}"
+  [ -z "${2}" ] && OUTFILE="${1%.*}.mp3"
+  all2wav "${1}" audiodump.wav
+  lame audiodump.wav "${OUTFILE}"
+  rm audiodump.wav
+}
+
+function mpman_video
+{
+  : ${1?"USAGE: mpman_video <input> [output]"}
+  local TMP="$(mktemp mpman-XXX.avi)"
+
+  ffmpeg -i "${1}" -f avi -y "${TMP}"
+  amv-ffmpeg -i "${TMP}" -f amv -s 160x120 -r 16 -ac 1 -ar 22050 -qmin 3 -qmax 3 -y "${2:-${1}.amv}"
+  rm "${TMP}"
+}
+
+function droid_video
+{
+  : ${2?"USAGE: droid_video <input> <video>"}
+  ffmpeg -i "${1}" -s 800x480 -vcodec mpeg4 -acodec aac -strict experimental -ac 2 -ar 16000 -r 15 -ab 32000 -aspect 16:9 -y "${2}"
+}

@@ -1,0 +1,26 @@
+# vim:syn=zsh
+
+#AUTOSTARTING JACKD, ICECAST, DARKICE AND PAIRING MOC AND DARKICE
+#jack_lsp &>/dev/null || start_audio
+
+is_root() {
+  [ "$UID" = 0 ] && return 0
+  return 1
+}
+
+if ! is_root
+then
+  if [ "${TERM}" = "linux" -a -z "${DISPLAY}" -a "$(tty)" = /dev/tty1 ]; then
+    fork startx &>/dev/null
+    clear
+    logout
+  else
+    [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
+    [[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator
+    start_agent
+  fi
+  pgrep -u "${USER}" -f "^\s*$(which LOLastfm)\s*$" &>/dev/null || fork LOLastfm &>/dev/null
+  pgrep -u "${USER}" -f "^\s*$(which torchatd)\s*$" &>/dev/null || (torchatd -t &>/dev/null &) &
+  pgrep -u "${USER}" -f "bitcoind" &>/dev/null || fork bitcoind &>/dev/null
+fi
+

@@ -1,0 +1,166 @@
+#!/usr/bin/env zsh
+
+zmodload zsh/net/tcp
+
+function url_encode
+{
+  arg="${1}"
+  let i=0
+  while [ $i -lt ${#arg} ]
+  do
+    c=${arg:$i:1}
+    grep '^[a-zA-Z0-9;/:@\$,\-\_\.!~\*'\''()]$' <<< "${c}" || printf "%s" "${c}" | xxd -p -c4 -u | sed 's/../%&/g' #'
+    let i+=1
+  done | tr -d '\n'
+}
+
+function url_decode
+{
+  arg="${1}"
+  let i=0
+  while [ "${i}" -lt ${#arg} ]
+  do
+    c0=${arg:$i:1}
+    if [ "$c0" = "%" ]
+    then
+      c1=${arg:$((i + 1)):1}
+      c2=${arg:$((i + 2)):1}
+      printf "\x$c1$c2"
+      let i+=3
+    else
+      echo -n "${c0}"
+      let i+=1
+    fi
+  done
+}
+
+function imagebin
+{
+	: ${1?"USAGE: imagebin image_name"}
+  num="$(curl -sD- -F nickname=shura -F disclaimer_agree=Y -F mode=add -F "image=@$1" http://imagebin.org/index.php | grep "^Location: " | cut -c 11- | head -n 1)"
+  echo "http://imagebin.org/index.php?mode=image&id=$num"
+}
+
+function nopaste
+{
+    : ${1?"USAGE: nopaste <file>"}
+    cat "${1}" | curl -sF'sprunge=<-' sprunge.us
+}
+
+function filsh
+{
+    : ${1?"USAGE: filsh <videolink>"}
+    curl -s -F "links=${1}" -F 'format=none' -F 'volume=0' -F 'audiobit=128' -F 'videobit=192' -F 'dimensions=0' -F 'timespan-from-start=0' -F 'timespan-to-end=0' -F 'button=Weiter Â»' -F 'rules_accepted=on' http://www.filsh.net/process/ | grep -E '>Download' | sed -r 's/^.+?<a href="|">Download.+?<\/a>.*$//g'
+}
+
+function authplain
+{
+    echo -en "$1\x00$1\x001$2" | base64 | tr -d '\n' | sed 's/^/AUTH PLAIN /'
+}
+
+function default_disconnect
+{
+  curl -skL "http://192.168.182.1:3990/logoff" | grep "Per entrare nella rete bisogna autenticarsi" &>/dev/null && return 0 || { echo "Logoff failed" && return 1 }
+}
+
+function efukt
+{
+  : ${1?"USAGE efukt <link>"}
+  wget -O - "${1}" 2>/dev/null | grep flashvars\\.file | sed -r 's/^[^"]+"|".*$//g'
+}
+
+function xvideos
+{
+  : ${1?"USAGE: xvideos <link>"}
+  url_decode "$(wget -O - "${1}" 2>/dev/null | grep -Po 'flv_url=.+?&amp' | sed -r 's/^flv_url=|&amp$//g')"
+}
+
+function youjizz
+{
+  : ${1?"USAGE: youjizz <youjizz-link>"}
+  curl -s "${1}" | grep 'addVariable("file"' | grep -Po 'http://[^"]+'
+}
+
+function motherless
+{
+  : ${1?"USAGE: motherless <motherless-link>"}
+  curl -s "${1}" | grep "addVariable('file'" | grep -Po "http://[^']+"
+}
+
+function pornhub
+{
+  : ${1?"USAGE: pornhub <pornhub-link>"}
+  url_decode "$(curl -s "${1}" | grep -Po '"[^"]+flv[^"]+"')"
+}
+
+function youtube
+{
+  local YC="${YOUTUBE_COOKIES:-"${HOME}/.ytdl"}"
+  local -a PIECES; PIECES=(${(f)"$(/usr/bin/youtube-dl --cookies="${YC}" -o '%(title)s.%(ext)s' --get-filename -g "${1}")"})
+  shift
+  set -- "$@" --load-cookies="${YC}" -o "${PIECES[2]}" "${PIECES[1]}"
+  download "$@"
+}
+
+function megavideo # R.I.P.
+{
+  url_escape "$(xml unesc "$(url_decode "$(xml sel --net --html -T -t -m '/user' -v '@downloadurl' "http://www.megavideo.com/xml/player_login.php?u=$(sed -r -n '/^\.?megaupload.com\tTRUE\t.+?\tFALSE\t[0-9]+\tuser\t.+$/s:.+?\s+(\S+)$:\1:p' ~/.mudl)&v=$(echo -n "${1}" | grep -Pio 'v=[a-z0-9]{8}' | tail -c9)")")")"
+}
+
+function math
+{
+  local GIF="$(mktemp XXX.gif)"
+  local PNG="$(mktemp XXX.png)"
+
+  wget -o/dev/null -O"${GIF}" "$(curl -s "http://www.wolframalpha.com/input/?i=$(url_encode "${1}")" | grep -Po 'http://[^"]+Calculate[^"]+Type=image[^"]+' | head -1)"
+  convert "${GIF}" "${PNG}"
+  imgur "${PNG}"
+  rm -f "${GIF}" "${PNG}"
+}
+
+function follow
+{
+  : ${1?"USAGE: follow <url>"}
+  curl -sIL "${1}" | sed -r '/^Location/{s/^Location:\s+(.+?)\s*$/\1/g;te};/^.*$/d;:e' | tail -1
+}
+
+function _tor_new_identity {
+  local SOCK
+  local msg
+  ztcp 127.0.0.1 9051 || return 1
+  SOCK="${REPLY}"
+  print -n -- "AUTHENTICATE \r\n" >&$SOCK
+  read -r msg <&$SOCK
+  [ "${${(s| |)msg}[1]}" = 250 ] || return 1
+  print -n -- "signal NEWNYM\r\n" >&$SOCK
+  read -r msg <&$SOCK
+  [ "${${(s| |)msg}[1]}" = 250 ] || return 1
+  ztcp -cf $SOCK
+}
+
+tor_new_identity() {
+  _tor_new_identity || {
+    echo "Error while changing identity"
+    return 1
+  }
+}
+
+soundcloud_download() {
+  eval "$(wget -o/dev/null -O- "${1}" | sed -rn '/title"\s*:\s*"([^"]+)"/s/.+?"username"\s*:\s*"([^"]+)".+?"title"\s*:\s*"([^"]+)".+?"streamUrl"\s*:\s*"([^"]+)".*$/wget -O "\1 - \2.mp3" "\3";/p')"
+}
+
+gat.to() {
+  : ${1?"USAGE: gat.to url"}
+  curl -s -F"url=${1}" http://gat.to/ | sed -rn '/<a href="(.+?)"><img/s/.+?<a href="(.+?)"><img.*/\1/p' | tail -1
+}
+
+alias iwscan="iwlist wlan0 scan | grep --color=no ESSID | sed -r 's/^\\s+ESSID:\"|\"\$//g; /^\$/d' | sort -u"
+
+dta() {
+  wget -O - $1 |
+  grep -Eo 'images.4chan.org/[^"]+' |
+  uniq |
+  xargs wget
+}
+
+# vim:ts=2:bs=2:sw=2:et:ft=zsh:fdm=marker

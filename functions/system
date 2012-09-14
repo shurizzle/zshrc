@@ -1,0 +1,228 @@
+#!/usr/bin/env zsh
+
+function rcntln
+{
+  local FOLDER=${1} || ${PWD}
+  for i ("${FOLDER}"/**/*) {
+    [ -f "${i}" ] && wc -l "${i}" | sed -r 's/^([0-9]+).*$/\1/g'
+  } | tr '\n' '+' | sed 's/+$/\n/' | bc | sed 's/$/ TOTAL/'
+}
+
+function killflash
+{
+    for i in `ps aux | grep -P 'lib(gc)?flashplayer.so' | awk '{print $2}'`; do
+        kill -9 $i
+    done
+}
+
+function is_mp3
+{
+    : ${1?"USAGE: is_mp3 <file>"}
+    grep -a '^ID3'$'\x03' "${1}" &>/dev/null || return 1
+    echo 1 && return 0
+}
+
+if is_cmd emerge
+then
+  function riemerge
+  {
+    emerge --skip-first || riemerge
+  }
+
+  function remerge
+  {
+    emerge "$@" || riemerge
+  }
+fi
+
+function sortfile
+{
+  sort -S"$(du "${1}" | awk '{print $1}')K" "${1}" -o "${1}"
+}
+
+function ramfox
+{
+  local OLDPWD="${PWD}"
+  cd "${HOME}/.mozilla/firefox"
+
+  local PROFILE="1js9yvnn.default"
+
+  if ! mount | grep -F "${HOME}/.mozilla/firefox/${PROFILE}" &>/dev/null; then
+    mount "${HOME}/.mozilla/firefox/${PROFILE}"
+  fi
+
+  if [ -f "${PROFILE}/.unpacked" ]; then
+    tar --exclude .unpacked -cpf packed.tmp.tar "${PROFILE}" && \
+    mv packed.tar packed.old.tar
+    mv packed.tmp.tar packed.tar
+  else
+    tar xpf packed.tar && \
+    touch "${PROFILE}/.unpacked"
+  fi
+
+  cd "${OLDPWD}"
+}
+
+function waitpid
+{
+  while kill -0 "${1}" 2>/dev/null; do
+    sleep 5
+  done
+}
+
+function alarm
+{
+  zmodload zsh/sched || return 1
+
+  local dte1="$(date --date "${1}" +%s)"
+  local dte2="$(date +%s)"
+  local diffSec="$((dte1 - dte2))"
+
+  ((diffSec < 0)) && return 1
+
+  for ((i=0; $i < 60; i+=5)); do
+    sched "+$((diffSec + i * 60))" "${PLAYER}" "${2:-${ALARM}}"
+  done
+  amixer set Master 100%
+}
+
+function dealarm
+{
+  for i ({1..$(sched | wc -l)}) {
+    sched -1
+  }
+}
+
+function rewake
+{
+  slock &
+  alarm "${1}"
+  local dte1="$(date --date "${1}" +%s)"
+  local dte2="$(date +%s)"
+  local diffSec="$((dte1 - dte2 - 5))"
+  sudo rtcwake -m mem -s "${diffSec}"
+}
+
+function colours
+{
+  for i in {0..255} ; do
+    printf "\x1b[38;5;${i}mcolour${i}\n"
+  done
+}
+
+function bench
+{
+  for ((i = 1;i <= $#; i++)) {
+    local X="$(eval "echo \"\${$i//\\\\/\\\\\\\\}\"")"
+    (
+      echo -ne '\e[32;1m$\e[0m ' && echo -n "${X//\\/\\\\}"
+      local RES="$( (time (eval "${X}" &>/dev/null)) 2>&1 || echo -ne ' (\e[31;1merror\e[0m)' >&2)"
+      echo -ne '\n\e[34;1m->\e[0m' && echo ${RES}
+    ) 2>&1
+  }
+}
+
+function mcd
+{
+  mkdir -p "${1}"
+  cd "${1}"
+}
+
+function extract
+{
+  : ${1?"USAGE: extract <FILENAME>"}
+
+  case "${1}" in
+    *.tar.bz2|*.tbz2) tar xvjf "${1}" ;;
+    *.tar.gz|*.tgz)    tar xvzf "${1}" ;;
+    *.tar.xz)         unxz -c "${1}" | tar xvf - ;;
+    *.tar.lzma)       unlzma -c "${1}" | tar xvf - ;;
+
+    *.tar)            tar xvf "${1}" ;;
+    *.bz2)            bunzip "${1}" ;;
+    *.gz)             gunzip "${1}" ;;
+    *.xz)             unxz "${1}" ;;
+    *.lzma)           unlzma "${1}" ;;
+    *.rar)            rar x "${1}" ;;
+    *.zip)            unzip "${1}" ;;
+    *.Z)              uncompress "${1}" ;;
+    *.7z)             7z x "${1}" ;;
+    *)                echo "Failed to recognize compression type of file '${1}'" && return 1 ;;
+  esac
+}
+
+function cdvim
+{
+  local CD="${1}"
+  shift
+  cd "${CD}"
+  vim "$@"
+  cd -
+}
+
+if is_cmd pacman || is_cmd pacman-color
+then
+  pacman_dispatch() {
+    case $1 in
+      -S | -S[^sih]* | -R* | -U* | -D*)
+        return 0 ;;
+      *) return 1 ;;
+    esac
+  }
+
+  if which pacman-color &>/dev/null
+  then
+    dispatch_sudo pacman_dispatch pacman-color
+    alias pacman=pacman-color
+  else
+    dispatch_sudo pacman_dispatch pacman
+  fi
+
+
+  if is_cmd yaourt
+  then
+    yaourt_dispatch() {
+      case $1 in
+        -S) return 0 ;;
+        *) return 1 ;;
+      esac
+    }
+    dispatch_sudo yaourt_dispatch yaourt
+  fi
+
+  packer_dispatch() {
+    case $1 in
+      -S|-S[^si]*|-R*|-U*|-D*)
+        return 0 ;;
+      *) return 1 ;;
+    esac
+  }
+
+  if is_cmd packer
+  then
+    dispatch_sudo packer_dispatch packer
+  elif is_cmd packer-color
+  then
+    alias packer=packer-color
+    dispatch_sudo packer_dispatch packer-color
+  fi
+  is_cmd abs && dispatch_sudo true abs
+fi
+
+dispatch_sudo true shutdown
+dispatch_sudo true pm-suspend
+dispatch_sudo true mount
+
+function loadavg
+{
+  local one two three sburro
+  < /proc/loadavg read one two three sburro
+  echo $one $two $three
+}
+
+function TTS
+{
+  mplayer 'http://translate.google.com/translate_tts?tl=it&q='"$(url_encode "$(echo $@)")" -ao pcm:file=/dev/stdout -novideo 2>/dev/null
+}
+
+# vim:ts=2:bs=2:sw=2:et:ft=zsh:fdm=marker
