@@ -122,11 +122,16 @@ function bench
   }
 }
 
-function mcd
-{
-  mkdir -p "${1}"
-  cd "${1}"
-}
+if is_function mkdcd
+then
+  alias mcd=mkdcd
+else
+  function mcd
+  {
+    mkdir -p "${1}"
+    cd "${1}"
+  }
+fi
 
 function extract
 {

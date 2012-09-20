@@ -2,22 +2,22 @@
 
 is_builtin() {
   : ${1?"USAGE: is_builtin <builtin-name>"}
-  builtin type "${1}" | grep builtin &>/dev/null || return 1
+  (( $+builtins[$1] )) || return 1
 }
 
 is_alias() {
   : ${1?"USAGE: is_alias <alias-name>"}
-  builtin type "${1}" | grep "is an alias for" &>/dev/null || return 1
+  (( $+aliases[$1] )) || return 1
 }
 
 is_function() {
   : ${1?"USAGE: is_function <function-name>"}
-  builtin type "${1}" | grep function &>/dev/null || return 1
+  (( $+functions[$1] )) || return 1
 }
 
 is_cmd() {
   : ${1?"USAGE: is_cmd <bin-name>"}
-  command which "${1}" &>/dev/null || return 1
+  (( $+commands[$1] )) || return 1
 }
 
 dispatch_sudo() {

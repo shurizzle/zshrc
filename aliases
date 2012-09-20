@@ -55,3 +55,10 @@ alias paint="wine ~/.wine/mspaint.exe"
 alias reboot="shutdown -rf now"
 alias dir_summary="du -s * | sort -nr | histogram -b"
 alias vnc_listen="vncviewer -encodings 'copyrect tight zrle hextile zlib corre rre raw' -listen"
+
+if (( $+commands[translate] )); then
+  alias translate='nocorrect translate'
+fi
+if (( $+functions[fork] )); then
+  alias fork="nocorrect fork"
+fi
