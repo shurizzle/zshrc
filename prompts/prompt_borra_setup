@@ -19,11 +19,6 @@ prompt_borra_setup() {
   zstyle ':zsh:prompt:borra' vcs_enable ${VCS_INFO_backends[@]}
   zstyle ':zsh:prompt:borra' vcs_format '%b: %i'
 
-  local prefix
-  local suffix
-  zstyle -s ':zsh:prompt:borra' prefix 'prefix'
-  zstyle -s ':zsh:prompt:borra' suffix 'suffix'
-
   zstyle ':vcs_info:*' check-for-changes true
   zstyle ':vcs_info:*' unstagedstr ' %F{yellow}⚑%f'
   zstyle ':vcs_info:*' stagedstr ' %F{green}⚑%f'
