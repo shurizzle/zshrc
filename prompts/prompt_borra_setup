@@ -4,6 +4,7 @@
 prompt_borra_setup() {
   autoload -U colors
   autoload -Uz add-zsh-hook
+  autoload -Uz vcs_info
   colors
 
   if (( $+functions[add-zsh-hook] )); then
@@ -15,12 +16,20 @@ prompt_borra_setup() {
     }
   fi
 
-  zstyle ':zsh:prompt:borra' plugins _zsh_prompt_userhost _zsh_prompt_pts rvm_prompt_info git_prompt_info
+  zstyle ':zsh:prompt:borra' plugins _zsh_prompt_userhost _zsh_prompt_pts rvm_prompt_info vcs_prompt_info
   zstyle ':zsh:prompt:borra' prefix '%{$reset_color%}%{$fg[blue]%}-(%{$reset_color%}'
   zstyle ':zsh:prompt:borra' suffix '%{$reset_color%}%{$fg[blue]%})%{$reset_color%}'
   zstyle ':zsh:prompt:borra' top '%{$fg[blue]%}╭%{$reset_color%}'
   zstyle ':zsh:prompt:borra' bottom '%{$fg[blue]%}╰─%{$reset_color%}'
   zstyle ':zsh:prompt:borra' prompt '%{$fg[blue]%}(%{$reset_color%}%B%$((COLUMNS / 2))<...<%~%<<%b%{$fg[blue]%})%{$fg[yellow]%}>%{$reset_color%} '
+
+  zstyle ':vcs_info:*' enable git
+  zstyle ':vcs_info:*' check-for-changes true
+  zstyle ':vcs_info:*' unstagedstr ' %F{yellow}⚑%f'
+  zstyle ':vcs_info:*' stagedstr ' %F{green}⚑%f'
+  zstyle ':vcs_info:*' actionformats "%b%u%c (%a)"
+  zstyle ':vcs_info:*' formats "%b%u%c"
+  zstyle ':vcs_info:git*+set-message:*' hooks git-st
 
   prompt_borra_precmd
   RPS1='%(?..%{$fg[red]%}%? ↵%{$reset_color%})'
@@ -91,19 +100,15 @@ rvm_prompt_info() {
   [ -z "${rb}" ] && echo "$(rvm-prompt i v p r)" || echo "${rb}"
 }
 
-git_prompt_info() {
-  local res=""
-  local ref
-  (/usr/bin/git symbolic-ref HEAD 2>/dev/null || return 1) | read ref
-  [ $? = 0 ] || return 1
-  ref="${ref#refs/heads/}"
-  if [ -z "$(git cherry -v origin/${ref} 2>/dev/null)" ]
-  then
-    res='%{$fg_bold[green]%}✓%{$reset_color%}'
-  else
-    res='%{$fg_bold[red]%}✗%{$reset_color%}'
+function +vi-git-st {
+  if [[ -n $(git ls-files --other --exclude-standard 2> /dev/null) ]]; then
+    hook_com[unstaged]=' %F{red}⚑%f'
   fi
-  echo "${ref} ${res}"
+}
+
+vcs_prompt_info() {
+  vcs_info || return 1
+  print "${vcs_info_msg_0_}"
 }
 
 prompt_borra_setup "$@"
