@@ -40,7 +40,6 @@ alias stmux="tmux -f ~/.tmux.ssh.conf"
 alias cp="rsync -ciavuhSPHIEx"
 alias xephyr="Xephyr -ac -br -noreset -screen 800x600 :1"
 alias t=task
-alias fbi="fbi -d /dev/fb0"
 alias wirouterkeyrec="WiRouterKeyRec"
 alias upDate="sudo ntpdate 0.it.pool.ntp.org"
 alias pacman-world="pacman -Qetq"
