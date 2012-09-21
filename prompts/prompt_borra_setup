@@ -23,11 +23,13 @@ prompt_borra_setup() {
   zstyle -s ':zsh:prompt:borra' prefix 'prefix'
   zstyle -s ':zsh:prompt:borra' suffix 'suffix'
 
-  zstyle ':vcs_info:*' enable git
+  zstyle ':vcs_info:*' enable git hg
   zstyle ':vcs_info:*' check-for-changes true
   zstyle ':vcs_info:*' unstagedstr ' %F{yellow}⚑%f'
   zstyle ':vcs_info:*' stagedstr ' %F{green}⚑%f'
-  zstyle ':vcs_info:git*+set-message:*' hooks git-st
+  zstyle ':vcs_info:*' actionformats '%b%u%c [%a]'
+  zstyle ':vcs_info:*' formats '%b%u%c'
+  zstyle ':vcs_info:*+set-message:*' hooks git-st
 
   prompt_borra_precmd
   RPS1='%(?..%{$fg[red]%}%? ↵%{$reset_color%})'
@@ -115,24 +117,10 @@ function +vi-git-st {
 }
 
 vcs_prompt_info() {
-  local prefix
-  local suffix
-  local act
-  local actfmt
-  local sep
-  zstyle -s ':zsh:prompt:borra' formats 'act'
-  zstyle -s ':zsh:prompt:borra' actionformats 'actfmt'
-  zstyle -s ':zsh:prompt:borra' prefix 'prefix'
-  zstyle -s ':zsh:prompt:borra' separator 'sep'
-  zstyle -s ':zsh:prompt:borra' suffix 'suffix'
-  local box="${suffix}${sep}${prefix}"
-  zstyle ':vcs_info:*' actionformats "${actfmt}${box}"
-  zstyle ':vcs_info:*' formats "${act}${box}"
-
   vcs_info || return 1
   [ -z "${vcs_info_msg_0_}" ] && return 1
 
-  print "${vcs_info_msg_0_%%$box}"
+  print -n -- "$vcs_info_msg_0_"
 }
 
 prompt_borra_setup "$@"

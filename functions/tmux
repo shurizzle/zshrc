@@ -6,7 +6,3 @@ function title {
         print -nR $'\033]0;'$2$'\a'
     fi
 }
-
-pre_cmd() {
-  _z --ad "$(pwd -P)"
-}
