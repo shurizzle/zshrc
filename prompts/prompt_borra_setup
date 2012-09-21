@@ -7,6 +7,7 @@ prompt_borra_setup() {
   autoload -Uz vcs_info
 
   add-zsh-hook precmd prompt_borra_precmd
+  vcs_info # need VCS_INFO_backends
 
   zstyle ':zsh:prompt:borra' plugins _zsh_prompt_userhost _zsh_prompt_pts rvm_prompt_info vcs_prompt_info
   zstyle ':zsh:prompt:borra' prefix '%{$fg[blue]%}(%{$reset_color%}'
@@ -15,15 +16,14 @@ prompt_borra_setup() {
   zstyle ':zsh:prompt:borra' top '%{$fg[blue]%}╭-%{$reset_color%}'
   zstyle ':zsh:prompt:borra' bottom '%{$fg[blue]%}╰─%{$reset_color%}'
   zstyle ':zsh:prompt:borra' prompt '%{$fg[blue]%}(%{$reset_color%}%B%$((COLUMNS / 2))<...<%~%<<%b%{$fg[blue]%})%{$fg[yellow]%}>%{$reset_color%} '
-  zstyle ':zsh:prompt:borra' actionformats '%b%u%c [%a]'
-  zstyle ':zsh:prompt:borra' formats '%b%u%c'
+  zstyle ':zsh:prompt:borra' vcs_enable ${VCS_INFO_backends[@]}
+  zstyle ':zsh:prompt:borra' vcs_format '%b: %i'
 
   local prefix
   local suffix
   zstyle -s ':zsh:prompt:borra' prefix 'prefix'
   zstyle -s ':zsh:prompt:borra' suffix 'suffix'
 
-  zstyle ':vcs_info:*' enable git hg
   zstyle ':vcs_info:*' check-for-changes true
   zstyle ':vcs_info:*' unstagedstr ' %F{yellow}⚑%f'
   zstyle ':vcs_info:*' stagedstr ' %F{green}⚑%f'
@@ -66,8 +66,7 @@ _zsh_prompt_plugins() {
   local plugins
   local sep
 
-  zstyle -s ':zsh:prompt:borra' plugins 'plugins'
-  plugins=(${(s/ /)${plugins// *( )/ }})
+  zstyle -a ':zsh:prompt:borra' plugins 'plugins'
 
   for plugin in ${plugins[*]}
   do
@@ -117,10 +116,32 @@ function +vi-git-st {
 }
 
 vcs_prompt_info() {
-  vcs_info || return 1
-  [ -z "${vcs_info_msg_0_}" ] && return 1
+  local res=""
+  local sep="$1"
+  local backend
+  local enabled
+  local fmt
+  local s
 
-  print -n -- "$vcs_info_msg_0_"
+  vcs_info # need VCS_INFO_backends
+  zstyle -a ':zsh:prompt:borra' vcs_enable enabled
+  zstyle -s ':zsh:prompt:borra' vcs_format fmt
+
+  for backend in ${VCS_INFO_backends[@]}; do
+    [ "${enabled[(I)$backend]}" = 0 ] && continue
+    zstyle ':vcs_info:*' enable "$backend"
+    vcs_info || continue
+    [ -z "${vcs_info_msg_0_}" ] && continue
+
+    zformat -f s "$fmt" b:"$backend" i:"$vcs_info_msg_0_"
+
+    res+="$(_zsh_prompt_wrap "$s" "$sep")"
+
+    [ -z "$sep" -a ! -z "$res" ] && zstyle -s ':zsh:prompt:borra' separator 'sep'
+  done
+
+  print -n -- "$res"
+  return 23
 }
 
 prompt_borra_setup "$@"
