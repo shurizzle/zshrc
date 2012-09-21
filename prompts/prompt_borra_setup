@@ -2,33 +2,31 @@
 # borra prompt theme
 
 prompt_borra_setup() {
-  autoload -U colors
+  autoload -U colors && colors
   autoload -Uz add-zsh-hook
   autoload -Uz vcs_info
-  colors
 
-  if (( $+functions[add-zsh-hook] )); then
-    add-zsh-hook precmd prompt_borra_precmd
-  else
-    precmd() {
-      prompt_borra_precmd
-      which pre_cmd &>/dev/null && pre_cmd
-    }
-  fi
+  add-zsh-hook precmd prompt_borra_precmd
 
   zstyle ':zsh:prompt:borra' plugins _zsh_prompt_userhost _zsh_prompt_pts rvm_prompt_info vcs_prompt_info
-  zstyle ':zsh:prompt:borra' prefix '%{$reset_color%}%{$fg[blue]%}-(%{$reset_color%}'
-  zstyle ':zsh:prompt:borra' suffix '%{$reset_color%}%{$fg[blue]%})%{$reset_color%}'
-  zstyle ':zsh:prompt:borra' top '%{$fg[blue]%}╭%{$reset_color%}'
+  zstyle ':zsh:prompt:borra' prefix '%{$fg[blue]%}(%{$reset_color%}'
+  zstyle ':zsh:prompt:borra' separator '%{$fg[blue]%}-%{$reset_color%}'
+  zstyle ':zsh:prompt:borra' suffix '%{$fg[blue]%}%)%{$reset_color%}'
+  zstyle ':zsh:prompt:borra' top '%{$fg[blue]%}╭-%{$reset_color%}'
   zstyle ':zsh:prompt:borra' bottom '%{$fg[blue]%}╰─%{$reset_color%}'
   zstyle ':zsh:prompt:borra' prompt '%{$fg[blue]%}(%{$reset_color%}%B%$((COLUMNS / 2))<...<%~%<<%b%{$fg[blue]%})%{$fg[yellow]%}>%{$reset_color%} '
+  zstyle ':zsh:prompt:borra' actionformats '%b%u%c [%a]'
+  zstyle ':zsh:prompt:borra' formats '%b%u%c'
+
+  local prefix
+  local suffix
+  zstyle -s ':zsh:prompt:borra' prefix 'prefix'
+  zstyle -s ':zsh:prompt:borra' suffix 'suffix'
 
   zstyle ':vcs_info:*' enable git
   zstyle ':vcs_info:*' check-for-changes true
   zstyle ':vcs_info:*' unstagedstr ' %F{yellow}⚑%f'
   zstyle ':vcs_info:*' stagedstr ' %F{green}⚑%f'
-  zstyle ':vcs_info:*' actionformats "%b%u%c (%a)"
-  zstyle ':vcs_info:*' formats "%b%u%c"
   zstyle ':vcs_info:git*+set-message:*' hooks git-st
 
   prompt_borra_precmd
@@ -39,30 +37,40 @@ prompt_borra_precmd() {
   PROMPT="$(_zsh_prompt_create)"
 }
 
-_zsh_prompt_item() {
-  local res
+_zsh_prompt_wrap() {
   local prefix
   local suffix
 
-  res="$($1 2>/dev/null)"
-  [ $? = 0 ] || return 1
-
   zstyle -s ':zsh:prompt:borra' prefix 'prefix'
   zstyle -s ':zsh:prompt:borra' suffix 'suffix'
-  print -n "${prefix}${res}${suffix}"
+
+  print -n -- "$2$prefix$1$suffix"
+}
+
+_zsh_prompt_item() {
+  local res
+
+  res="$($1 "$2" 2>/dev/null)"
+  case "$?" in
+    0) _zsh_prompt_wrap "$res" "$2" ;;
+    23) print -n "$res" ;;
+    *) return 1 ;;
+  esac
 }
 
 _zsh_prompt_plugins() {
   local res=""
   local plugin
   local plugins
+  local sep
 
   zstyle -s ':zsh:prompt:borra' plugins 'plugins'
   plugins=(${(s/ /)${plugins// *( )/ }})
 
   for plugin in ${plugins[*]}
   do
-    res+="$(_zsh_prompt_item "$plugin")"
+    res+="$(_zsh_prompt_item "$plugin" "$sep")"
+    [ -z "$sep" -a ! -z "$res" ] && zstyle -s ':zsh:prompt:borra' separator 'sep'
   done
 
   print -n "${res}"
@@ -87,11 +95,11 @@ ${bottom}"
 }
 
 _zsh_prompt_userhost() {
-  echo '%(!.%SROOT%s.%n)%{$fg[blue]%}@%{$reset_color%}%m'
+  print -n '%(!.%SROOT%s.%n)%{$fg[blue]%}@%{$reset_color%}%m'
 }
 
 _zsh_prompt_pts() {
-  echo '/dev/%y'
+  print -n '/dev/%y'
 }
 
 rvm_prompt_info() {
@@ -107,8 +115,24 @@ function +vi-git-st {
 }
 
 vcs_prompt_info() {
+  local prefix
+  local suffix
+  local act
+  local actfmt
+  local sep
+  zstyle -s ':zsh:prompt:borra' formats 'act'
+  zstyle -s ':zsh:prompt:borra' actionformats 'actfmt'
+  zstyle -s ':zsh:prompt:borra' prefix 'prefix'
+  zstyle -s ':zsh:prompt:borra' separator 'sep'
+  zstyle -s ':zsh:prompt:borra' suffix 'suffix'
+  local box="${suffix}${sep}${prefix}"
+  zstyle ':vcs_info:*' actionformats "${actfmt}${box}"
+  zstyle ':vcs_info:*' formats "${act}${box}"
+
   vcs_info || return 1
-  print "${vcs_info_msg_0_}"
+  [ -z "${vcs_info_msg_0_}" ] && return 1
+
+  print "${vcs_info_msg_0_%%$box}"
 }
 
 prompt_borra_setup "$@"
