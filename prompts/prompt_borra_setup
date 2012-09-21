@@ -1,35 +1,80 @@
 # vim:syn=zsh
 # borra prompt theme
 
-autoload colors && colors
+prompt_borra_setup() {
+  autoload -U colors
+  autoload -Uz add-zsh-hook
+  colors
+
+  if (( $+functions[add-zsh-hook] )); then
+    add-zsh-hook precmd prompt_borra_precmd
+  else
+    precmd() {
+      prompt_borra_precmd
+      which pre_cmd &>/dev/null && pre_cmd
+    }
+  fi
+
+  zstyle ':zsh:prompt:borra' plugins _zsh_prompt_userhost _zsh_prompt_pts rvm_prompt_info git_prompt_info
+  zstyle ':zsh:prompt:borra' prefix '%{$reset_color%}%{$fg[blue]%}-(%{$reset_color%}'
+  zstyle ':zsh:prompt:borra' suffix '%{$reset_color%}%{$fg[blue]%})%{$reset_color%}'
+  zstyle ':zsh:prompt:borra' top '%{$fg[blue]%}╭%{$reset_color%}'
+  zstyle ':zsh:prompt:borra' bottom '%{$fg[blue]%}╰─%{$reset_color%}'
+  zstyle ':zsh:prompt:borra' prompt '%{$fg[blue]%}(%{$reset_color%}%B%$((COLUMNS / 2))<...<%~%<<%b%{$fg[blue]%})%{$fg[yellow]%}>%{$reset_color%} '
+
+  prompt_borra_precmd
+  RPS1='%(?..%{$fg[red]%}%? ↵%{$reset_color%})'
+}
+
+prompt_borra_precmd() {
+  PROMPT="$(_zsh_prompt_create)"
+}
 
 _zsh_prompt_item() {
   local res
-  (eval "${1}" 2>/dev/null || return 1) | read res
-  [ $? = 0 ] || return
-  echo "${ZSH_PROMPT_PLUGIN_PREFIX}${res}${ZSH_PROMPT_PLUGIN_SUFFIX}"
+  local prefix
+  local suffix
+
+  res="$($1 2>/dev/null)"
+  [ $? = 0 ] || return 1
+
+  zstyle -s ':zsh:prompt:borra' prefix 'prefix'
+  zstyle -s ':zsh:prompt:borra' suffix 'suffix'
+  print -n "${prefix}${res}${suffix}"
 }
 
 _zsh_prompt_plugins() {
-  local res="" plugin
+  local res=""
+  local plugin
+  local plugins
 
-  for plugin in ${ZSH_PROMPT_PLUGINS[@]}
+  zstyle -s ':zsh:prompt:borra' plugins 'plugins'
+  plugins=(${(s/ /)${plugins// *( )/ }})
+
+  for plugin in ${plugins[*]}
   do
-    res="${res}$(_zsh_prompt_item "${plugin}")"
+    res+="$(_zsh_prompt_item "$plugin")"
   done
 
-  echo "${res}"
+  print -n "${res}"
 }
 
 _zsh_prompt_create() {
-  local plugins="$(_zsh_prompt_plugins)" res=""
+  local plugins="$(_zsh_prompt_plugins)"
+  local res=""
+  local top
+  local bottom
+  local prompt
 
-  if [ ! -z "${plugins}" ]
+  if [ ! -z "$plugins" ]
   then
-    res="${ZSH_PROMPT_PREFIX_TOP}$(_zsh_prompt_plugins)
-${ZSH_PROMPT_PREFIX_BOTTOM}"
+    zstyle -s ':zsh:prompt:borra' top 'top'
+    zstyle -s ':zsh:prompt:borra' bottom 'bottom'
+    res="${top}${plugins}
+${bottom}"
   fi
-  echo "${res}${ZSH_PROMPT}"
+  zstyle -s ':zsh:prompt:borra' prompt 'prompt'
+  print -n "${res}${prompt}"
 }
 
 _zsh_prompt_userhost() {
@@ -61,23 +106,4 @@ git_prompt_info() {
   echo "${ref} ${res}"
 }
 
-ZSH_PROMPT_PLUGINS=(_zsh_prompt_userhost _zsh_prompt_pts rvm_prompt_info git_prompt_info)
-ZSH_PROMPT_PLUGIN_PREFIX='%{$reset_color%}%{$fg[blue]%}─(%{$reset_color%}'
-ZSH_PROMPT_PLUGIN_SUFFIX='%{$reset_color%}%{$fg[blue]%})%{$reset_color%}'
-ZSH_PROMPT_PREFIX_TOP='%{$fg[blue]%}╭%{$reset_color%}'
-ZSH_PROMPT_PREFIX_BOTTOM='%{$fg[blue]%}╰─%{$reset_color%}'
-ZSH_PROMPT='%{$fg[blue]%}(%{$reset_color%}%B%$((COLUMNS / 2))<...<%~%<<%b%{$fg[blue]%})%{$fg[yellow]%}>%{$reset_color%} '
-
-precmd() {
-  PROMPT="$(_zsh_prompt_create)"
-  which pre_cmd &>/dev/null && pre_cmd
-}
-
-preexec() {
-  which pre_exec &>/dev/null && pre_exec 2>/dev/null
-}
-
-PROMPT="${ZSH_PROMPT}"
-RPS1='%(?..%{$fg[red]%}%? ↵%{$reset_color%})'
-
-export ZSH_PROMPT_PLUGINS ZSH_PROMPT_PLUGIN_PREFIX ZSH_PROMPT_PLUGIN_SUFFIX ZSH_PROMPT_PREFIX_TOP ZSH_PROMPT_PREFIX_BOTTOM ZSH_PROMPT
+prompt_borra_setup "$@"
