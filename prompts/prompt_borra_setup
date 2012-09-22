@@ -1,4 +1,32 @@
 # vim:syn=zsh
+# A two line pluggable and themable theme (blue/white default).
+#
+# Author:
+# shura <shura1991@gmail.com>
+#
+# Features:
+#   - Two lines.
+#   - All the VCS informations (default).
+#   - Pluggable.
+#   - Themable.
+#
+# Settings:
+#   - plugins:    list of plugins (array)
+#   - prefix:     right-side of plugin wrapper (string)
+#   - separator:  plugin separator (string)
+#   - suffix:     left-side of plugin wrapper (string)
+#   - top:        beginning of first line (string)
+#   - bottom:     beginning of second line (string)
+#   - prompt:     right-side of second line (string)
+#   - vcs_enable: vcs enable backends (array)
+#   - vcs_format: vcs backends format (string):
+#                   - %b: backend name
+#                   - %i: formatted text according to zstyle ':vcs_info:*' formats (or actionformats)
+# Example:
+#   zstyle ':zsh:prompt:borra' separator ' '
+#
+# Screenshots:
+#   http://i.imgur.com/9aN4r.png
 # borra prompt theme
 
 prompt_borra_setup() {
