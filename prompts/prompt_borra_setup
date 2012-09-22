@@ -26,7 +26,7 @@
 #   zstyle ':zsh:prompt:borra' separator ' '
 #
 # Screenshots:
-#   http://i.imgur.com/9aN4r.png
+#   http://i.imgur.com/elyPM.png
 # borra prompt theme
 
 prompt_borra_setup() {
