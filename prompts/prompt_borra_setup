@@ -27,6 +27,8 @@
 #
 # Screenshots:
 #   http://i.imgur.com/elyPM.png
+# ascii.io presentation:
+#   http://ascii.io/a/1218
 # borra prompt theme
 
 prompt_borra_setup() {
