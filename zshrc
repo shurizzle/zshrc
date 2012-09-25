@@ -6,8 +6,8 @@
 #  / /__   ___| | | | | |      | |___  | |_| | | | \  | | |     | | | |_| |
 # /_____| /_____/ |_| |_|      \_____| \_____/ |_|  \_| |_|     |_| \_____/
 
-fpath=(~/.zsh/completions ~/.zsh/prompts $fpath)
-export fpath
+#fpath=(~/.zsh/completions ~/.zsh/prompts $fpath)
+#export fpath
 
 autoload -U promptinit compinit
 setopt hist_ignore_all_dups autocd autopushd pushdignoredups correctall extended_glob prompt_subst
@@ -17,9 +17,7 @@ compinit
 preexec() { which pre_exec &>/dev/null && pre_exec }
 precmd() { which pre_cmd &>/dev/null && pre_cmd }
 
-#prompt git
-#prompt shura
-prompt borra
+#prompt borra
 
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
