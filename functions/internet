@@ -163,4 +163,16 @@ dta() {
   xargs wget
 }
 
+youtube-mp3() {
+  local YC="${YOUTUBE_COOKIES:-"${HOME}/.ytdl"}"
+  local -a PIECES
+  PIECES=(${(f)"$(/usr/bin/youtube-dl --cookies="${YC}" -o '%(title)s.%(ext)s' --get-filename -g "${1}")"})
+  local tmp="$(mktemp 'XXXXXXXXXXXXXXX.wav')"
+  local OUTFILE="${2:-"${${PIECES[2]}%.*}.mp3"}"
+  mplayer -cookies-file "${YC}" "${PIECES[1]}" -ao pcm:file="${tmp}" -novideo
+  lame "$tmp" "${OUTFILE}"
+  echo "output: ${OUTFILE}"
+  rm -f "$tmp"
+}
+
 # vim:ts=2:bs=2:sw=2:et:ft=zsh:fdm=marker
