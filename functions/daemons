@@ -4,6 +4,22 @@ function fork {
   eval '(("$@" &>/dev/null &; echo $!) &)'
 }
 
+function _fork {
+  local curcontext="$curcontext" state line
+
+  _arguments -C -s -A "-*"
+
+  args=( "$@" )
+  _alternative -O args \
+    'commands:external command:_path_commands' \
+    'builtins:builtin command:compadd -k builtins' \
+    'functions:shell function:compadd -k functions' \
+    'aliases:alias:compadd -k aliases' \
+    'reserved-words:reserved word:compadd -k reswords'
+}
+
+compdef _fork fork
+
 function start_agent
 {
     if ps --no-headers -C X &>/dev/null && [ ! -z "$DISPLAY" ]; then

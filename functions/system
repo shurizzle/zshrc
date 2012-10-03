@@ -40,33 +40,17 @@ function sortfile
   sort -S"$(du "${1}" | awk '{print $1}')K" "${1}" -o "${1}"
 }
 
-function ramfox
-{
-  local OLDPWD="${PWD}"
-  cd "${HOME}/.mozilla/firefox"
-
-  local PROFILE="1js9yvnn.default"
-
-  if ! mount | grep -F "${HOME}/.mozilla/firefox/${PROFILE}" &>/dev/null; then
-    mount "${HOME}/.mozilla/firefox/${PROFILE}"
-  fi
-
-  if [ -f "${PROFILE}/.unpacked" ]; then
-    tar --exclude .unpacked -cpf packed.tmp.tar "${PROFILE}" && \
-    mv packed.tar packed.old.tar
-    mv packed.tmp.tar packed.tar
-  else
-    tar xpf packed.tar && \
-    touch "${PROFILE}/.unpacked"
-  fi
-
-  cd "${OLDPWD}"
-}
-
 function waitpid
 {
   while kill -0 "${1}" 2>/dev/null; do
-    sleep 5
+    sleep 1
+  done
+}
+
+function waitpids
+{
+  for pid in $@; do
+    waitpid $pid
   done
 }
 
@@ -81,16 +65,14 @@ function alarm
   ((diffSec < 0)) && return 1
 
   for ((i=0; $i < 60; i+=5)); do
-    sched "+$((diffSec + i * 60))" "${PLAYER}" "${2:-${ALARM}}"
+    sched "+$((diffSec + i * 60))" "$PLAYER ${(q)2:-$ALARM}"
   done
-  amixer set Master 100%
+  amixer set Master 100% &>/dev/null
 }
 
 function dealarm
 {
-  for i ({1..$(sched | wc -l)}) {
-    sched -1
-  }
+  for i ({1..$(sched | wc -l)}) sched -1
 }
 
 function rewake
@@ -113,11 +95,11 @@ function colours
 function bench
 {
   for ((i = 1;i <= $#; i++)) {
-    local X="$(eval "echo \"\${$i//\\\\/\\\\\\\\}\"")"
+    local X="$(eval "echo \"\${$i}\"")"
     (
-      echo -ne '\e[32;1m$\e[0m ' && echo -n "${X//\\/\\\\}"
-      local RES="$( (time (eval "${X}" &>/dev/null)) 2>&1 || echo -ne ' (\e[31;1merror\e[0m)' >&2)"
-      echo -ne '\n\e[34;1m->\e[0m' && echo ${RES}
+      echo -ne '\e[32;1m$\e[0m ' && echo -n "$X"
+      local RES="$( (time (eval "$X" &>/dev/null)) 2>&1 || echo -ne ' (\e[31;1m'"$?"'\e[0m)' >&2)"
+      echo -ne '\n\e[34;1m->\e[0m' && echo "$RES"
     ) 2>&1
   }
 }
@@ -131,6 +113,13 @@ else
     mkdir -p "${1}"
     cd "${1}"
   }
+
+  function _mcd
+  {
+    local expl
+    _wanted directories expl 'directory' _path_files -/ || _message 'directory'
+  }
+  compdef _mcd mcd
 fi
 
 function extract

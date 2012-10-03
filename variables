@@ -1,27 +1,17 @@
 # vim:syn=zsh
 eval `dircolors`
 
-export BROWSER="firefox"
-export EDITOR="vim"
-export PAGER="vimpager"
-export FETCH_CMD="wget -q -O - -o /dev/null"
-export HISTFILE="${HOME}/.history"
-export HISTSIZE="2000"
-export LC_TYPE="it_IT.UTF-8"
 export LD_LIBRARY_PATH="/usr/lib:/usr/local/lib:/usr/lib/jvm/java-7-openjdk/jre/lib/amd64/:."
 export MAIL="${HOME}/Mail/Inbox"
 export MAILPATH="${HOME}/Mail"
-export PATH="/home/shura/.gem/ruby/1.9.1/bin:/usr/lib64/ccache/bin:${HOME}/bin:/usr/sbin:/sbin:/usr/lib/ccache/bin/:/opt/narwhal/bin:/opt/narwhal/packages/jake/bin:/opt/narwhal/packages/jack/bin:/usr/share/java/apache-ant/bin:${HOME}/go/bin:${GBDKDIR}/bin:${PATH}"
+export PATH="/usr/lib/ccache/bin:${HOME}/bin:/usr/sbin:/sbin:/usr/share/java/apache-ant/bin:${HOME}/go/bin:${PATH}"
 export PLAYER="mplayer"
-export SAVEHIST=$HISTSIZE
 export SSH_ENV="$HOME/.ssh/environment"
 export UF="/etc/portage/package.use"
-export ioctls="/usr/include/asm-generic/ioctls.h"
-export syscalls="/usr/include/asm/unistd_64.h"
 export MBOX_DAEMON_DIR=~/Mail
 export MBOX_DAEMON_BOXES="Facebook,Inbox"
 export MBOX_DAEMON_EVERY="300"
-export ALARM="/music/Dargen\ D\'Amico/D\'\ \(parte\ seconda\)/05\ In\ Loop\ \(La\ forma\ di\ un\ cuore\)\ \(feat.\ Two\ Fingerz\).mp3"
+export ALARM="/music/Dargen D'Amico/D' (parte seconda)/05 - In Loop (La forma di un cuore) (feat. Two Fingerz).mp3"
 if which x11-ssh-askpass &>/dev/null
 then
   export SSH_ASKPASS="$(which x11-ssh-askpass)"
@@ -35,7 +25,6 @@ export COUNTRY="Italy"
 export WIIDEV="/opt/devkitpro/devkitPPC"
 
 unset RUBYOPT
-export WIILOAD="tcp:192.168.1.4"
 [ -d /usr/local/bin/flex/bin ] && PATH="${PATH}:/usr/local/bin/flex/bin"
 export PATH
 export GDK_USE_XFT=1
