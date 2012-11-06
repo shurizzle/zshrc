@@ -104,47 +104,6 @@ function bench
   }
 }
 
-if is_function mkdcd
-then
-  alias mcd=mkdcd
-else
-  function mcd
-  {
-    mkdir -p "${1}"
-    cd "${1}"
-  }
-
-  function _mcd
-  {
-    local expl
-    _wanted directories expl 'directory' _path_files -/ || _message 'directory'
-  }
-  compdef _mcd mcd
-fi
-
-function extract
-{
-  : ${1?"USAGE: extract <FILENAME>"}
-
-  case "${1}" in
-    *.tar.bz2|*.tbz2) tar xvjf "${1}" ;;
-    *.tar.gz|*.tgz)    tar xvzf "${1}" ;;
-    *.tar.xz)         unxz -c "${1}" | tar xvf - ;;
-    *.tar.lzma)       unlzma -c "${1}" | tar xvf - ;;
-
-    *.tar)            tar xvf "${1}" ;;
-    *.bz2)            bunzip "${1}" ;;
-    *.gz)             gunzip "${1}" ;;
-    *.xz)             unxz "${1}" ;;
-    *.lzma)           unlzma "${1}" ;;
-    *.rar)            rar x "${1}" ;;
-    *.zip)            unzip "${1}" ;;
-    *.Z)              uncompress "${1}" ;;
-    *.7z)             7z x "${1}" ;;
-    *)                echo "Failed to recognize compression type of file '${1}'" && return 1 ;;
-  esac
-}
-
 function cdvim
 {
   local CD="${1}"
