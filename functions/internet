@@ -46,7 +46,7 @@ function url_decode
 
 function imagebin
 {
-	: ${1?"USAGE: imagebin image_name"}
+  : ${1?"USAGE: imagebin image_name"}
   num="$(curl -sD- -F nickname=shura -F disclaimer_agree=Y -F mode=add -F "image=@$1" http://imagebin.org/index.php | grep "^Location: " | cut -c 11- | head -n 1)"
   echo "http://imagebin.org/index.php?mode=image&id=$num"
 }
