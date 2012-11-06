@@ -1,4 +1,4 @@
-# vim:syn=zsh
+# vim: ft=zsh
 case "$TERM" in
     *rxvt*|xterm*)
         bindkey "\e[3~" delete-char

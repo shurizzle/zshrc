@@ -1,6 +1,5 @@
 # vim:syn=zsh
 
-alias overlay_duplicates='for p (/usr/local/portage/discount/*/*) { [ -d "${p}" -a "$(ls -1 "${p}"/*.ebuild(N) | wc -l 2>/dev/null)" -gt 1 ] && echo "${p}" }'
 alias grep="grep --color=auto"
 alias ls="ls --color=auto"
 alias md="mkdir"
@@ -9,55 +8,80 @@ alias g++="g++ -Wall -Wextra -ansi -pedantic -pedantic-errors -O2 -march=native 
 alias cd..="cd .."
 alias sprunge="curl -sF 'sprunge=<-' http://sprunge.us"
 alias comp="rar a -v102400k -pBoM"
-alias pinball="wine ~/.wine/drive_c/windows/system32/Pinball/PINBALL.EXE"
 alias -g VIDEOS="{/data/Incoming,/data/video,/data,~,~/Downloads}/*.{flv,wmv,mpg,mpeg,avi,mp4,mp7,mov}(#i)(N)"
-alias playvideos="mplayer VIDEOS"
+alias playvideos="$PLAYER VIDEOS"
 alias shuffle="xargs -n1 readlink -f | shuf"
-alias playsvideos="mplayer -shuffle -playlist =(ls -C never -1 VIDEOS)"
-alias autoit="wine ~/.wine/drive_c/Programmi/AutoIt3/AutoIt3.exe"
-alias lsdir='ls -d *(/)'
-alias lsfile='ls *(.)'
+alias playsvideos="$PLAYER -shuffle -playlist =(print -l -- VIDEOS)"
 alias lsexe="ls *(*)"
-alias rmf="sudo shred -f -u -v -z"
-alias seekeys="$PAGER /usr/include/X11/keysymdef.h"
-alias falcon="falcon -M"
 alias ping="ping -c4"
 alias pkill="pkill -9 -u ${USER}"
-alias respawn="source ~/.zshrc && hash -r"
 alias size="du -sh"
-alias getrule="xprop | awk '/^WM_CLASS/{sub(/.* =/, \"instance:\"); sub(/,/, \"\\nclass:\"); print} /^WM_NAME/{sub(/.* =/, \"title:\"); print}'"
 alias getip="curl -s http://checkip.dyndns.org/ | grep --color=no -Po '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}'"
 alias diff="diff -ruEbBN"
-alias installed="eix -I 2>&1 | tr '\n' ' ' | grep -Po '\[I] ([^ ]+?).+?Installed versions:\s+([\d\.r-]+)' | sed -r 's/^\[I\] ([^ ]+).+?Installed versions:\s+(.+?)$/\1-\2/g'"
-alias deskrec="echo \"Press q to interrupt.\" && ffmpeg -f x11grab -r 25 -s \"\$(xdpyinfo | sed -n -r '/dimensions:/s:^\s*\S+\s+(\S+).*$:\1:p')\" -sameq -i :0.0 /tmp/outputFile.mpg 2>/dev/null"
 alias download="aria2c -c -s 100 --file-allocation=none --summary-interval=0 --check-certificate=false"
-alias hspa="xdg-open http://192.168.1.1/hspacfgfirst.html"
+alias hspa="$BROWSER http://192.168.1.1/hspacfgfirst.html"
 alias dualscreen="xrandr --output LVDS1 --mode 1366x768 --pos 0x768 --output VGA1 --mode 1024x768 --pos 0x0"
-alias wruby="wine ~/.wine/drive_c/Ruby192/bin/ruby.exe"
-alias wgem="wruby ~/.wine/drive_c/Ruby192/bin/gem"
-alias wcmd="wruby ~/.wine/drive_c/windows/system32/cmd.exe"
-alias stmux="tmux -f ~/.tmux.ssh.conf"
 alias cp="rsync -ciavuhSPHIEx"
-alias xephyr="Xephyr -ac -br -noreset -screen 800x600 :1"
-alias t=task
-alias wirouterkeyrec="WiRouterKeyRec"
-alias upDate="sudo ntpdate 0.it.pool.ntp.org"
-alias pacman-world="pacman -Qetq"
-alias pacman-clean="pacman -Qdtq | pacman -Rs --noconfirm -"
 alias less="less -R"
 alias L="less"
-alias emu8086="wine ${HOME}/.wine/drive_c/emu8086/emu8086.exe"
 alias -g L='|less'
 alias -g S="&>/dev/null"
 alias ASR="(arecord -f cd -t wav -d 5 -r 16000 | flac - -f --best --sample-rate=16000 -o out.flac) &>/dev/null; wget --post-file out.flac --header='Content-Type: audio/x-flac; rate=16000' -O- -o/dev/null 'http://www.google.com/speech-api/v1/recognize?lang=it' | sed -r 's/^.+\"utterance\":\"(.+?)\"[,}].*/\1/g'; rm out.flac"
-alias paint="wine ~/.wine/mspaint.exe"
-alias reboot="shutdown -rf now"
 alias dir_summary="du -s * | sort -nr | histogram -b"
-alias vnc_listen="vncviewer -encodings 'copyrect tight zrle hextile zlib corre rre raw' -listen"
 
+if (( $+commands[xprop] )); then
+  alias getrule="xprop | awk '/^WM_CLASS/{sub(/.* =/, \"instance:\"); sub(/,/, \"\\nclass:\"); print} /^WM_NAME/{sub(/.* =/, \"title:\"); print}'"
+fi
+if (( $+commands[shutdown] )); then
+  alias reboot="shutdown -rf now"
+fi
+if [ -d /usr/local/portage/discount ]; then
+  alias overlay_duplicates='for p (/usr/local/portage/discount/*/*) { [ -d "${p}" -a "$(ls -1 "${p}"/*.ebuild(N) | wc -l 2>/dev/null)" -gt 1 ] && echo "${p}" }'
+fi
+if (( $+commands[falcon] )); then
+  alias falcon="falcon -M"
+fi
+if (( $+commands[eix] )); then
+  alias installed="eix -I 2>&1 | tr '\n' ' ' | grep -Po '\[I] ([^ ]+?).+?Installed versions:\s+([\d\.r-]+)' | sed -r 's/^\[I\] ([^ ]+).+?Installed versions:\s+(.+?)$/\1-\2/g'"
+fi
+if (( $+commands[ffmpeg] )); then
+  alias deskrec="echo \"Press q to interrupt.\" && ffmpeg -f x11grab -r 25 -s \"\$(xdpyinfo | sed -n -r '/dimensions:/s:^\s*\S+\s+(\S+).*$:\1:p')\" -sameq -i :0.0 /tmp/outputFile.mpg 2>/dev/null"
+fi
+if (( $+commands[wine] )); then
+  alias pinball="wine ~/.wine/drive_c/windows/system32/Pinball/PINBALL.EXE"
+  alias autoit="wine ~/.wine/drive_c/Programmi/AutoIt3/AutoIt3.exe"
+  alias wruby="wine ~/.wine/drive_c/Ruby192/bin/ruby.exe"
+  alias wgem="wruby ~/.wine/drive_c/Ruby192/bin/gem"
+  alias wcmd="wruby ~/.wine/drive_c/windows/system32/cmd.exe"
+  alias emu8086="wine ${HOME}/.wine/drive_c/emu8086/emu8086.exe"
+  alias paint="wine ~/.wine/mspaint.exe"
+fi
+if (( $+commands[pacman] )); then
+  alias pacman-world="pacman -Qetq"
+  alias pacman-clean="pacman -Qdtq | pacman -Rs --noconfirm -"
+fi
+if (( $+commands[vncviewer] )); then
+  alias vnc_listen="vncviewer -encodings 'copyrect tight zrle hextile zlib corre rre raw' -listen"
+fi
+
+if (( $+commands[sudo] )); then
+  if (( $+commands[ntpdate] )); then
+    alias upDate="sudo ntpdate 0.it.pool.ntp.org"
+  fi
+  alias rmf="sudo shred -f -u -v -z"
+fi
+if (( $+commands[Xephyr] )); then
+  alias xephyr="Xephyr -ac -br -noreset -screen 800x600 :1"
+fi
+if (( $+commands[task] )); then
+  alias t=task
+fi
 if (( $+commands[translate] )); then
   alias translate='nocorrect translate'
 fi
 if (( $+functions[fork] )); then
   alias fork="nocorrect fork"
+fi
+if (( $+commands[WiRouterKeyRec] )); then
+  alias wirouterkeyrec="WiRouterKeyRec"
 fi

@@ -18,7 +18,7 @@ promptinit
 compinit
 
 if ! (( $+functions[pmodload] )); then
-  prompt borra
+  prompt borra &>/dev/null
 fi
 
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
@@ -50,5 +50,3 @@ update_proxy() {
 }
 
 add-zsh-hook precmd update_proxy
-
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting

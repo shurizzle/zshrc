@@ -4,12 +4,13 @@ zmodload zsh/net/tcp
 
 function url_encode
 {
-  arg="${1}"
-  let i=0
+  local arg="${1}"
+  integer i=0
+
   while [ $i -lt ${#arg} ]
   do
-    c=${arg:$i:1}
-    grep '^[a-zA-Z0-9;/:@\$,\-\_\.!~\*'\''()]$' <<< "${c}" || printf "%s" "${c}" | xxd -p -c4 -u | sed 's/../%&/g' #'
+    local c=${arg:$i:1}
+    grep '^[a-zA-Z0-9;/:@\$,\-\_\.!~\*'\''()]$' <<< "${c}" || printf "%s" "${c}" | xxd -p -c4 -u | sed 's/../%&/g'
     let i+=1
   done | tr -d '\n'
 }

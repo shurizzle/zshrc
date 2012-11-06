@@ -17,10 +17,10 @@ then
   else
     [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
     [[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator
-    start_agent
+    #start_agent
   fi
-  pgrep -u "${USER}" -f "^\s*$(which LOLastfm)\s*$" &>/dev/null || fork LOLastfm &>/dev/null
-  pgrep -u "${USER}" -f "^\s*$(which torchatd)\s*$" &>/dev/null || (torchatd -t &>/dev/null &) &
+  pgrep -u "${USER}" -f "^\s*$(which LOLastfm)\s*$" &>/dev/null || fork LOLastfm
+  pgrep -u "${USER}" -f "^\s*$(which torchatd)\s*$" &>/dev/null || fork torchatd -t
   pgrep -u "${USER}" -f "bitcoind" &>/dev/null || fork bitcoind &>/dev/null
 fi
 
