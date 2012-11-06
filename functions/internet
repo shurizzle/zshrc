@@ -7,8 +7,8 @@ function url_encode
   local arg="${1}"
   local -i i=0
 
-  while [ $i -lt ${#arg} ]; do
-    local c=${arg:$i:1}
+  while (( $i < $#arg )); do
+    local c="${arg:$i:1}"
 
     if [[ "$c" =~ '^[a-zA-Z0-9;/:@\$,\_\.!~\*'\''()\-]$' ]]; then
       print -n -- "$c"
@@ -31,10 +31,10 @@ function url_decode
   local arg="${1}"
   local -i i=0
 
-  while [ "${i}" -lt ${#arg} ]; do
+  while (( $i < $#arg )); do
     local c0="${arg:$i:1}"
 
-    if [ "$c0" = "%" ]; then
+    if [[ "$c0" == "%" ]]; then
       print -n "\x${arg:$((i + 1)):1}${arg:$((i + 2)):1}"
       let i+=3
     else
