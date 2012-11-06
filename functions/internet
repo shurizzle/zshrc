@@ -5,31 +5,40 @@ zmodload zsh/net/tcp
 function url_encode
 {
   local arg="${1}"
-  integer i=0
+  local -i i=0
 
-  while [ $i -lt ${#arg} ]
-  do
+  while [ $i -lt ${#arg} ]; do
     local c=${arg:$i:1}
-    grep '^[a-zA-Z0-9;/:@\$,\-\_\.!~\*'\''()]$' <<< "${c}" || printf "%s" "${c}" | xxd -p -c4 -u | sed 's/../%&/g'
+
+    if [[ "$c" =~ '^[a-zA-Z0-9;/:@\$,\_\.!~\*'\''()\-]$' ]]; then
+      print -n -- "$c"
+    else
+      local byte
+
+      print -n "$c" | \
+        while LC_ALL=C read -u0 -rsk1 byte; do
+          byte="$(( [##16] #byte ))"
+          print -n "%$( (( $#byte < 2 )) && print -n '0' )$byte"
+        done
+    fi
+
     let i+=1
-  done | tr -d '\n'
+  done
 }
 
 function url_decode
 {
-  arg="${1}"
-  let i=0
-  while [ "${i}" -lt ${#arg} ]
-  do
-    c0=${arg:$i:1}
-    if [ "$c0" = "%" ]
-    then
-      c1=${arg:$((i + 1)):1}
-      c2=${arg:$((i + 2)):1}
-      printf "\x$c1$c2"
+  local arg="${1}"
+  local -i i=0
+
+  while [ "${i}" -lt ${#arg} ]; do
+    local c0="${arg:$i:1}"
+
+    if [ "$c0" = "%" ]; then
+      print -n "\x${arg:$((i + 1)):1}${arg:$((i + 2)):1}"
       let i+=3
     else
-      echo -n "${c0}"
+      print -n -- "${c0}"
       let i+=1
     fi
   done
