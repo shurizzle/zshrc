@@ -22,7 +22,7 @@ function is_mp3
     echo 1 && return 0
 }
 
-if is_cmd emerge
+if is-command emerge
 then
   function riemerge
   {
@@ -88,7 +88,7 @@ function rewake
 function colours
 {
   for i in {0..255} ; do
-    printf "\x1b[38;5;${i}mcolour${i}\n"
+    print "\x1b[38;5;${i}mcolour${i}"
   done
 }
 
@@ -113,64 +113,11 @@ function cdvim
   cd -
 }
 
-if is_cmd pacman || is_cmd pacman-color
-then
-  pacman_dispatch() {
-    case $1 in
-      -S | -S[^sih]* | -R* | -U* | -D*)
-        return 0 ;;
-      *) return 1 ;;
-    esac
-  }
-
-  if which pacman-color &>/dev/null
-  then
-    dispatch_sudo pacman_dispatch pacman-color
-    alias pacman=pacman-color
-  else
-    dispatch_sudo pacman_dispatch pacman
-  fi
-
-
-  if is_cmd yaourt
-  then
-    yaourt_dispatch() {
-      case $1 in
-        -S) return 0 ;;
-        *) return 1 ;;
-      esac
-    }
-    dispatch_sudo yaourt_dispatch yaourt
-  fi
-
-  packer_dispatch() {
-    case $1 in
-      -S|-S[^si]*|-R*|-U*|-D*)
-        return 0 ;;
-      *) return 1 ;;
-    esac
-  }
-
-  if is_cmd packer
-  then
-    dispatch_sudo packer_dispatch packer
-  elif is_cmd packer-color
-  then
-    alias packer=packer-color
-    dispatch_sudo packer_dispatch packer-color
-  fi
-  is_cmd abs && dispatch_sudo true abs
-fi
-
-dispatch_sudo true shutdown
-dispatch_sudo true pm-suspend
-dispatch_sudo true mount
-
 function loadavg
 {
-  local one two three sburro
-  < /proc/loadavg read one two three sburro
-  echo $one $two $three
+  local one two three lopo
+  < /proc/loadavg read one two three lopo
+  echo "$one $two $three"
 }
 
 function TTS
