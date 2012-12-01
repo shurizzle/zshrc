@@ -2,6 +2,7 @@
 
 zmodload zsh/net/tcp
 zmodload zsh/system
+zmodload zsh/pcre
 
 function url_encode
 {
@@ -9,7 +10,7 @@ function url_encode
 
   ( (( $+1 )) && print -rn -- "$1" || <&0) | \
     while read -u0 -rsk1 c; do
-      if [[ "$c" =~ '^[a-zA-Z0-9;/:@\$,\_\.!~\*'\''()\-]$' ]]; then
+      if [[ "$c" -pcre-match '^[a-zA-Z0-9\;/:@\$,_\.!~\*'\''\(\)\-]$' ]]; then
         print -n -- "$c"
       else
 
@@ -48,8 +49,6 @@ function www_form_urlencoded {
     done
   done
 }
-
-zmodload zsh/pcre
 
 function liveflash {
   local -A REPLY
