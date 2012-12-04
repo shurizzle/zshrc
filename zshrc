@@ -8,12 +8,7 @@
 
 export ZSH_DIR="${ZDOTDIR:-$HOME}/.zsh"
 
-function path:base {
-  print -rn -- "${ZSH_DIR}/zoppo"
-}
-
-source "${ZSH_DIR}/zopporc"
-source "${ZSH_DIR}/zoppo/zoppo/zoppo.zsh"
+source "$ZSH_DIR/zoppo/zoppo/zoppo.zsh" -config "$ZSH_DIR/zopporc"
 
 autoload -Uz add-zsh-hook
 setopt hist_ignore_all_dups autocd autopushd pushdignoredups correctall extended_glob prompt_subst

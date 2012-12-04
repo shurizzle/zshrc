@@ -1,5 +1,5 @@
-zstyle ':zoppo:path' plugins "$(path:base)"/plugins "${${:-"$(path:base)"}:a:h}"/plugins
-zstyle ':zoppo:path' prompts "$(path:base)"/prompts
+zstyle ':zoppo:path' plugins "${${:-"$(path:base)"}:a:h}"/plugins "${${:-"$(path:base)/.."}:a:h}"/plugins
+zstyle ':zoppo:path' prompts "${${:-"$(path:base)"}:a:h}"/prompts
 
 unset ZOPPO_BASE
 
