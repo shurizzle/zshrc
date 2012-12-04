@@ -1,0 +1,6 @@
+wget -O - $1 | \
+  grep -Eo 'images.4chan.org/[^"]+' | \
+  uniq | \
+  xargs wget
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

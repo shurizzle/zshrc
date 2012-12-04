@@ -1,10 +1,12 @@
 # vim:syn=zsh
 eval `dircolors`
 
+export HOSTTYPE="$(uname -m)"
+export INTEL_BATCH=1
 export LD_LIBRARY_PATH="/usr/lib:/usr/local/lib:/usr/lib/jvm/java-7-openjdk/jre/lib/amd64/:."
 export MAIL="${HOME}/Mail/Inbox"
 export MAILPATH="${HOME}/Mail"
-export PATH="/usr/lib/ccache/bin:${HOME}/bin:/usr/sbin:/sbin:/usr/share/java/apache-ant/bin:${HOME}/go/bin:${PATH}"
+export PATH="/usr/lib/ccache/bin:${HOME}/bin:/usr/sbin:/sbin:/usr/share/java/apache-ant/bin:${HOME}/go/bin:${PATH}:${HOME}/.gem/ruby/1.9.1/bin"
 export PLAYER="mplayer"
 export MBOX_DAEMON_DIR=~/Mail
 export MBOX_DAEMON_BOXES="Facebook,Inbox"
@@ -27,3 +29,9 @@ unset RUBYOPT
 export PATH
 export GDK_USE_XFT=1
 export CLOJURE_JAVA=drip
+
+if [[ "${TERM}" == *screen* ]]; then
+  export TERM="screen-256color"
+elif [[ "${TERM}" == *xterm* || "${TERM}" == *rxvt* ]]; then
+  export TERM="xterm-256color"
+fi

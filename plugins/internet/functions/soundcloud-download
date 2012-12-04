@@ -1,0 +1,14 @@
+setopt LOCAL_OPTIONS BASH_REMATCH
+
+local LINE
+local -i MEND=0
+
+while read LINE; do
+  if [[ "$LINE" -pcre-match 'title"\s*:\s*"([^"]+)"' ]]; then
+    if [[ "${LINE}" -pcre-match '"username"\s*:\s*"([^"]+)".+?"title"\s*:\s*"([^"]+)".+?"streamUrl"\s*:\s*"([^"]+)"' ]]; then
+      wget -O "$BASH_REMATCH[2] - $BASH_REMATCH[3].mp3" "$BASH_REMATCH[4]"
+    fi
+  fi
+done < =(wget -qo/dev/null -O- "$1")
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

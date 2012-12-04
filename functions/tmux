@@ -1,8 +1,0 @@
-# vim:syn=zsh
-
-function title {
-    if [[ "${TERM}" == *screen* ]]; then
-        print -nR $'\033k'$1$'\033\\'
-        print -nR $'\033]0;'$2$'\a'
-    fi
-}

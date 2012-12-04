@@ -1,0 +1,7 @@
+(( $# == 1 )) || {
+  print "USAGE: $0 <TEXT>" >&2
+  return 1
+}
+adb shell "service call clipboard 2 i32 1 i32 18 s16 ${(q)1}"
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

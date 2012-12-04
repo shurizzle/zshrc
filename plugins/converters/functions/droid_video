@@ -1,0 +1,5 @@
+: ${1?"USAGE: droid_video <input> [putfile]"}
+local OUTFILE="${2:-${1:r}.mp4}"
+ffmpeg -i "$1" -s 800x480 -vcodec mpeg4 -acodec aac -strict experimental -ac 2 -ar 16000 -r 15 -ab 32000 -aspect 16:9 -y "$OUTFILE"
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

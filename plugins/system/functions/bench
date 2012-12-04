@@ -1,0 +1,10 @@
+for ((i = 1;i <= $#; i++)) {
+  local X="$(eval "echo \"\${$i}\"")"
+  (
+    echo -ne '\e[32;1m$\e[0m ' && echo -n "$X"
+    local RES="$( (time (eval "$X" &>/dev/null)) 2>&1 || echo -ne ' (\e[31;1m'"$?"'\e[0m)' >&2)"
+    echo -ne '\n\e[34;1m->\e[0m' && echo "$RES"
+  ) 2>&1
+}
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

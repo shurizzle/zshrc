@@ -1,0 +1,4 @@
+: ${1?"USAGE: gat.to url"}
+curl -s -F"url=${1}" http://gat.to/ | sed -rn '/<a href="(.+?)"><img/s/.+?<a href="(.+?)"><img.*/\1/p' | tail -1
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

@@ -1,0 +1,4 @@
+: ${2?"USAGE: v2mp4 inputvideo outputaudio"}
+ffmpeg -i "$1" -f mp4  -maxrate 1000 -qmin 3 -qmax 5 -bufsize 4096 -g 300 -s 320x180 -padtop 30 -padbottom 30 -ab 128 -b 400 "$2"
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

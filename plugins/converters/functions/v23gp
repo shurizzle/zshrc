@@ -1,0 +1,5 @@
+: ${1?"USAGE: v23gp <infile.ext> [outfile.3gp]"}
+local OUTFILE="${2:-${1:r}.3gp}"
+ffmpeg -i "$1" -s 176x144 -vcodec h263 -r 25 -b 200 -ab 6.7k -sameq -acodec libopencore_amrnb -ac 1 -ar 8000 "$OUTFILE"
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

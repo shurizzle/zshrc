@@ -1,0 +1,35 @@
+zstyle ':zoppo:path' plugins "$(path:base)"/plugins "${${:-"$(path:base)"}:a:h}"/plugins
+zstyle ':zoppo:path' prompts "$(path:base)"/prompts
+
+unset ZOPPO_BASE
+
+zstyle ':zoppo:*:*' color 'yes'
+
+zstyle ':zoppo:plugin:agent:ssh' enable 'yes'
+zstyle ':zoppo:plugin:agent:gpg' enable 'yes'
+
+zstyle ':zoppo:load' plugins \
+  'agent' \
+  'history' \
+  'utility' \
+  'syntax-highlight' \
+  'archive' \
+  'ruby' \
+  'fasd' \
+  'history-substring-search' \
+  'command-not-found' \
+  'editor' \
+  'completion' \
+  'sudo' \
+  \
+  'converters' \
+  'daemons' \
+  'internet' \
+  'system'
+
+zstyle ':zoppo' prompt 'borra' 'bluesky'
+zstyle ':zoppo:plugin:sudo' environments utils system editors arch
+
+zstyle ':zoppo:plugin:archive' disable
+
+# vim: set ft=zsh sts=2 ts=2 sw=2 et:

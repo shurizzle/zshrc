@@ -1,0 +1,9 @@
+[submodule "zoppo/zoppo"]
+	path = zoppo/zoppo
+	url = git://github.com/zoppo/zoppo.git
+[submodule "zoppo/plugins"]
+	path = zoppo/plugins
+	url = git://github.com/zoppo/plugins.git
+[submodule "zoppo/prompts"]
+	path = zoppo/prompts
+	url = git://github.com/zoppo/prompts.git

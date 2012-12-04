@@ -1,0 +1,10 @@
+local kv k v
+typeset -gA "${2:-REPLY}"
+
+for kv ("${(s|&|@)1}"); do
+  for k v ("${(s|=|@)kv}"); do
+    typeset -g "${2:-REPLY}[$(url-decode "$k")]=$(url-decode "$v")"
+  done
+done
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

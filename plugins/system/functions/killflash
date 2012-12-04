@@ -1,0 +1,5 @@
+for i in `ps aux | grep -P 'lib(gc)?flashplayer.so' | awk '{print $2}'`; do
+  kill -9 $i
+done
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

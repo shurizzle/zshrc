@@ -1,0 +1,11 @@
+local YC="${YOUTUBE_COOKIES:-"${HOME}/.ytdl"}"
+local -a PIECES
+PIECES=(${(f)"$(/usr/bin/youtube-dl --cookies="${YC}" -o '%(title)s.%(ext)s' --get-filename -g "${1}")"})
+local tmp="$(mktemp 'XXXXXXXXXXXXXXX.wav')"
+local OUTFILE="${2:-"${${PIECES[2]}%.*}.mp3"}"
+mplayer -cookies-file "${YC}" "${PIECES[1]}" -ao pcm:file="${tmp}" -novideo
+lame "$tmp" "${OUTFILE}"
+echo "output: ${OUTFILE}"
+rm -f "$tmp"
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

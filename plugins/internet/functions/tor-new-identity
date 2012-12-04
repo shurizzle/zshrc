@@ -1,0 +1,24 @@
+function _tor-new-identity {
+  local SOCK
+  local msg
+  ztcp 127.0.0.1 9051 || return 1
+  SOCK="${REPLY}"
+  print -n -- "AUTHENTICATE \r\n" >&$SOCK
+  read -r msg <&$SOCK
+  [ "${${(s| |)msg}[1]}" = 250 ] || return 1
+  print -n -- "signal NEWNYM\r\n" >&$SOCK
+  read -r msg <&$SOCK
+  [ "${${(s| |)msg}[1]}" = 250 ] || return 1
+  ztcp -cf $SOCK
+}
+
+function tor-new-identity {
+  _tor-new-identity || {
+    echo "Error while changing identity"
+    return 1
+  }
+}
+
+tor-new-identity "$@"
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

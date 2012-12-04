@@ -1,0 +1,6 @@
+echo "Waiting while connection is unreachable" >&2
+while ! ping -c1 google.it &>/dev/null; do
+  sleep 5
+done
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

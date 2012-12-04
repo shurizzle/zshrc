@@ -1,0 +1,5 @@
+: ${1?"USAGE: v2avi <inputvideo> [outfile]"}
+local OUTFILE="${2:-${1:r}.avi}"
+mencoder "$1" -ovc xvid -xvidencopts bitrate=1000:autoaspect -vf pp=lb -oac mp3lame -lameopts fast:preset=standard -o "$OUTFILE"
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

@@ -1,0 +1,5 @@
+while kill -0 "${1}" 2>/dev/null; do
+  sleep 1
+done
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

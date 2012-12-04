@@ -1,0 +1,5 @@
+: ${2?"USAGE: v2mp3 <inputvideo> [outfile]"}
+local OUTFILE="${2:-${1:r}.mp3}"
+ffmpeg -i "$1" -ab 192596 -ac 2 -ar 44100 -vn "$OUTFILE"
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}
