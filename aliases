@@ -97,3 +97,5 @@ if (( $+commands[pacman-color] )); then
 else
   alias pacman-color=pacman
 fi
+
+alias respawn="zoppo:restart"
