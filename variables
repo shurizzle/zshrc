@@ -35,3 +35,4 @@ if [[ "${TERM}" == *screen* ]]; then
 elif [[ "${TERM}" == *xterm* || "${TERM}" == *rxvt* ]]; then
   export TERM="xterm-256color"
 fi
+export TCLLIBPATH="${HOME}/.tcl/lib"
