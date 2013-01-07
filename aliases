@@ -99,3 +99,4 @@ else
 fi
 
 alias respawn="zoppo:restart"
+alias gtavc="fork wine ~'/.wine/drive_c/Programmi/Rockstar Games/Grand Theft Auto Vice City/gta-vc.exe'"
