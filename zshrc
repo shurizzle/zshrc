@@ -21,3 +21,5 @@ update_proxy() {
   [ -f /etc/profile.d/proxy.sh ] && source /etc/profile.d/proxy.sh
 }
 add-zsh-hook precmd update_proxy
+eval "restore_tty() { stty '`stty -g`' }"
+add-zsh-hook precmd restore_tty
