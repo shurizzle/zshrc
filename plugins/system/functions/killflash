@@ -1,4 +1,4 @@
-for i in `ps aux | grep -P 'lib(gc)?flashplayer.so' | awk '{print $2}'`; do
+for i in `zpgrep -u "$USER" 'lib(gc)?flashplayer.so'`; do
   kill -9 $i
 done
 
