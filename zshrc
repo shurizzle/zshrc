@@ -23,3 +23,7 @@ update_proxy() {
 add-zsh-hook precmd update_proxy
 eval "restore_tty() { stty '`stty -g`' }"
 add-zsh-hook precmd restore_tty
+
+pushd ~/.jetpack &>/dev/null
+source bin/activate &>/dev/null
+popd &>/dev/null
