@@ -1,0 +1,4 @@
+local SECCOOKIE=''
+SECCOOKIE="$(curl -s http://192.168.1.1/voice.html | sed -n 's/^\s*var\s\+SecurityCookie\s*=\s*'\''\([^'\'']\+\)'\''.*$/\1/p')"
+[ -z "${SECCOOKIE}" ] && return 1
+curl -so/dev/null "http://192.168.1.1/rebootinfo.cgi?wc512=${SECCOOKIE}"
