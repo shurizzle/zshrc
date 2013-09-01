@@ -15,6 +15,7 @@ zstyle ':zoppo:load' plugins \
   'syntax-highlight' \
   'archive' \
   'ruby' \
+  'node' \
   'fasd' \
   'history-substring-search' \
   'command-not-found' \
