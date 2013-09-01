@@ -3,7 +3,7 @@ local -a PIECES
 PIECES=(${(f)"$(/usr/bin/youtube-dl --cookies="${YC}" -o '%(title)s.%(ext)s' --get-filename -g "${1}")"})
 local tmp="$(mktemp 'XXXXXXXXXXXXXXX.wav')"
 local OUTFILE="${2:-"${${PIECES[2]}%.*}.mp3"}"
-mplayer -cookies-file "${YC}" "${PIECES[1]}" -ao pcm:file="${tmp}" -novideo
+mplayer -cookies-file "${YC}" "${PIECES[1]}" -ao pcm:file="${tmp}" -novideo -cache 7777 -cache-min 11 -cache-seek-min 99
 lame "$tmp" "${OUTFILE}"
 echo "output: ${OUTFILE}"
 rm -f "$tmp"
