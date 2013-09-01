@@ -6,7 +6,7 @@ export INTEL_BATCH=1
 export LD_LIBRARY_PATH="/usr/lib:/usr/local/lib:/usr/lib/jvm/java-7-openjdk/jre/lib/amd64/:."
 export MAIL="${HOME}/Mail/Inbox"
 export MAILPATH="${HOME}/Mail"
-export PATH="/usr/lib/ccache/bin:${HOME}/bin:/usr/sbin:/sbin:/usr/share/java/apache-ant/bin:${HOME}/go/bin:${PATH}"
+export PATH="/usr/lib/ccache/bin:${HOME}/bin:/usr/sbin:/sbin:/usr/share/java/apache-ant/bin:${PATH}:${HOME}/.gem/ruby/2.0.0/bin:$(npm bin)"
 export PLAYER="mplayer"
 export MBOX_DAEMON_DIR=~/Mail
 export MBOX_DAEMON_BOXES="Facebook,Inbox"
@@ -20,7 +20,6 @@ then
   export SSH_ASKPASS="/usr/lib/ssh/x11-ssh-askpass"
 fi
 export WINEARCH="win32"
-export GOROOT="${HOME}/go"
 export COUNTRY="Italy"
 export WIIDEV="/opt/devkitpro/devkitPPC"
 
@@ -36,3 +35,6 @@ elif [[ "${TERM}" == *xterm* || "${TERM}" == *rxvt* ]]; then
   export TERM="xterm-256color"
 fi
 export TCLLIBPATH="${HOME}/.tcl/lib"
+export GOPATH="$HOME/go"
+
+export ANDROID_SDK="$ANDROID_HOME"
