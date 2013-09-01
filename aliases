@@ -1,5 +1,6 @@
 # vim:syn=zsh
 
+alias startx="xinit ~/.xinitrc"
 alias grep="grep --color=auto"
 alias ls="ls --color=auto"
 alias md="mkdir"
