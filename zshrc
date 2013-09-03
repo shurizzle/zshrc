@@ -8,6 +8,27 @@
 
 export ZSH_DIR="${ZDOTDIR:-$HOME}/.zsh"
 
+# Auto Updating
+
+function {
+  local cache="${ZSH_DIR}/zoppo.update"
+  local epoch="$(($(date +%s) / 60 / 60 / 24))"
+
+  if [[ ! -s "$cache" ]]; then
+    print "$epoch" >!"$cache"
+    return
+  fi
+
+  local last=$(<"$cache")
+  print $epoch >!"$cache"
+
+  if (( $(($epoch - $last)) > 1 )); then
+    echo "Updating submodules..."
+    git submodule foreach 'git pull origin master'
+    clear
+  fi
+}
+
 source "$ZSH_DIR/zoppo/zoppo/zoppo.zsh" -config "$ZSH_DIR/zopporc"
 
 autoload -Uz add-zsh-hook
@@ -20,9 +41,14 @@ source "${ZSH_DIR}/autostart"
 update_proxy() {
   [ -f /etc/profile.d/proxy.sh ] && source /etc/profile.d/proxy.sh
 }
-add-zsh-hook precmd update_proxy
 eval "restore_tty() { stty '`stty -g`' }"
-add-zsh-hook precmd restore_tty
+
++shura-pre-cmd() {
+  update_proxy
+  restore_tty
+}
+
+add-zsh-hook precmd +shura-pre-cmd
 
 pushd ~/.jetpack &>/dev/null
 source bin/activate &>/dev/null
