@@ -27,7 +27,6 @@ unset RUBYOPT
 [ -d /usr/local/bin/flex/bin ] && PATH="${PATH}:/usr/local/bin/flex/bin"
 export PATH
 export GDK_USE_XFT=1
-export CLOJURE_JAVA=drip
 
 if [[ "${TERM}" == *screen* ]]; then
   export TERM="screen-256color"
