@@ -17,7 +17,7 @@ alias lsexe="ls *(*)"
 alias ping="ping -c4"
 alias pkill="pkill -9 -u ${USER}"
 alias size="du -sh"
-alias getip="curl -s http://checkip.dyndns.org/ | grep --color=no -Po '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}'"
+alias getip='curl -s http://checkip.dyndns.org/ | grep --color=no -Po '\''((2([0-4]\d|5[0-5])|1?\d?\d)\.){3}(2([0-4]\d|5[0-5])|1?\d?\d)'\'
 alias diff="diff -ruEbBN"
 alias download="aria2c -c -s 100 --file-allocation=none --summary-interval=0 --check-certificate=false"
 alias hspa="$BROWSER http://192.168.1.1/hspacfgfirst.html"
