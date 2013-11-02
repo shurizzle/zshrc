@@ -1,8 +1,9 @@
 zmodload zsh/sched || return 1
 
-function init:cdvim {
+function system:init:completion {
   compdef _cd cdvim
-  unfunction init:cdvim
+  compdef _mplayer mpv
+  unfunction system:init:completion
 }
 
-hooks:add zoppo_postinit init:cdvim
+hooks:add zoppo_postinit system:init:completion
