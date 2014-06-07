@@ -3,10 +3,11 @@ eval `dircolors`
 
 export HOSTTYPE="$(uname -m)"
 export INTEL_BATCH=1
-export LD_LIBRARY_PATH="/usr/lib:/usr/local/lib:/usr/lib/jvm/java-7-openjdk/jre/lib/amd64/:."
+export LD_LIBRARY_PATH="/usr/lib:/usr/local/lib:."
 export MAIL="${HOME}/Mail/Inbox"
 export MAILPATH="${HOME}/Mail"
-export PATH="/usr/lib/ccache/bin:${HOME}/bin:/usr/sbin:/sbin:/usr/share/java/apache-ant/bin:${PATH}:${HOME}/.gem/ruby/2.0.0/bin:$(npm bin)"
+export PATH="/usr/lib/ccache/bin:${HOME}/bin:/usr/sbin:/sbin:/usr/share/java/apache-ant/bin:${HOME}/.cabal/bin:${PATH}:${HOME}/.gem/ruby/2.0.0/bin:$(npm bin):/opt/android-ndk"
+export ANDROID_NDK=/opt/android-ndk
 export PLAYER="mplayer"
 export MBOX_DAEMON_DIR=~/Mail
 export MBOX_DAEMON_BOXES="Facebook,Inbox"
@@ -28,11 +29,6 @@ unset RUBYOPT
 export PATH
 export GDK_USE_XFT=1
 
-if [[ "${TERM}" == *screen* ]]; then
-  export TERM="screen-256color"
-elif [[ "${TERM}" == *xterm* || "${TERM}" == *rxvt* ]]; then
-  export TERM="xterm-256color"
-fi
 export TCLLIBPATH="${HOME}/.tcl/lib"
 export GOPATH="$HOME/go"
 

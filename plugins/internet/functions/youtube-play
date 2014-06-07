@@ -2,6 +2,6 @@ local YC="${YOUTUBE_COOKIES:-"${HOME}/.ytdl"}"
 local LINK="$(/usr/bin/youtube-dl --cookies="${YC}" -g "${1}")"
 shift
 set -- "$@" --cookies-file="${YC}" "${LINK}"
-mplayer "$@"
+mpv "$@"
 
 # vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

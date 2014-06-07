@@ -1,12 +1,19 @@
 setopt LOCAL_OPTIONS BASH_REMATCH
 
+local ONESHOT=false
 local LINE
 local -i MEND=0
+
+if [[ "$1" = "-1" ]]; then
+  shift
+  ONESHOT=true
+fi
 
 while read LINE; do
   if [[ "$LINE" -pcre-match 'title"\s*:\s*"([^"]+)"' ]]; then
     if [[ "${LINE}" -pcre-match '"username"\s*:\s*"([^"]+)".+?"title"\s*:\s*"([^"]+)".+?"streamUrl"\s*:\s*"([^"]+)"' ]]; then
       wget -O "$BASH_REMATCH[2] - $BASH_REMATCH[3].mp3" "$BASH_REMATCH[4]"
+      [[ $ONESHOT = true ]] && return
     fi
   fi
 done < =(wget -qo/dev/null -O- "$1")
