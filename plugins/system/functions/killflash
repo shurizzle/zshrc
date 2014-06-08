@@ -1,4 +1,4 @@
-for i in `zpgrep -u "$USER" 'lib(gc)?flashplayer.so'`; do
+for i in `zpgrep -u "$USER" 'lib((gc)?flashplayer|freshwrapper).so'`; do
   kill -9 $i
 done
 
