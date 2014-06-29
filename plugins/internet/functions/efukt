@@ -1,4 +1,4 @@
 : ${1?"USAGE efukt <link>"}
-wget -O - "${1}" 2>/dev/null | grep flashvars\\.file | sed -r 's/^[^"]+"|".*$//g'
+wget -O - "${1}" 2> /dev/null | grep -Pa '\s+file: "' | sed -r 's/^[^"]+"|".*$//g'
 
 # vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}
