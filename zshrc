@@ -53,7 +53,4 @@ eval "restore_tty() { stty '`stty -g`' }"
 
 add-zsh-hook precmd +shura-pre-cmd
 
-pushd ~/.jetpack &>/dev/null
-source bin/activate &>/dev/null
-popd &>/dev/null
 alias boot-usb='qemu-system-i386 -enable-kvm -vga qxl -usb -usbdevice host:03f0:5607 -net nic,model=virtio -net user -m 1024'
