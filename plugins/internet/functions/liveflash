@@ -50,6 +50,6 @@ else
   return 1
 fi
 
-rtmpdump -v -r "$stream" -W 'http://www.liveflash.tv/resources/scripts/eplayer.swf' -p "$page" -y "$rtmp_path" | mplayer -
+rtmpdump -v -r "$stream" -W 'http://www.liveflash.tv/resources/scripts/eplayer.swf' -p "$page" -y "$rtmp_path" | mpv -
 
 # vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}
