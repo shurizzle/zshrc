@@ -34,7 +34,9 @@ alias multidownload='aria2c -j16 -s16 -c --file-allocation=none -m0 --max-connec
 if (( $+commands[xprop] )); then
   alias getrule="xprop | awk '/^WM_CLASS/{sub(/.* =/, \"instance:\"); sub(/,/, \"\\nclass:\"); print} /^WM_NAME/{sub(/.* =/, \"title:\"); print}'"
 fi
-if (( $+commands[shutdown] )); then
+if (( $+commands[systemctl] )); then
+  alias reboot="systemctl reboot"
+elif (( $+commands[shutdown] )); then
   alias reboot="shutdown -rf now"
 fi
 if [ -d /usr/local/portage/discount ]; then
@@ -49,14 +51,18 @@ fi
 if (( $+commands[ffmpeg] )); then
   alias deskrec="echo \"Press q to interrupt.\" && ffmpeg -f x11grab -r 25 -s \"\$(xdpyinfo | sed -n -r '/dimensions:/s:^\s*\S+\s+(\S+).*$:\1:p')\" -sameq -i :0.0 /tmp/outputFile.mpg 2>/dev/null"
 fi
+
 if (( $+commands[wine] )); then
-  alias pinball="wine ~/.wine/drive_c/windows/system32/Pinball/PINBALL.EXE"
-  alias autoit="wine ~/.wine/drive_c/Programmi/AutoIt3/AutoIt3.exe"
-  alias wruby="wine ~/.wine/drive_c/Ruby192/bin/ruby.exe"
-  alias wgem="wruby ~/.wine/drive_c/Ruby192/bin/gem"
-  alias wcmd="wruby ~/.wine/drive_c/windows/system32/cmd.exe"
-  alias emu8086="wine ${HOME}/.wine/drive_c/emu8086/emu8086.exe"
-  alias paint="wine ~/.wine/mspaint.exe"
+  function wine_app_ie() {
+    [ -e "$2" ] && alias $1="wine $2"
+  }
+  wine_app_ie pinball "~/.wine/drive_c/windows/system32/Pinball/PINBALL.EXE"
+  wine_app_ie autoit "~/.wine/drive_c/Programmi/AutoIt3/AutoIt3.exe"
+  wine_app_ie wruby "~/.wine/drive_c/Ruby192/bin/ruby.exe"
+  (( $+aliases[wruby] )) && alias wgem="wruby ~/.wine/drive_c/Ruby192/bin/gem"
+  wine_app_ie emu8086 "~/.wine/drive_c/emu8086/emu8086.exe"
+  wine_app_ie paint "~/.wine/mspaint.exe"
+  unfunction wine_app_ie
 fi
 if (( $+commands[pacman] )); then
   alias pacman-world="pacman -Qetq"
@@ -70,7 +76,6 @@ if (( $+commands[sudo] )); then
   if (( $+commands[ntpdate] )); then
     alias upDate="sudo ntpdate 0.it.pool.ntp.org"
   fi
-  alias rmf="sudo shred -f -u -v -z"
 fi
 if (( $+commands[Xephyr] )); then
   alias xephyr="Xephyr -ac -br -noreset -screen 800x600 :1"
@@ -100,6 +105,4 @@ else
 fi
 
 alias respawn="zoppo:restart"
-alias gtavc="fork wine ~'/.wine/drive_c/Programmi/Rockstar Games/Grand Theft Auto Vice City/gta-vc.exe'"
 alias mtpfs='simple-mtpfs'
-alias LINE='wine /home/shura/.wine/drive_c/Programmi/Naver/LINE/Line.exe'
