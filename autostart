@@ -17,8 +17,6 @@ then
 
   {
     daemon:launch -once LOLastfm
-    daemon:launch -once torchatd -t
-    daemon:launch -once arbid
   } &>/dev/null
 fi
 
