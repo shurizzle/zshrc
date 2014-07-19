@@ -1,8 +1,6 @@
 zstyle ':zoppo:path' plugins "${${:-"$(path:base)"}:a:h}"/plugins "${${:-"$(path:base)/.."}:a:h}"/plugins
 zstyle ':zoppo:path' prompts "${${:-"$(path:base)"}:a:h}"/prompts
 
-unset ZOPPO_BASE
-
 zstyle ':zoppo:*:*' color 'yes'
 
 zstyle ':zoppo:plugin:agent:ssh' enable 'yes'
