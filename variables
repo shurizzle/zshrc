@@ -9,9 +9,6 @@ export MAILPATH="${HOME}/Mail"
 export PATH="/usr/lib/ccache/bin:${HOME}/bin:/usr/sbin:/sbin:/usr/share/java/apache-ant/bin:${HOME}/.cabal/bin:${PATH}:${HOME}/.gem/ruby/2.0.0/bin:$(npm bin):/opt/android-ndk"
 export ANDROID_NDK=/opt/android-ndk
 export PLAYER="mpv"
-export MBOX_DAEMON_DIR=~/Mail
-export MBOX_DAEMON_BOXES="Facebook,Inbox"
-export MBOX_DAEMON_EVERY="300"
 export ALARM="/music/Dargen D'Amico/D' (parte seconda)/05 - In Loop (La forma di un cuore) (feat. Two Fingerz).mp3"
 if which x11-ssh-askpass &>/dev/null
 then
@@ -22,7 +19,6 @@ then
 fi
 export WINEARCH="win32"
 export COUNTRY="Italy"
-export WIIDEV="/opt/devkitpro/devkitPPC"
 
 unset RUBYOPT
 [ -d /usr/local/bin/flex/bin ] && PATH="${PATH}:/usr/local/bin/flex/bin"
@@ -30,6 +26,5 @@ export PATH
 export GDK_USE_XFT=1
 
 export TCLLIBPATH="${HOME}/.tcl/lib"
-export GOPATH="$HOME/go"
 
 export ANDROID_SDK="$ANDROID_HOME"
