@@ -1,0 +1,33 @@
+local REPONAME="$1"
+
+if [ -z "$REPONAME" ]; then
+  echo "Repo name (hit enter to use current directory name)?"
+  read REPONAME
+fi
+
+[ -z "$REPONAME" ] && REPONAME="${PWD:t}"
+
+local GITHUBUSER="$(git config github.user)"
+local TOKEN="$(git config github.token)"
+local ERROR=false
+
+if [ -z "$GITHUBUSER" ]; then
+  warn "Could not find username, run 'git config --global github.user <username>'"
+  ERROR=true
+fi
+
+if [ -z "$TOKEN" ]; then
+  warn "Could not find token, run 'git config --global github.token <token>'"
+  ERROR=true
+fi
+
+$ERROR && return 1
+
+echo -n "Creating Github repository '$REPONAME'..."
+curl -u "${GITHUBUSER}:${TOKEN}" https://api.github.com/user/repos -d "{\"name\":\"$REPONAME\"}" &> /dev/null
+echo " done."
+
+echo -n "Pushing local code to remote..."
+git remote add origin git@github.com:"${GITHUBUSER}/${REPONAME}.git" &>/dev/null
+git push -u origin master &>/dev/null
+echo " done."
