@@ -29,7 +29,7 @@ function {
   fi
 }
 
-if [[ "${TERM}" != *linux* ]]; then
+if [[ "${TERM}" != *linux* && "$(uname)" != *Darwin* ]]; then
   export TERM="rxvt-unicode-256color"
 fi
 source "$ZSH_DIR/zoppo/zoppo/zoppo.zsh" -config "$ZSH_DIR/zopporc"
@@ -41,16 +41,18 @@ source "${ZSH_DIR}/variables"
 source "${ZSH_DIR}/aliases"
 source "${ZSH_DIR}/autostart"
 
-update_proxy() {
-  [ -f /etc/profile.d/proxy.sh ] && source /etc/profile.d/proxy.sh
-}
-eval "restore_tty() { stty '`stty -g`' }"
+if [[ "$(uname)" != *Darwin* ]]; then
+  update_proxy() {
+    [ -f /etc/profile.d/proxy.sh ] && source /etc/profile.d/proxy.sh
+  }
+  eval "restore_tty() { stty '`stty -g`' }"
 
-+shura-pre-cmd() {
-  update_proxy
-  restore_tty
-}
+  +shura-pre-cmd() {
+    update_proxy
+    restore_tty
+  }
 
-add-zsh-hook precmd +shura-pre-cmd
+  add-zsh-hook precmd +shura-pre-cmd
+fi
 
 alias boot-usb='qemu-system-i386 -enable-kvm -vga qxl -usb -usbdevice host:03f0:5607 -net nic,model=virtio -net user -m 1024'
