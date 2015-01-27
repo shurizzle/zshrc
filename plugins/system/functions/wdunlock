@@ -1,0 +1,8 @@
+: ${1?"USAGE: wdunlock </dev/sgX>"}
+
+local PASS
+
+read -s 'PASS?Enter password: ' || return 1
+echo
+sg_raw -s 40 -i =(cookpw "$PASS") "$1" c1 e1 00 00 00 00 00 00 28 00
+partprobe
