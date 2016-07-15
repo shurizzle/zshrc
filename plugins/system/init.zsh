@@ -13,3 +13,7 @@ sudo:dispatch true iotop
 sudo:dispatch true powertop
 sudo:dispatch true sg_raw
 sudo:dispatch true partprobe
+
+if [ -d /usr/local/m-cli ]; then
+  export PATH="$PATH:/usr/local/m-cli"
+fi
