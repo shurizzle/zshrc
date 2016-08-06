@@ -18,6 +18,7 @@ zstyle ':zoppo:load' plugins \
   'editor' \
   'syntax-highlight' \
   'archive' \
+  'python' \
   'ruby' \
   'node' \
   'fasd' \
