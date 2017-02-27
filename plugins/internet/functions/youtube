@@ -1,5 +1,5 @@
 local YC="${YOUTUBE_COOKIES:-"${HOME}/.ytdl"}"
-local -a PIECES; PIECES=(${(f)"$(/usr/bin/youtube-dl --cookies="${YC}" -o '%(title)s.%(ext)s' --get-filename -g "${1}")"})
+local -a PIECES; PIECES=(${(f)"$(youtube-dl --cookies="${YC}" -o '%(title)s.%(ext)s' --get-filename -g "${1}")"})
 shift
 set -- "$@" --load-cookies "${YC}" -O "${PIECES[2]}" "${PIECES[1]}"
 wget "$@"

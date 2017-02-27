@@ -15,3 +15,7 @@ sudo:dispatch true sg_raw
 sudo:dispatch true partprobe
 
 [ -f "$HOME/.homebrewrc" ] && . "$HOME/.homebrewrc"
+
+if [ -d /usr/local/m-cli ]; then
+  export PATH="$PATH:/usr/local/m-cli"
+fi
