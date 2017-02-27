@@ -56,3 +56,5 @@ if [[ "$(uname)" != *Darwin* ]]; then
 fi
 
 alias boot-usb='qemu-system-i386 -enable-kvm -vga qxl -usb -usbdevice host:03f0:5607 -net nic,model=virtio -net user -m 1024'
+
+eval "$(rbenv init -)"

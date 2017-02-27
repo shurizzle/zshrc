@@ -13,3 +13,5 @@ sudo:dispatch true iotop
 sudo:dispatch true powertop
 sudo:dispatch true sg_raw
 sudo:dispatch true partprobe
+
+[ -f "$HOME/.homebrewrc" ] && . "$HOME/.homebrewrc"

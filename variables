@@ -23,9 +23,25 @@ export COUNTRY="Italy"
 
 unset RUBYOPT
 [ -d /usr/local/bin/flex/bin ] && PATH="${PATH}:/usr/local/bin/flex/bin"
+[ -d "$HOME/.composer/vendor/bin" ] && PATH="${PATH}:${HOME}/.composer/vendor/bin"
 export PATH
 export GDK_USE_XFT=1
 
 export TCLLIBPATH="${HOME}/.tcl/lib"
 
 export ANDROID_SDK="$ANDROID_HOME"
+
+if which /usr/libexec/java_home &>/dev/null; then
+  export JAVA_HOME="$(/usr/libexec/java_home)"
+fi
+
+if [ -d /usr/local/opt/android-sdk ]; then
+  export ANDROID_HOME=/usr/local/opt/android-sdk
+fi
+
+BC_ENV_ARGS="-l"
+if [ -f ~/.bcrc ]; then
+  BC_ENV_ARGS="$BC_ENV_ARGS $HOME/.bcrc"
+fi
+
+export BC_ENV_ARGS
