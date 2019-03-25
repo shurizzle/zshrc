@@ -60,3 +60,7 @@ add-zsh-hook precmd +shura-pre-cmd
 alias boot-usb='qemu-system-i386 -enable-kvm -vga qxl -usb -usbdevice host:03f0:5607 -net nic,model=virtio -net user -m 1024'
 
 is-command rbenv && eval "$(rbenv init -)"
+
+[ -d "$HOME/.cargo/bin" ] && PATH="$PATH:$HOME/.cargo/bin"
+export PATH
+[ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
