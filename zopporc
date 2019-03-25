@@ -8,7 +8,11 @@ zstyle ':zoppo:plugin:agent:gpg' enable 'yes'
 
 zstyle ':zoppo:plugin:utility:math' enable 'no'
 
-zdefault ':zoppo:plugin:ruby:rbenv' enable 'yes'
+if is-command rbenv; then
+  zstyle ':zoppo:plugin:ruby:rbenv' path =rbenv
+fi
+
+zstyle ':zoppo:plugin:ruby:rbenv' enable 'yes'
 
 zstyle ':zoppo:load' plugins \
   'macos' \
