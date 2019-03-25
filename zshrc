@@ -42,17 +42,17 @@ source "${ZSH_DIR}/aliases"
 source "${ZSH_DIR}/autostart"
 
 update_proxy() {
-    [ -f /etc/profile.d/proxy.sh ] && source /etc/profile.d/proxy.sh
+  [ -f /etc/profile.d/proxy.sh ] && source /etc/profile.d/proxy.sh
 }
-if [[ "$(uname)" != *Darwin* ]]; then
-    eval "restore_tty() { stty '`stty -g`' }"
+if os:is-macos; then
+  eval "restore_tty() { stty '`stty -g`' }"
 else
-    eval "restore_tty() { /bin/stty '`/bin/stty -g`' }"
+  eval "restore_tty() { /bin/stty '`/bin/stty -g`' }"
 fi
 
 +shura-pre-cmd() {
-    update_proxy
-    restore_tty
+  update_proxy
+  restore_tty
 }
 
 add-zsh-hook precmd +shura-pre-cmd
@@ -66,6 +66,6 @@ export PATH
 [ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
 
 if [[ -d "$HOME/.wasmer" ]]; then
-    export WASMER_DIR="$HOME/.wasmer"
-    [ -s "$WASMER_DIR/wasmer.sh" ] && source "$WASMER_DIR/wasmer.sh"
+  export WASMER_DIR="$HOME/.wasmer"
+  [ -s "$WASMER_DIR/wasmer.sh" ] && source "$WASMER_DIR/wasmer.sh"
 fi
