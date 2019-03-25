@@ -93,9 +93,9 @@ update_proxy() {
   [ -f /etc/profile.d/proxy.sh ] && source /etc/profile.d/proxy.sh
 }
 if os:is-macos; then
-  eval "restore_tty() { stty '`stty -g`' }"
-else
   eval "restore_tty() { /bin/stty '`/bin/stty -g`' }"
+else
+  eval "restore_tty() { stty '`stty -g`' }"
 fi
 
 +shura-pre-cmd() {
@@ -106,8 +106,6 @@ fi
 add-zsh-hook precmd +shura-pre-cmd
 
 alias boot-usb='qemu-system-i386 -enable-kvm -vga qxl -usb -usbdevice host:03f0:5607 -net nic,model=virtio -net user -m 1024'
-
-is-command rbenv && eval "$(rbenv init -)"
 
 [ -d "$HOME/.cargo/bin" ] && PATH="$PATH:$HOME/.cargo/bin"
 export PATH
