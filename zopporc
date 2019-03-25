@@ -6,7 +6,6 @@ zstyle ':zoppo:*:*' color 'yes'
 zstyle ':zoppo:plugin:agent:ssh' enable 'yes'
 zstyle ':zoppo:plugin:agent:gpg' enable 'yes'
 
-zstyle ':zoppo:plugin:utility:gnu' enable 'yes'
 zstyle ':zoppo:plugin:utility:math' enable 'no'
 
 zdefault ':zoppo:plugin:ruby:rbenv' enable 'yes'
