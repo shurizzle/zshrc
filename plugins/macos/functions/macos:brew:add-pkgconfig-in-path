@@ -1,0 +1,6 @@
+(( $+1 )) || {
+    warn "Usage: macos:brew:add-pkgconfig-in-path <formula>"
+    return 1
+}
+
+macos:pkgconfig:add-if-exists "$(macos:brew:pkgconfig "$1")"

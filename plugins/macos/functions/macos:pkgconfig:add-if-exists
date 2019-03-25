@@ -1,0 +1,12 @@
+(( $+1 )) || {
+    warn "Path $1 doesn't exist"
+    return 1
+}
+
+if [[ -d "$1" ]]; then
+    if [ -z "$PKG_CONFIG_PATH" ]; then
+        export PKG_CONFIG_PATH="$1"
+    else
+        export PKG_CONFIG_PATH="$1:$PKG_CONFIG_PATH"
+    fi
+fi

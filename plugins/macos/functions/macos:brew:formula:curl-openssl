@@ -1,0 +1,2 @@
+macos:brew:add-bin-in-path curl-openssl
+macos:brew:add-pkgconfig-in-path curl-openssl

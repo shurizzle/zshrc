@@ -1,0 +1,29 @@
+if (( $+1 )); then
+    if [[ "$1" = locales ]]; then
+        typeset -ga locales
+    else
+        local -a locales
+    fi
+
+    locales=()
+
+    function {
+        local line
+
+        locale -a | while read line; do
+            line="${line#"${line%%[![:space:]]*}"}"
+            line="${line%"${line##*[![:space:]]}"}"
+            if ! [ -z "$line" ]; then
+                locales+=("$line")
+            fi
+        done
+    }
+
+    [[ "$1" != locales ]] && \
+        set -A "$1" "${locales[@]}"
+else
+    locale -a
+fi
+
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

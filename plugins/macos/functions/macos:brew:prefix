@@ -1,0 +1,10 @@
+if (( $+1 )); then
+    local res="$(brew --prefix)/${1##/#}"
+    if [[ -e "$res" ]]; then
+        print -n -- "$res"(:P)
+    else
+        print -n -- "$res"
+    fi
+else
+    brew --prefix
+fi

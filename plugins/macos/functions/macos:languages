@@ -1,0 +1,24 @@
+if (( $+1 )) && [[ "$1" = languages ]]; then
+    typeset -ga languages
+else
+    local -a languages
+fi
+
+function {
+    local -a tmp
+    local i
+
+    tmp=()
+
+    eval "tmp=$(defaults read .GlobalPreferences AppleLanguages)"
+    for i ({1..${#tmp}}) languages+="${tmp[$i]//-/_}"
+}
+
+if (( $+1 )); then
+    [[ "$1" != languages ]] && \
+        set -A "$1" "${languages[@]}"
+else
+    print -l -- "${languages[@]}"
+fi
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

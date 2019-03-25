@@ -1,0 +1,2 @@
+macos:brew:add-bin-in-path expat
+macos:brew:add-pkgconfig-in-path expat

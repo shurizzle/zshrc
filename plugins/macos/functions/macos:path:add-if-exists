@@ -1,0 +1,12 @@
+(( $+1 )) || {
+    warn "Path $1 doesn't exist"
+    return 1
+}
+
+if [[ -d "$1" ]]; then
+    if [ -z "$PATH" ]; then
+        export PATH="$1"
+    else
+        export PATH="$1:$PATH"
+    fi
+fi

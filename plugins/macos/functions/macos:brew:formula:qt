@@ -1,0 +1,2 @@
+macos:brew:add-bin-in-path qt
+macos:brew:add-pkgconfig-in-path qt

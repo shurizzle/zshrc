@@ -1,0 +1,2 @@
+macos:brew:add-bin-in-path ruby
+macos:brew:add-pkgconfig-in-path ruby
