@@ -29,7 +29,55 @@ function {
   fi
 }
 
-if [[ "${TERM}" != *linux* && "$(uname)" != *Darwin* ]]; then
+function {
+  local name
+
+  if (( $+commands[uname] )); then
+    name="$(uname)"
+  else
+    name="Windows"
+  fi
+
+  if [[ "$name" = *Darwin* ]]; then
+    function os:is-macos {
+      return 0
+    }
+
+    function os:is-linux {
+      return 1
+    }
+
+    function os:is-windows {
+        return 1
+    }
+  elif [[ "$name" = *Win* ]]; then
+    function os:is-macos {
+      return 1
+    }
+
+    function os:is-linux {
+      return 1
+    }
+
+    function os:is-windows {
+      return 0
+    }
+  else
+    function os:is-macos {
+      return 1
+    }
+
+    function os:is-linux {
+      return 0
+    }
+
+    function os:is-windows {
+      return 1
+    }
+  fi
+}
+
+if os:is-linux && [[ "${TERM}" != *linux* ]]; then
   export TERM="rxvt-unicode-256color"
 fi
 source "$ZSH_DIR/zoppo/zoppo/zoppo.zsh" -config "$ZSH_DIR/zopporc"
