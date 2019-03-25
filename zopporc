@@ -14,27 +14,33 @@ fi
 
 zstyle ':zoppo:plugin:ruby:rbenv' enable 'yes'
 
-zstyle ':zoppo:load' plugins \
-  'macos' \
-  'agent' \
-  'history' \
-  'utility' \
-  'editor' \
-  'syntax-highlight' \
-  'archive' \
-  'python' \
-  'ruby' \
-  'node' \
-  'fasd' \
-  'history-substring-search' \
-  'command-not-found' \
-  'completion' \
-  'sudo' \
-  \
-  'converters' \
-  'daemons' \
-  'internet' \
-  'system'
+function {
+  local -a plugins=(
+    'agent'
+    'history'
+    'utility'
+    'editor'
+    'syntax-highlight'
+    'archive'
+    'python'
+    'ruby'
+    'node'
+    'fasd'
+    'history-substring-search'
+    'command-not-found'
+    'completion'
+    'sudo'
+
+    'converters'
+    'daemons'
+    'internet'
+    'system'
+  )
+
+  os:is-macos && plugins+=('macos')
+
+  zstyle ':zoppo:load' plugins "${plugins[@]}"
+}
 
 zstyle ':zoppo' prompt 'borra' 'bluesky'
 zstyle ':zoppo:plugin:sudo' environments utils system editors arch
