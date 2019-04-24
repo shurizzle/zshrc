@@ -1,0 +1,6 @@
+(( $+1 )) || {
+    warn "Usage: macos:brew:bin <formula>"
+    return 1
+}
+
+macos:brew:prefix "/opt/$1/sbin"

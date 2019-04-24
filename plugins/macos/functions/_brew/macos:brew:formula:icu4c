@@ -1,0 +1,3 @@
+macos:brew:add-bin-in-path icu4c
+macos:brew:add-sbin-in-path icu4c
+macos:brew:add-pkgconfig-in-path icu4c

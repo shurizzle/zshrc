@@ -1,0 +1,2 @@
+macos:brew:add-bin-in-path sqlite
+macos:brew:add-pkgconfig-in-path sqlite
