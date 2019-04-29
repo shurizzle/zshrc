@@ -39,7 +39,8 @@ if is-command brew; then
         formulae formulae \
         \
         'coreutils' 'grep' 'gnu-tar' 'gnu-sed' 'gawk' 'make' 'openssl' \
-        'curl-openssl' 'expat' 'qt' 'openblas' 'ruby'
+        'curl-openssl' 'expat' 'qt' 'openblas' 'ruby' 'apr' 'icu4c' \
+        'sqlite'
 
       for formula in "${formulae[@]}"; do
         formula_fn="macos:brew:formula:$formula"
