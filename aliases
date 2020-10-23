@@ -109,3 +109,7 @@ alias mtpfs='simple-mtpfs'
 if (( $+commands[brew] )); then
   alias upgrade-brew='brew update && brew upgrade brew-cask && brew cleanup && brew cask cleanup'
 fi
+
+if (( $+commands[exa] )); then
+  alias ls='command exa --color=auto'
+fi
