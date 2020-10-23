@@ -1,0 +1,3 @@
+macos:brew:add-bin-in-path util-linux
+macos:brew:add-sbin-in-path util-linux
+macos:brew:add-pkgconfig-in-path util-linux

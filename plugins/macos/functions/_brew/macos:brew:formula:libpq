@@ -1,0 +1,2 @@
+macos:brew:add-bin-in-path libpq
+macos:brew:add-pkgconfig-in-path libpq

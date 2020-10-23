@@ -40,7 +40,7 @@ if is-command brew; then
         \
         'coreutils' 'grep' 'gnu-tar' 'gnu-sed' 'gawk' 'make' 'openssl' \
         'curl-openssl' 'expat' 'qt' 'openblas' 'ruby' 'apr' 'icu4c' \
-        'sqlite'
+        'sqlite' 'libffi' 'openal-soft' 'util-linux' 'libpq'
 
       for formula in "${formulae[@]}"; do
         formula_fn="macos:brew:formula:$formula"
