@@ -3,8 +3,8 @@ zstyle ':zoppo:path' prompts "${${:-"$(path:base)"}:a:h}"/prompts
 
 zstyle ':zoppo:*:*' color 'yes'
 
-zstyle ':zoppo:plugin:agent:ssh' enable 'yes'
-zstyle ':zoppo:plugin:agent:gpg' enable 'yes'
+zstyle ':zoppo:plugin:agent:ssh' enable 'no'
+zstyle ':zoppo:plugin:agent:gpg' enable 'no'
 
 zstyle ':zoppo:plugin:utility:math' enable 'no'
 
