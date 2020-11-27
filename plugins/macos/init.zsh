@@ -17,7 +17,6 @@ if zdefault -t ':zoppo:plugin:macos:locale' enable 'yes'; then
   }
 fi
 
-
 if is-command brew && zdefault -t ':zoppo:plugin:macos:brew' enable 'yes'; then
   function {
     local basepath="$1"
@@ -35,7 +34,7 @@ if is-command brew && zdefault -t ':zoppo:plugin:macos:brew' enable 'yes'; then
     local -a formulae
     local formula_fn
 
-    zdefault -a ':zoppo:plugin:macos:brew:gnubin:formulae' \
+    zdefault -a ':zoppo:plugin:macos:brew:formulae' \
       formulae formulae \
       \
       'coreutils' 'grep' 'gnu-tar' 'gnu-sed' 'gawk' 'make' 'openssl' \
