@@ -2,7 +2,7 @@ local base="$(brew --caskroom google-cloud-sdk)"
 if [ -d "$base" ]; then
   export CLOUDSDK_PYTHON="$(brew --prefix python@3)/libexec/bin/python"
   source "${base}/latest/google-cloud-sdk/path.zsh.inc"
-  eval "function google-cloud:init:completion { source $(printf '%q' "${base}/latest/google-cloud-sdk/completion.zsh.inc"); unfunction google-cloud:init:completion; }"
+  eval "function google-cloud:init:completion { source "${(q)${:-"${base}/latest/google-cloud-sdk/completion.zsh.inc"}}" ; unfunction google-cloud:init:completion; }"
   hooks:add zoppo_postinit google-cloud:init:completion
 fi
 
