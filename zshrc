@@ -80,6 +80,11 @@ function {
 if os:is-linux && [[ "${TERM}" != *linux* ]]; then
   export TERM="rxvt-unicode-256color"
 fi
+
+[ -d /bin ] && PATH="/bin:${PATH}"
+[ -d /usr/sbin ] && PATH="/usr/sbin:${PATH}"
+[ -d /sbin ] && PATH="/sbin:${PATH}"
+
 source "$ZSH_DIR/zoppo/zoppo/zoppo.zsh" -config "$ZSH_DIR/zopporc"
 
 autoload -Uz add-zsh-hook
