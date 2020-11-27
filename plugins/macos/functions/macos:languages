@@ -6,11 +6,13 @@ fi
 
 function {
     local -a tmp
-    local i
+    local i t
+
+    t="$(defaults read .GlobalPreferences AppleLanguages)"
 
     tmp=()
 
-    eval "tmp=$(defaults read .GlobalPreferences AppleLanguages)"
+    eval "tmp=${t//,/}"
     for i ({1..${#tmp}}) languages+="${tmp[$i]//-/_}"
 }
 
