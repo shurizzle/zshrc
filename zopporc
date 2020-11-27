@@ -43,7 +43,18 @@ function {
 }
 
 zstyle ':zoppo' prompt 'borra' 'bluesky'
-zstyle ':zoppo:plugin:sudo' environments utils system editors arch
+
+function {
+  local -a envs=(
+    'utils'
+    'system'
+    'editors'
+  )
+
+  [ -f "/etc/arch-release" ] && envs+=('arch')
+
+  zstyle ':zoppo:plugin:sudo' environments "${envs[@]}"
+}
 
 zstyle ':zoppo:plugin:archive' disable
 
