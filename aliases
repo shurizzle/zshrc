@@ -1,32 +1,18 @@
 # vim:syn=zsh
 
-alias grep="grep --color=auto"
-alias ls="ls --color=auto"
 alias md="mkdir"
 alias gcc="gcc -Wall -Wextra -ansi -pedantic -pedantic-errors -O2 -march=native -pipe"
 alias g++="g++ -Wall -Wextra -ansi -pedantic -pedantic-errors -O2 -march=native -pipe"
 alias cd..="cd .."
 alias sprunge="curl -sF 'sprunge=<-' http://sprunge.us"
-alias comp="rar a -v102400k -pBoM"
-alias -g VIDEOS="{/data/Incoming,/data/video,/data,~,~/Downloads}/*.{flv,wmv,mpg,mpeg,avi,mp4,mp7,mov}(#i)(N)"
-alias playvideos="$PLAYER VIDEOS"
-alias shuffle="xargs -n1 readlink -f | shuf"
-alias playsvideos="$PLAYER -shuffle -playlist =(print -l -- VIDEOS)"
 alias lsexe="ls *(*)"
 alias ping="ping -c4"
 alias pkill="pkill -9 -u ${USER}"
-alias size="du -sh"
 alias getip='curl -s http://checkip.dyndns.org/ | grep --color=no -Po '\''((2([0-4]\d|5[0-5])|1?\d?\d)\.){3}(2([0-4]\d|5[0-5])|1?\d?\d)'\'
 alias diff="diff -ruEbBN"
-alias download="aria2c -c -s 100 --file-allocation=none --summary-interval=0 --check-certificate=false"
-alias hspa="$BROWSER http://192.168.1.1/hspacfgfirst.html"
-alias dualscreen="xrandr --output LVDS1 --mode 1366x768 --pos 0x768 --output VGA1 --mode 1024x768 --pos 0x0"
-alias cp="rsync -ciavuhSPHIEx"
 alias less="less -R"
-alias L="less"
 alias -g L='|less'
 alias -g S="&>/dev/null"
-alias ASR="(arecord -f cd -t wav -d 5 -r 16000 | flac - -f --best --sample-rate=16000 -o out.flac) &>/dev/null; wget --post-file out.flac --header='Content-Type: audio/x-flac; rate=16000' -O- -o/dev/null 'http://www.google.com/speech-api/v1/recognize?lang=it' | sed -r 's/^.+\"utterance\":\"(.+?)\"[,}].*/\1/g'; rm out.flac"
 alias dir_summary="du -s * | sort -nr | histogram -b"
 alias multidownload='aria2c -j16 -s16 -c --file-allocation=none -m0 --max-connection-per-server=16 --min-split-size=5M --summary-interval=60 -t5'
 
@@ -38,58 +24,15 @@ if (( $+commands[systemctl] )); then
 elif (( $+commands[shutdown] )); then
   alias reboot="shutdown -rf now"
 fi
-if [ -d /usr/local/portage/discount ]; then
-  alias overlay_duplicates='for p (/usr/local/portage/discount/*/*) { [ -d "${p}" -a "$(ls -1 "${p}"/*.ebuild(N) | wc -l 2>/dev/null)" -gt 1 ] && echo "${p}" }'
-fi
-if (( $+commands[falcon] )); then
-  alias falcon="falcon -M"
-fi
-if (( $+commands[eix] )); then
-  alias installed="eix -I 2>&1 | tr '\n' ' ' | grep -Po '\[I] ([^ ]+?).+?Installed versions:\s+([\d\.r-]+)' | sed -r 's/^\[I\] ([^ ]+).+?Installed versions:\s+(.+?)$/\1-\2/g'"
-fi
-if (( $+commands[ffmpeg] )); then
-  alias deskrec="echo \"Press q to interrupt.\" && ffmpeg -f x11grab -r 25 -s \"\$(xdpyinfo | sed -n -r '/dimensions:/s:^\s*\S+\s+(\S+).*$:\1:p')\" -sameq -i :0.0 /tmp/outputFile.mpg 2>/dev/null"
-fi
-
-if (( $+commands[wine] )); then
-  function wine_app_ie() {
-    [ -e "$2" ] && alias $1="wine $2"
-  }
-  wine_app_ie pinball "~/.wine/drive_c/windows/system32/Pinball/PINBALL.EXE"
-  wine_app_ie autoit "~/.wine/drive_c/Programmi/AutoIt3/AutoIt3.exe"
-  wine_app_ie wruby "~/.wine/drive_c/Ruby192/bin/ruby.exe"
-  (( $+aliases[wruby] )) && alias wgem="wruby ~/.wine/drive_c/Ruby192/bin/gem"
-  wine_app_ie emu8086 "~/.wine/drive_c/emu8086/emu8086.exe"
-  wine_app_ie paint "~/.wine/mspaint.exe"
-  unfunction wine_app_ie
-fi
-if (( $+commands[pacman] )); then
-  alias pacman-world="pacman -Qetq"
-  alias pacman-clean="pacman -Qdtq | pacman -Rs --noconfirm -"
-fi
-if (( $+commands[vncviewer] )); then
-  alias vnc_listen="vncviewer -encodings 'copyrect tight zrle hextile zlib corre rre raw' -listen"
-fi
 
 if (( $+commands[sudo] )); then
   if (( $+commands[ntpdate] )); then
     alias upDate="sudo ntpdate 0.it.pool.ntp.org"
   fi
 fi
-if (( $+commands[Xephyr] )); then
-  alias xephyr="Xephyr -ac -br -noreset -screen 800x600 :1"
-fi
-if (( $+commands[task] )); then
-  alias t=task
-fi
-if (( $+commands[translate] )); then
-  alias translate='nocorrect translate'
-fi
+
 if (( $+functions[fork] )); then
   alias fork="nocorrect fork"
-fi
-if (( $+commands[WiRouterKeyRec] )); then
-  alias wirouterkeyrec="WiRouterKeyRec"
 fi
 
 if (( $+commands[packer-color] )); then
@@ -99,17 +42,14 @@ elif (( $+commands[packer] )); then
 fi
 if (( $+commands[pacman-color] )); then
   alias pacman=pacman-color
-else
+elif (( $+commands[pacman] )); then
   alias pacman-color=pacman
 fi
 
 alias respawn="zoppo:restart"
-alias mtpfs='simple-mtpfs'
-
-if (( $+commands[brew] )); then
-  alias upgrade-brew='brew update && brew upgrade brew-cask && brew cleanup && brew cask cleanup'
-fi
 
 if (( $+commands[exa] )); then
   alias ls='command exa --color=auto'
 fi
+
+is-command cloud_sql_proxy && alias cloud_sql_proxy='mkdir -p ~/.local/sockets/cloud_sql_proxy && command cloud_sql_proxy -dir ~/.local/sockets/cloud_sql_proxy'

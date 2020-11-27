@@ -1,4 +1,0 @@
-: ${1?"USAGE: xvideos <link>"}
-url-decode "$(wget -O - "${1}" 2>/dev/null | grep -Po 'flv_url=.+?&amp' | sed -r 's/^flv_url=|&amp$//g')"
-
-# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

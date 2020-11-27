@@ -1,23 +1,2 @@
 # vim:syn=zsh
 
-is_root() {
-  [ "$UID" = 0 ] && return 0
-  return 1
-}
-
-if ! is_root
-then
-  if [ "${TERM}" = "linux" -a -z "${DISPLAY}" -a "$(tty)" = /dev/tty1 ]; then
-    true
-    #fork startx &>/dev/null
-    #clear
-    #logout
-  else
-    [[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator
-  fi
-
-  {
-    daemon:launch -once LOLastfm
-  } &>/dev/null
-fi
-

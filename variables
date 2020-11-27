@@ -1,59 +1,28 @@
 # vim:syn=zsh
-eval `dircolors`
 
 export HOSTTYPE="$(uname -m)"
-export INTEL_BATCH=1
 export LD_LIBRARY_PATH="/usr/lib:/usr/local/lib:."
-export MAIL="${HOME}/Mail/Inbox"
-export MAILPATH="${HOME}/Mail"
-export PATH="/usr/lib/ccache/bin:${HOME}/bin:/usr/sbin:/sbin:/usr/share/java/apache-ant/bin:${HOME}/.cabal/bin:${PATH}:${HOME}/.gem/ruby/2.0.0/bin:/opt/android-ndk"
-is-callable npm && export PATH="${PATH}:$(npm bin)"
-export ANDROID_NDK=/opt/android-ndk
-export PLAYER="mpv"
-export ALARM="/music/Dargen D'Amico/D' (parte seconda)/05 - In Loop (La forma di un cuore) (feat. Two Fingerz).mp3"
-if which x11-ssh-askpass &>/dev/null
-then
-  export SSH_ASKPASS="$(which x11-ssh-askpass)"
-elif [ -e '/usr/lib/ssh/x11-ssh-askpass' ]
-then
-  export SSH_ASKPASS="/usr/lib/ssh/x11-ssh-askpass"
-fi
-export WINEARCH="win32"
-export COUNTRY="Italy"
-
-unset RUBYOPT
-[ -d /usr/local/bin/flex/bin ] && PATH="${PATH}:/usr/local/bin/flex/bin"
-[ -d "$HOME/.composer/vendor/bin" ] && PATH="${PATH}:${HOME}/.composer/vendor/bin"
+[ -d "${HOME}/.local/bin" ] && PATH="${HOME}/.local/bin:${PATH}"
+is-command npm && export PATH="${PATH}:$(npm bin)"
+[ -d "${HOME}/.composer/vendor/bin" ] && PATH="${PATH}:${HOME}/.composer/vendor/bin"
 export PATH
-export GDK_USE_XFT=1
 
-export TCLLIBPATH="${HOME}/.tcl/lib"
-
-if [[ -d "$HOME/Library/Android/sdk" ]]; then
-  export ANDROID_HOME="$HOME/Library/Android/sdk"
-  export PATH="$PATH:$ANDROID_HOME/tools"
+if [ -d "${HOME}/.tcl/lib" ]; then
+  export TCLLIBPATH="${HOME}/.tcl/lib"
 fi
 
 if [[ -d "$HOME/.composer/vendor/bin" ]]; then
   export PATH="$PATH:$HOME/.composer/vendor/bin"
 fi
 
-export ANDROID_SDK="$ANDROID_HOME"
+if is-command bc; then
+  BC_ENV_ARGS="-l"
+  if [ -f ~/.bcrc ]; then
+    BC_ENV_ARGS="$BC_ENV_ARGS $HOME/.bcrc"
+  fi
 
-if which /usr/libexec/java_home &>/dev/null; then
-  export JAVA_HOME="$(/usr/libexec/java_home)"
+  export BC_ENV_ARGS
 fi
-
-if [ -d /usr/local/opt/android-sdk ]; then
-  export ANDROID_HOME=/usr/local/opt/android-sdk
-fi
-
-BC_ENV_ARGS="-l"
-if [ -f ~/.bcrc ]; then
-  BC_ENV_ARGS="$BC_ENV_ARGS $HOME/.bcrc"
-fi
-
-export BC_ENV_ARGS
 
 is-command rustc && function {
   local VERSION="$(rustc --version | cut -d' ' -f2)"
