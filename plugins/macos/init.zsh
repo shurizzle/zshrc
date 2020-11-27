@@ -47,6 +47,22 @@ if is-command brew && zdefault -t ':zoppo:plugin:macos:brew' enable 'yes'; then
       is-function "$formula_fn" && "$formula_fn"
     done
   }
+
+  function {
+    local cask
+    local -a casks
+    local cask_fn
+
+    zdefault -a ':zoppo:plugin:macos:brew:casks' \
+      casks casks \
+      \
+      'google-cloud-sdk'
+
+    for cask in "${casks[@]}"; do
+      cask_fn="macos:brew:cask:$cask"
+      is-function "$cask_fn" && "$cask_fn"
+    done
+  }
 fi
 
 if is-command docker-machine && zdefault -t ':zoppo:plugin:macos:docker-machine' enable 'yes'; then
