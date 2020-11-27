@@ -92,11 +92,7 @@ source "${ZSH_DIR}/autostart"
 update_proxy() {
   [ -f /etc/profile.d/proxy.sh ] && source /etc/profile.d/proxy.sh
 }
-if os:is-macos; then
-  eval "restore_tty() { /bin/stty '`/bin/stty -g`' }"
-else
-  eval "restore_tty() { stty '`stty -g`' }"
-fi
+eval "restore_tty() { stty '`stty -g`' }"
 
 +shura-pre-cmd() {
   update_proxy

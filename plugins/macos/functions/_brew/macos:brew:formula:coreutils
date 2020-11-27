@@ -1,1 +1,6 @@
 macos:brew:add-gnubin-in-path coreutils
+
+# stty doesn't work good on macOS
+function stty {
+  /bin/stty "$@"
+}
