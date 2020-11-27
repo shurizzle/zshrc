@@ -40,7 +40,8 @@ if is-command brew && zdefault -t ':zoppo:plugin:macos:brew' enable 'yes'; then
       \
       'coreutils' 'grep' 'gnu-tar' 'gnu-sed' 'gawk' 'make' 'openssl' \
       'curl-openssl' 'expat' 'qt' 'openblas' 'ruby' 'apr' 'icu4c' \
-      'sqlite' 'libffi' 'openal-soft' 'util-linux' 'libpq'
+      'sqlite' 'libffi' 'openal-soft' 'util-linux' 'libpq' 'sphinx-doc' \
+      'zlib'
 
     for formula in "${formulae[@]}"; do
       formula_fn="macos:brew:formula:$formula"
