@@ -43,6 +43,7 @@ function {
 }
 
 zstyle ':zoppo' prompt 'borra' 'bluesky'
+zdefault ':zoppo:prompt:borra' plugins 'userhost' 'pts' 'vcs-info'
 
 function {
   local -a envs=(
