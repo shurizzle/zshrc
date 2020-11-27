@@ -50,4 +50,22 @@ if is-command brew && zdefault -t ':zoppo:plugin:macos:brew' enable 'yes'; then
   }
 fi
 
+if is-command docker-machine && zdefault -t ':zoppo:plugin:macos:docker-machine' enable 'yes'; then
+  function {
+    local def
+    zdefault -s ':zoppo:plugin:macos:docker-machine' default def 'default'
+    if [ -n "$(docker-machine ls --filter name="^$(regexp:escape "$def")\$" -f '{{.Name}}')" ]; then
+      while [ "$(docker-machine status "$def")" != "Running" ]; do
+        docker-machine start "$def"
+      done
+
+      while ! docker-machine ssh "$def" exit 0 &>/dev/null; do
+        sleep 1
+      done
+
+      eval "$(docker-machine env "$def")"
+    fi
+  }
+fi
+
 # vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}
