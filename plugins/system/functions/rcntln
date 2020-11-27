@@ -1,6 +1,0 @@
-local FOLDER=${1} || ${PWD}
-for i ("${FOLDER}"/**/*) {
-  [ -f "${i}" ] && wc -l "${i}" | sed -r 's/^([0-9]+).*$/\1/g'
-} | tr '\n' '+' | sed 's/+$/\n/' | bc | sed 's/$/ TOTAL/'
-
-# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

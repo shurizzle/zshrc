@@ -1,4 +1,3 @@
-zmodload zsh/sched || return 1
 plugins:load-if-enabled 'sudo'
 
 if is-function sudo:dispatch; then

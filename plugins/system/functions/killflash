@@ -1,5 +1,0 @@
-for i in `zpgrep -u "$USER" 'lib((gc)?flashplayer|freshwrapper).so'`; do
-  kill -9 $i
-done
-
-# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}
