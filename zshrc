@@ -135,3 +135,7 @@ if [[ -d "$HOME/.wasmer" ]]; then
 fi
 
 is-command kitty && kitty +complete setup zsh | source /dev/stdin
+
+if os:linux:is-wsl2 && is-command docker; then
+  alias psql='docker run --rm -it postgres:latest psql'
+fi
