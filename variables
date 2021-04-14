@@ -35,3 +35,9 @@ is-command rustc && function {
     export CFG_RELEASE="$VERSION"
   fi
 }
+
+if is-command vim; then
+  export EDITOR=vim
+elif is-command vi; then
+  export EDITOR=vi
+fi
