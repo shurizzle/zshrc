@@ -51,5 +51,3 @@ alias respawn="zoppo:restart"
 if (( $+commands[exa] )); then
   alias ls='command exa --color=auto'
 fi
-
-is-command cloud_sql_proxy && alias cloud_sql_proxy='mkdir -p ~/.local/sockets/cloud_sql_proxy && command cloud_sql_proxy -dir ~/.local/sockets/cloud_sql_proxy'

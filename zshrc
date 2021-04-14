@@ -139,3 +139,10 @@ is-command kitty && kitty +complete setup zsh | source /dev/stdin
 if os:linux:is-wsl2 && is-command docker; then
   alias psql='docker run --rm -it postgres:latest psql'
 fi
+
+if is-command cloud_sql_proxy; then
+  cloud_sql_proxy() {
+    mkdir -p ~/.local/sockets/cloud_sql_proxy
+    command cloud_sql_proxy -dir ~/.local/sockets/cloud_sql_proxy "$@"
+  }
+fi
