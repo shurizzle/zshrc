@@ -1,10 +1,13 @@
+local prefix
+zstyle -s ':zoppo:plugin:macos:brew' prefix prefix
+
 if (( $+1 )); then
-    local res="$(brew --prefix)/${1##/#}"
+    local res="${prefix}/${1##/#}"
     if [[ -e "$res" ]]; then
         print -n -- "$res"(:P)
     else
         print -n -- "$res"
     fi
 else
-    brew --prefix
+    print -n -- "$prefix"
 fi

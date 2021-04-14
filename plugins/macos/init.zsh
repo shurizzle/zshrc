@@ -22,6 +22,8 @@ if is-command brew && zdefault -t ':zoppo:plugin:macos:brew' enable 'yes'; then
     local basepath="$1"
     local zfunction
 
+    zstyle ':zoppo:plugin:macos:brew' prefix "$(brew --prefix)"
+
     functions:add "$basepath"/functions/_brew
 
     setopt LOCAL_OPTIONS EXTENDED_GLOB BARE_GLOB_QUAL
