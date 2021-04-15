@@ -1,0 +1,4 @@
+local installed
+zstyle -a ':zoppo:plugin:macos:brew' installed installed
+
+(( $installed[(I)$1] ))

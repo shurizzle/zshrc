@@ -18,11 +18,14 @@ if zdefault -t ':zoppo:plugin:macos:locale' enable 'yes'; then
 fi
 
 if is-command brew && zdefault -t ':zoppo:plugin:macos:brew' enable 'yes'; then
+  autoload -Uz regexp-replace
+
   function {
     local basepath="$1"
     local zfunction
 
     zstyle ':zoppo:plugin:macos:brew' prefix "$(brew --prefix)"
+    zstyle ':zoppo:plugin:macos:brew' caskroom "$(brew --caskroom)"
 
     functions:add "$basepath"/functions/_brew
 
@@ -30,6 +33,15 @@ if is-command brew && zdefault -t ':zoppo:plugin:macos:brew' enable 'yes'; then
     for zfunction ("$basepath"/functions/_brew/^([._]|README)*(.N:t))
       autoload -Uz -- "$zfunction"
   } "${0:h:a}"
+
+  macos:path:add-if-exists "/usr/local/bin"
+  macos:path:add-if-exists "/usr/local/sbin"
+
+  function {
+    local installed
+    eval "installed=($(brew ls -1 --formulae) $(brew ls -1 --casks))"
+    zstyle ':zoppo:plugin:macos:brew' installed "${installed[@]}"
+  }
 
   function {
     local formula
@@ -46,7 +58,7 @@ if is-command brew && zdefault -t ':zoppo:plugin:macos:brew' enable 'yes'; then
 
     for formula in "${formulae[@]}"; do
       formula_fn="macos:brew:formula:$formula"
-      is-function "$formula_fn" && "$formula_fn"
+      is-function "$formula_fn" && macos:brew:is-installed "$formula" && "$formula_fn"
     done
   }
 
@@ -62,7 +74,7 @@ if is-command brew && zdefault -t ':zoppo:plugin:macos:brew' enable 'yes'; then
 
     for cask in "${casks[@]}"; do
       cask_fn="macos:brew:cask:$cask"
-      is-function "$cask_fn" && "$cask_fn"
+      is-function "$cask_fn" && macos:brew:is-installed "$cask" && "$cask_fn"
     done
   }
 fi

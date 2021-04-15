@@ -1,13 +1,29 @@
-local prefix
-zstyle -s ':zoppo:plugin:macos:brew' prefix prefix
-
 if (( $+1 )); then
-    local res="${prefix}/${1##/#}"
-    if [[ -e "$res" ]]; then
-        print -n -- "$res"(:P)
+    macos:brew:cache:load
+    local p ret
+
+    if (( $+__brew_prefixes[$1] )); then
+        p="${__brew_prefixes[$1]}"
+
+        if [ -d "$p" ]; then
+            print -n -- "$p"
+        else
+            noglob unset __brew_prefixes[$1]
+            macos:brew:cache:save
+            macos:brew:prefix "$1"
+        fi
     else
-        print -n -- "$res"
+        p="$(brew --prefix "$1")"
+        ret=$?
+        if (( $ret == 0 )); then
+            __brew_prefixes[$1]="$p"
+            macos:brew:cache:save
+        fi
+        print -n -- "$p"
+        return $ret
     fi
 else
+    local prefix
+    zstyle -s ':zoppo:plugin:macos:brew' prefix prefix
     print -n -- "$prefix"
 fi

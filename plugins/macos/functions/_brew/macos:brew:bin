@@ -3,4 +3,4 @@
     return 1
 }
 
-macos:brew:prefix "/opt/$1/bin"
+print -n -- "$(macos:brew:prefix "$1")/bin"
