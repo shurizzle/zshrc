@@ -36,7 +36,11 @@ is-command rustc && function {
   fi
 }
 
-if is-command vim; then
+if is-command neovim; then
+  export EDITOR=neovim
+elif is-command nvim; then
+  export EDITOR=nvim
+elif is-command vim; then
   export EDITOR=vim
 elif is-command vi; then
   export EDITOR=vi
