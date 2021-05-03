@@ -7,3 +7,6 @@
 [submodule "zoppo/prompts"]
 	path = zoppo/prompts
 	url = https://github.com/zoppo/prompts.git
+[submodule "plugins/autosuggestions/external"]
+	path = plugins/autosuggestions/external
+	url = git@github.com:zsh-users/zsh-autosuggestions.git
