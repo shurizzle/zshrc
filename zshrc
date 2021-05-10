@@ -95,10 +95,6 @@ function {
   fi
 }
 
-if os:is-linux && [[ "${TERM}" != *linux* ]]; then
-  export TERM="rxvt-unicode-256color"
-fi
-
 [ -d /bin ] && PATH="/bin:${PATH}"
 [ -d /usr/sbin ] && PATH="/usr/sbin:${PATH}"
 [ -d /sbin ] && PATH="/sbin:${PATH}"
