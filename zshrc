@@ -143,6 +143,8 @@ if is-command cloud_sql_proxy; then
   }
 fi
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
 if [[ "$TERM" = "xterm-kitty" ]] && os:is-macos; then
   export TERMINFO="/Applications/kitty.app/Contents/Resources/kitty/terminfo"
 fi
