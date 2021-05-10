@@ -142,3 +142,7 @@ if is-command cloud_sql_proxy; then
     command cloud_sql_proxy -dir ~/.local/sockets/cloud_sql_proxy "$@"
   }
 fi
+
+if [[ "$TERM" = "xterm-kitty" ]] && os:is-macos; then
+  export TERMINFO="/Applications/kitty.app/Contents/Resources/kitty/terminfo"
+fi
