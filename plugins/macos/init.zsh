@@ -18,6 +18,7 @@ if zdefault -t ':zoppo:plugin:macos:locale' enable 'yes'; then
 fi
 
 if is-command brew && zdefault -t ':zoppo:plugin:macos:brew' enable 'yes'; then
+  eval "$(brew shellenv)"
   autoload -Uz regexp-replace
 
   function {
@@ -33,9 +34,6 @@ if is-command brew && zdefault -t ':zoppo:plugin:macos:brew' enable 'yes'; then
     for zfunction ("$basepath"/functions/_brew/^([._]|README)*(.N:t))
       autoload -Uz -- "$zfunction"
   } "${0:h:a}"
-
-  macos:path:add-if-exists "/usr/local/bin"
-  macos:path:add-if-exists "/usr/local/sbin"
 
   function {
     local installed
