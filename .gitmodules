@@ -10,3 +10,9 @@
 [submodule "plugins/autosuggestions/external"]
 	path = plugins/autosuggestions/external
 	url = git@github.com:zsh-users/zsh-autosuggestions.git
+[submodule "plugins/async/external"]
+	path = plugins/async/external
+	url = git@github.com:mafredri/zsh-async.git
+[submodule "prompts/pure"]
+	path = prompts/pure
+	url = git@github.com:sindresorhus/pure.git
