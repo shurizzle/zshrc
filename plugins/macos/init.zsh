@@ -36,7 +36,8 @@ if is-command brew && zdefault -t ':zoppo:plugin:macos:brew' enable 'yes'; then
   } "${0:h:a}"
 
   function {
-    local installed=("${HOMEBREW_CELLAR}"/* "${HOMEBREW_PREFIX}/Caskroom"/*)
+    setopt LOCAL_OPTIONS EXTENDED_GLOB BARE_GLOB_QUAL
+    local installed=("${HOMEBREW_CELLAR}"/*(/N:t) "${HOMEBREW_PREFIX}/Caskroom"/*(/N:t))
     zstyle ':zoppo:plugin:macos:brew' installed "${installed[@]}"
   }
 
