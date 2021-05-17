@@ -143,7 +143,17 @@ if is-command cloud_sql_proxy; then
   }
 fi
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+if [ -f ~/.fzf.zsh ]; then
+  source ~/.fzf.zsh
+else
+  if [ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]; then
+    source /usr/share/doc/fzf/examples/key-bindings.zsh
+  fi
+
+  if [ -f /usr/share/doc/fzf/examples/completion.zsh ]; then
+    source /usr/share/doc/fzf/examples/completion.zsh
+  fi
+fi
 
 if [[ "$TERM" = "xterm-kitty" ]] && os:is-macos; then
   export TERMINFO="/Applications/kitty.app/Contents/Resources/kitty/terminfo"
