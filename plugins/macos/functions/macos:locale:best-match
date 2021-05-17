@@ -1,34 +1,33 @@
 local encoding
 
 case "$1" in
-    (-e)
-        shift
+  (-e)
+    shift
 
-        encoding="$1"
-        shift
-        ;;
+    encoding="$1"
+    shift
+    ;;
 esac
 
 local locale
 
 for locale ("${argv[@]}"); do
-    local -a locales
-    local l
-    macos:locale:similar-to locales "$locale"
+  local -a locales
+  macos:locale:similar-to locales "$locale"
 
-    if [ ! -z "$encoding" ]; then
-        l="$locale.$encoding"
-        if [[ ${locales[(i)$l]} -le ${#locales} ]]; then
-            print -n -- "$l"
-            return 0
-        fi
-    fi
-
-    l="$locale"
+  if [ ! -z "$encoding" ]; then
+    local l="$locale.$encoding"
     if [[ ${locales[(i)$l]} -le ${#locales} ]]; then
-        print -n -- "$l"
-        return 0
+      print -n -- "$l"
+      return 0
     fi
+  fi
+
+  local l="$locale"
+  if [[ ${locales[(i)$l]} -le ${#locales} ]]; then
+    print -n -- "$l"
+    return 0
+  fi
 done
 
 return 1

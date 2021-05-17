@@ -1,35 +1,37 @@
 if (( $+2 )) && [[ "$1" = filtered ]]; then
-    typeset -ga filtered
+  typeset -ga filtered
 else
-    local -a filtered
+  local -a filtered
 fi
 filtered=()
 
+
 function {
-    local -a locales
-    macos:locale:availables locales
-    local filter
+  local -a locales
+  macos:locale:availables locales
+  local filter
 
-    if (( $+2 )); then
-        filter="$2"
-    else
-        filter="$1"
+  if (( $+2 )); then
+    filter="$2"
+  else
+    filter="$1"
+  fi
+
+  local locale
+
+  for locale ("${locales[@]}"); do
+    if [ "$filter" = "$locale" ] || [ "$filter." = "${locale:0:$((${#filter} + 1))}" ]; then
+      filtered+=("$locale")
     fi
-
-    local locale
-
-    for locale ("${locales[@]}"); do
-        if [ "$filter" = "$locale" ] || [ "$filter." = "${locale:0:$((${#filter} + 1))}" ]; then
-            filtered+=("$locale")
-        fi
-    done
+  done
 } "$@"
 
 if (( $+2 )); then
-    [[ "$1" != filtered ]] && \
-        set -A "$1" "${filtered[@]}"
+  if [[ "$1" != filtered ]]; then
+    set -A "$1" "${filtered[@]}"
+  fi
 else
-    print -l -- "${filtered[@]}"
+  print -l -- "${filtered[@]}"
 fi
 
 

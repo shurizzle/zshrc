@@ -1,28 +1,29 @@
 if (( $+1 )); then
-    if [[ "$1" = locales ]]; then
-        typeset -ga locales
-    else
-        local -a locales
-    fi
+  if [[ "$1" = locales ]]; then
+    typeset -ga locales
+  else
+    local -a locales
+  fi
 
-    locales=()
+  locales=()
 
-    function {
-        local line
+  function {
+    local line
 
-        locale -a | while read line; do
-            line="${line#"${line%%[![:space:]]*}"}"
-            line="${line%"${line##*[![:space:]]}"}"
-            if ! [ -z "$line" ]; then
-                locales+=("$line")
-            fi
-        done
-    }
+    locale -a | while read line; do
+      line="${line#"${line%%[![:space:]]*}"}"
+      line="${line%"${line##*[![:space:]]}"}"
+      if ! [ -z "$line" ]; then
+        locales+=("$line")
+      fi
+    done
+  }
 
-    [[ "$1" != locales ]] && \
-        set -A "$1" "${locales[@]}"
+  if [[ "$1" != locales ]]; then
+    set -A "$1" "${locales[@]}"
+  fi
 else
-    locale -a
+  locale -a
 fi
 
 
