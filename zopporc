@@ -1,5 +1,5 @@
-zstyle ':zoppo:path' plugins "${${:-"$(path:base)"}:a:h}"/plugins "${${:-"$(path:base)/.."}:a:h}"/plugins
-zstyle ':zoppo:path' prompts "${${:-"$(path:base)"}:a:h}"/prompts "${${:-"$(path:base)/.."}:a:h}"/prompts
+zstyle ':zoppo:path' plugins "${${(%):-%x}:a:h}"/zoppo/plugins "${${(%):-%x}:a:h}"/plugins
+zstyle ':zoppo:path' prompts "${${(%):-%x}:a:h}"/zoppo/prompts "${${(%):-%x}:a:h}"/prompts
 
 zstyle ':zoppo:*:*' color 'yes'
 zstyle ':zoppo:plugin:utility:grep' colors 'sl=97;48;5;236:cx=37;40:mt=30;48;5;186:fn=38;5;197:ln=38;5;154:bn=38;5;141:se=38;5;81'
