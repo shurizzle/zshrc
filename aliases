@@ -57,3 +57,7 @@ if (( $+commands[nvim] )); then
 elif (( $+commands[neovim] )); then
   alias vim=neovim
 fi
+
+if (( $+commands[batcat] )); then
+  alias bat=batcat
+fi
