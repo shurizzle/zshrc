@@ -16,6 +16,7 @@ fi
 zstyle ':zoppo:plugin:editor' mode vi
 
 zstyle ':zoppo:plugin:ruby:rbenv' enable 'yes'
+zstyle ':zoppo:plugin:utility:fork' enable 'no'
 
 function {
   local -a plugins=(
