@@ -1,0 +1,20 @@
+emulate -L zsh
+
+local formula
+local -a formulae
+local formula_fn
+
+zdefault -a ':zoppo:plugin:macos:brew:formulae' \
+  formulae formulae \
+  \
+  'coreutils' 'grep' 'gnu-tar' 'gnu-sed' 'gawk' 'make' 'openssl' \
+  'curl-openssl' 'expat' 'qt' 'openblas' 'ruby' 'apr' 'icu4c' \
+  'sqlite' 'libffi' 'openal-soft' 'util-linux' 'libpq' 'sphinx-doc' \
+  'zlib'
+
+for formula ("${formulae[@]}"); do
+  formula_fn="macos:brew:formula:$formula"
+  is-function "$formula_fn" && macos:brew:is-installed "$formula" && "$formula_fn"
+done
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

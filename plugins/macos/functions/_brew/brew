@@ -1,0 +1,20 @@
+emulate -L zsh
+
+typeset -ga brew_preexec_functions
+typeset -ga brew_postexec_functions
+
+local fn
+
+for fn ("${brew_preexec_functions[@]}")
+  $fn "$@"
+
+command brew "$@"
+
+local res=$?
+
+for fn ("${brew_preexec_functions[@]}")
+  $fn "$@"
+
+return $res
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

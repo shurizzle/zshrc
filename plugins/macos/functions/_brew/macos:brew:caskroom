@@ -13,7 +13,7 @@ if (( $+1 )); then
             macos:brew:caskroom "$1"
         fi
     else
-        p="$(brew --caskroom "$1")"
+        p="$(command brew --caskroom "$1")"
         ret=$?
         if (( $ret == 0 )); then
             __brew_caskrooms[$1]="$p"

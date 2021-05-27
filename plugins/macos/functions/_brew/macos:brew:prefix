@@ -13,7 +13,7 @@ if (( $+1 )); then
             macos:brew:prefix "$1"
         fi
     else
-        p="$(brew --prefix "$1")"
+        p="$(command brew --prefix "$1")"
         ret=$?
         if (( $ret == 0 )); then
             __brew_prefixes[$1]="$p"

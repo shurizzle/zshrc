@@ -1,0 +1,18 @@
+emulate -L zsh
+
+local cask
+local -a casks
+local cask_fn
+
+
+zdefault -a ':zoppo:plugin:macos:brew:casks' \
+  casks casks \
+  \
+  'google-cloud-sdk'
+
+for cask ("${casks[@]}"); do
+  cask_fn="macos:brew:cask:$cask"
+  is-function "$cask_fn" && macos:brew:is-installed "$cask" && "$cask_fn"
+done
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

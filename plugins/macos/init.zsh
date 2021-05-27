@@ -35,46 +35,17 @@ if is-command brew && zdefault -t ':zoppo:plugin:macos:brew' enable 'yes'; then
       autoload -Uz -- "$zfunction"
   } "${0:h:a}"
 
-  function {
-    setopt LOCAL_OPTIONS EXTENDED_GLOB BARE_GLOB_QUAL
-    local installed=("${HOMEBREW_CELLAR}"/*(/N:t) "${HOMEBREW_PREFIX}/Caskroom"/*(/N:t))
-    zstyle ':zoppo:plugin:macos:brew' installed "${installed[@]}"
-  }
+  +brew-postexec-installed
+  +brew-postexec-formulae-exec
+  +brew-postexec-casks-exec
 
-  function {
-    local formula
-    local -a formulae
-    local formula_fn
+  typeset -ga brew_preexec_functions=()
+  typeset -ga brew_postexec_functions=()
 
-    zdefault -a ':zoppo:plugin:macos:brew:formulae' \
-      formulae formulae \
-      \
-      'coreutils' 'grep' 'gnu-tar' 'gnu-sed' 'gawk' 'make' 'openssl' \
-      'curl-openssl' 'expat' 'qt' 'openblas' 'ruby' 'apr' 'icu4c' \
-      'sqlite' 'libffi' 'openal-soft' 'util-linux' 'libpq' 'sphinx-doc' \
-      'zlib'
-
-    for formula in "${formulae[@]}"; do
-      formula_fn="macos:brew:formula:$formula"
-      is-function "$formula_fn" && macos:brew:is-installed "$formula" && "$formula_fn"
-    done
-  }
-
-  function {
-    local cask
-    local -a casks
-    local cask_fn
-
-    zdefault -a ':zoppo:plugin:macos:brew:casks' \
-      casks casks \
-      \
-      'google-cloud-sdk'
-
-    for cask in "${casks[@]}"; do
-      cask_fn="macos:brew:cask:$cask"
-      is-function "$cask_fn" && macos:brew:is-installed "$cask" && "$cask_fn"
-    done
-  }
+  add-brew-hook postexec +brew-postexec-rehash
+  add-brew-hook postexec +brew-postexec-installed
+  add-brew-hook postexec +brew-postexec-formulae-exec
+  add-brew-hook postexec +brew-postexec-casks-exec
 fi
 
 if is-command docker-machine && zdefault -t ':zoppo:plugin:macos:docker-machine' enable 'yes'; then
