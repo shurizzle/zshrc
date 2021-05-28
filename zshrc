@@ -95,9 +95,9 @@ function {
   fi
 }
 
-[ -d /bin ] && PATH="/bin:${PATH}"
-[ -d /usr/sbin ] && PATH="/usr/sbin:${PATH}"
-[ -d /sbin ] && PATH="/sbin:${PATH}"
+[ -d /bin ] && PATH="/bin${PATH:+:$PATH}"
+[ -d /usr/sbin ] && PATH="/usr/sbin${PATH:+:$PATH}"
+[ -d /sbin ] && PATH="/sbin${PATH:+:$PATH}"
 
 source "$ZSH_DIR/zoppo/zoppo/zoppo.zsh" -config "$ZSH_DIR/zopporc"
 
@@ -121,20 +121,11 @@ eval "restore_tty() { stty '`stty -g`' }"
 add-zsh-hook precmd +shura-pre-cmd
 bindkey '^U' backward-kill-line
 
-[ -d "$HOME/.cargo/bin" ] && PATH="$PATH:$HOME/.cargo/bin"
+[ -d "$HOME/.cargo/bin" ] && PATH="${PATH:+$PATH:}$HOME/.cargo/bin"
 export PATH
 [ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
 
-if [[ -d "$HOME/.wasmer" ]]; then
-  export WASMER_DIR="$HOME/.wasmer"
-  [ -s "$WASMER_DIR/wasmer.sh" ] && source "$WASMER_DIR/wasmer.sh"
-fi
-
 is-command kitty && kitty +complete setup zsh | source /dev/stdin
-
-if os:linux:is-wsl2 && is-command docker; then
-  alias psql='docker run --rm -it postgres:latest psql'
-fi
 
 if is-command cloud_sql_proxy; then
   cloud_sql_proxy() {

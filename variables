@@ -3,17 +3,9 @@
 export HOSTTYPE="$(uname -m)"
 export LD_LIBRARY_PATH="/usr/lib:/usr/local/lib:."
 [ -d "${HOME}/.local/bin" ] && PATH="${HOME}/.local/bin:${PATH}"
-is-command npm && export PATH="${PATH}:$(npm bin)"
-[ -d "${HOME}/.composer/vendor/bin" ] && PATH="${PATH}:${HOME}/.composer/vendor/bin"
+is-command npm && export PATH="${PATH:+$PATH:}$(npm bin)"
+[ -d "${HOME}/.composer/vendor/bin" ] && PATH="${PATH:+$PATH:}${HOME}/.composer/vendor/bin"
 export PATH
-
-if [ -d "${HOME}/.tcl/lib" ]; then
-  export TCLLIBPATH="${HOME}/.tcl/lib"
-fi
-
-if [[ -d "$HOME/.composer/vendor/bin" ]]; then
-  export PATH="$PATH:$HOME/.composer/vendor/bin"
-fi
 
 if is-command bc; then
   BC_ENV_ARGS="-l"
