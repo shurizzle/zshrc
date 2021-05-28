@@ -18,15 +18,34 @@ if zdefault -t ':zoppo:plugin:macos:locale' enable 'yes'; then
 fi
 
 if is-command brew && zdefault -t ':zoppo:plugin:macos:brew' enable 'yes'; then
-  eval "$(brew shellenv)"
   autoload -Uz regexp-replace
+
+  function {
+    setopt LOCAL_OPTIONS RE_MATCH_PCRE
+
+    local x="$(brew shellenv)"
+    regexp-replace x '(^|;|\n)(\s*)export(\s+)' '${match[1]}${match[2]}local${match[3]}'
+    eval "$x"
+    unset x
+
+    zstyle ':zoppo:plugin:macos:brew' prefix      "$HOMEBREW_PREFIX"
+    zstyle ':zoppo:plugin:macos:brew' cellar      "$HOMEBREW_CELLAR"
+    zstyle ':zoppo:plugin:macos:brew' caskroom    "$HOMEBREW_PREFIX/Caskroom"
+    zstyle ':zoppo:plugin:macos:brew' repository  "$HOMEBREW_REPOSITORY"
+  }
+
+  function {
+    local prefix
+    zstyle -s ':zoppo:plugin:macos:brew' prefix prefix
+
+    export PATH="${prefix}/bin:${prefix}/sbin${PATH:+:$PATH}"
+    export MANPATH="${prefix}/share/man${MANPATH:+:$MANPATH}"
+    export INFOPATH="${prefix}/share/info${INFOPATH:+:$INFOPATH}"
+  }
 
   function {
     local basepath="$1"
     local zfunction
-
-    zstyle ':zoppo:plugin:macos:brew' prefix "$(brew --prefix)"
-    zstyle ':zoppo:plugin:macos:brew' caskroom "$(brew --caskroom)"
 
     functions:add "$basepath"/functions/_brew
 

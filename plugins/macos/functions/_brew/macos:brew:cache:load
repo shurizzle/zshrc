@@ -1,8 +1,0 @@
-[ -d "${HOME}/.zcache" ] || mkdir -p "${HOME}/.zcache"
-
-if [ -f "${HOME}/.zcache/brew" ]; then
-    source "${HOME}/.zcache/brew"
-else
-    typeset -A __brew_caskrooms=() __brew_prefixes=()
-    macos:brew:cache:save
-fi

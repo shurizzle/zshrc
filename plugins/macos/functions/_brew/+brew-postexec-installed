@@ -1,7 +1,21 @@
 emulate -L zsh
 
 setopt LOCAL_OPTIONS EXTENDED_GLOB BARE_GLOB_QUAL
-local installed=("${HOMEBREW_CELLAR}"/*(/N:t) "${HOMEBREW_PREFIX}/Caskroom"/*(/N:t))
+local prefix caskroom cellar i
+local -a installed=()
+zstyle -s ':zoppo:plugin:macos:brew' prefix prefix
+zstyle -s ':zoppo:plugin:macos:brew' cellar cellar
+zstyle -s ':zoppo:plugin:macos:brew' caskroom caskroom
+
+for i ("$prefix/opt"/*(@N)); do
+  local ri="${i:A}"
+  if [ -d "$ri" ] && [[ "$ri" =~ ^"$cellar"/ ]]; then
+    installed+=("${i:t}")
+  fi
+done
+
+for i ("$caskroom"/*(/N:t))
+  installed+="${i:t}"
 zstyle ':zoppo:plugin:macos:brew' installed "${installed[@]}"
 
 # vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

@@ -3,4 +3,9 @@
     return 1
 }
 
-print -n -- "$(macos:brew:prefix "$1")/bin"
+local p
+p="$(macos:brew:prefix "$1")" || return 1
+
+print -n -- "${p}/bin"
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

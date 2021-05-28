@@ -3,4 +3,9 @@
     return 1
 }
 
-macos:pkgconfig:add-if-exists "$(macos:brew:pkgconfig "$1")"
+local p
+p="$(macos:brew:pkgconfig "$1")" || return 1
+
+macos:pkgconfig:add-if-exists "${p}"
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

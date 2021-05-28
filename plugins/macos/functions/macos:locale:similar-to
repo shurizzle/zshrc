@@ -1,3 +1,5 @@
+emulate -L zsh
+
 if (( $+2 )) && [[ "$1" = filtered ]]; then
   typeset -ga filtered
 else

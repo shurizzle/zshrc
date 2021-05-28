@@ -1,29 +1,12 @@
 if (( $+1 )); then
-    macos:brew:cache:load
-    local p ret
+    local caskroom
+    zstyle -s ':zoppo:plugin:macos:brew' caskroom caskroom
 
-    if (( $+__brew_caskrooms[$1] )); then
-        p="${__brew_caskrooms[$1]}"
-
-        if [ -d "$p" ]; then
-            print -n -- "$p"
-        else
-            noglob unset __brew_caskrooms[$1]
-            macos:brew:cache:save
-            macos:brew:caskroom "$1"
-        fi
-    else
-        p="$(command brew --caskroom "$1")"
-        ret=$?
-        if (( $ret == 0 )); then
-            __brew_caskrooms[$1]="$p"
-            macos:brew:cache:save
-        fi
-        print -n -- "$p"
-        return $ret
-    fi
+    [ -L "$caskroom/$1" ] && echo "$caskroom/$1"
 else
     local caskroom
     zstyle -s ':zoppo:plugin:macos:brew' caskroom caskroom
     print -n -- "$caskroom"
 fi
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

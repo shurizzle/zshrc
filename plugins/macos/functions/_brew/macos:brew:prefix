@@ -1,29 +1,13 @@
 if (( $+1 )); then
-    macos:brew:cache:load
-    local p ret
+    local opt
+    zstyle -s ':zoppo:plugin:macos:brew' prefix opt
+    opt="$opt/opt"
 
-    if (( $+__brew_prefixes[$1] )); then
-        p="${__brew_prefixes[$1]}"
-
-        if [ -d "$p" ]; then
-            print -n -- "$p"
-        else
-            noglob unset __brew_prefixes[$1]
-            macos:brew:cache:save
-            macos:brew:prefix "$1"
-        fi
-    else
-        p="$(command brew --prefix "$1")"
-        ret=$?
-        if (( $ret == 0 )); then
-            __brew_prefixes[$1]="$p"
-            macos:brew:cache:save
-        fi
-        print -n -- "$p"
-        return $ret
-    fi
+    [ -L "$opt/$1" ] && echo "$opt/$1"
 else
     local prefix
     zstyle -s ':zoppo:plugin:macos:brew' prefix prefix
     print -n -- "$prefix"
 fi
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

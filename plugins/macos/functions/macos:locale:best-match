@@ -1,3 +1,5 @@
+emulate -L zsh
+
 local encoding
 
 case "$1" in

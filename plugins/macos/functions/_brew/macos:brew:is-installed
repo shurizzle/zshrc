@@ -2,3 +2,5 @@ local installed
 zstyle -a ':zoppo:plugin:macos:brew' installed installed
 
 (( $installed[(I)$1] ))
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

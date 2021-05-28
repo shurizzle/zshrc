@@ -1,3 +1,5 @@
+emulate -L zsh
+
 if (( $+1 )); then
   if [[ "$1" = locales ]]; then
     typeset -ga locales
@@ -25,6 +27,5 @@ if (( $+1 )); then
 else
   locale -a
 fi
-
 
 # vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

@@ -4,10 +4,12 @@ launchctl unload /System/Library/LaunchAgents/com.apple.universalaccessd.plist
 launchctl load /System/Library/LaunchAgents/com.apple.universalaccessd.plist
 
 case "$1" in
-    "NO")
-        echo "  Changing Display to use color. This will take a moment..."
+  "NO")
+    echo "  Changing Display to use color. This will take a moment..."
     ;;
-    "YES")
-        echo "  Changing Display to use grayscale. This will take a moment..."
+  "YES")
+    echo "  Changing Display to use grayscale. This will take a moment..."
     ;;
 esac
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}
