@@ -1,0 +1,13 @@
+if [ "$1" = "--rcfile" ]; then
+  shift
+  tmp="$(<"$1")"
+  (
+    echo "${tmp%exit}";
+    echo "exec ${NIX_EXECUTING_SHELL}"
+  ) > "$1"
+  bash $1
+else
+  bash "$@"
+fi
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

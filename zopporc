@@ -43,6 +43,7 @@ function {
   )
 
   os:is-macos && plugins+=('macos')
+  [ -d /etc/nixos ] && plugins+=('nix')
 
   zstyle ':zoppo:load' plugins "${plugins[@]}"
 }
