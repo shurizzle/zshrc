@@ -28,12 +28,20 @@ is-command rustc && function {
   fi
 }
 
-if is-command neovim; then
-  export EDITOR=neovim
-elif is-command nvim; then
+if is-command nvim; then
   export EDITOR=nvim
 elif is-command vim; then
   export EDITOR=vim
 elif is-command vi; then
   export EDITOR=vi
+fi
+
+if is-command nvim; then
+  export PAGER="nvim -R +'ColorHighlight' -"
+elif is-command vimpager; then
+  export PAGER=vimpager
+elif is-command less; then
+  export PAGER=less
+elif is-command more; then
+  export PAGER=more
 fi
