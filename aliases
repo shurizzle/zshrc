@@ -36,7 +36,7 @@ fi
 alias respawn="zoppo:restart"
 
 if (( $+commands[exa] )); then
-  alias ls='command exa --color=auto'
+  alias ls='command exa --color=auto --icons'
 fi
 
 if (( $+commands[nvim] )); then
