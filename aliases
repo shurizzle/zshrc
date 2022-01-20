@@ -48,3 +48,8 @@ fi
 if (( $+commands[batcat] )); then
   alias bat=batcat
 fi
+
+if (( $+commands[btm] )); then
+  alias top=btm
+  alias htop=btm
+fi
