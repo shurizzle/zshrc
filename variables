@@ -39,7 +39,7 @@ fi
 export NPM_PACKAGES="$HOME/.npm-packages"
 mkdir -p "$NPM_PACKAGES"
 export PATH="${PATH:+$PATH:}:${NPM_PACKAGES}/bin"
-if [ -z "$MANPATH" ]; then
+if [ -z "$MANPATH" ] && (( $+commands[manpath] )); then
   MANPATH="$(manpath)"
 fi
 export MANPATH="${MANPATH:+$MANPATH:}${NPM_PACKAGES}/share/man"
