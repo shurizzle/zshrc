@@ -52,7 +52,6 @@ zstyle ':zoppo' prompt 'pure'
 
 function {
   local -a envs=(
-    'utils'
     'system'
     'editors'
   )
