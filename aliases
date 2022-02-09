@@ -14,6 +14,10 @@ alias -g L='|less'
 alias -g S="&>/dev/null"
 alias multidownload='aria2c -j16 -s16 -c --file-allocation=none -m0 --max-connection-per-server=16 --min-split-size=5M --summary-interval=60 -t5'
 
+if (( $+commands[man] )); then
+  alias man='PAGER=less nocorrect man'
+fi
+
 if (( $+commands[xprop] )); then
   alias getrule="xprop | awk '/^WM_CLASS/{sub(/.* =/, \"instance:\"); sub(/,/, \"\\nclass:\"); print} /^WM_NAME/{sub(/.* =/, \"title:\"); print}'"
 fi
