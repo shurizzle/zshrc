@@ -22,17 +22,6 @@ if (( $+functions[fork] )); then
   alias fork="nocorrect fork"
 fi
 
-if (( $+commands[packer-color] )); then
-  alias packer=packer-color
-elif (( $+commands[packer] )); then
-  alias packer-color=packer
-fi
-if (( $+commands[pacman-color] )); then
-  alias pacman=pacman-color
-elif (( $+commands[pacman] )); then
-  alias pacman-color=pacman
-fi
-
 alias respawn="zoppo:restart"
 
 if (( $+commands[exa] )); then
