@@ -42,3 +42,7 @@ if (( $+commands[btm] )); then
   alias top=btm
   alias htop=btm
 fi
+
+if (( $+commands[tokei] )); then
+  alias cloc=tokei
+fi
