@@ -1,4 +1,4 @@
-# vim:syn=zsh
+# vim: set ft=zsh
 
 export HOSTTYPE="$(uname -m)"
 export LD_LIBRARY_PATH="/usr/lib:/usr/local/lib:."
