@@ -32,6 +32,7 @@ function {
     'fasd'
     'history-substring-search'
     'command-not-found'
+    'my-completion'
     'completion'
     'sudo'
     'autosuggestions'
