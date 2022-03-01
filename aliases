@@ -4,7 +4,6 @@ alias md="mkdir"
 alias gcc="gcc -Wall -Wextra -ansi -pedantic -pedantic-errors -O2 -march=native -pipe"
 alias g++="g++ -Wall -Wextra -ansi -pedantic -pedantic-errors -O2 -march=native -pipe"
 alias cd..="cd .."
-alias sprunge="curl -sF 'sprunge=<-' http://sprunge.us"
 alias ping="ping -c4"
 alias pkill="pkill -9 -u ${USER}"
 alias getip='curl -s http://checkip.dyndns.org/ | grep --color=no -Po '\''((2([0-4]\d|5[0-5])|1?\d?\d)\.){3}(2([0-4]\d|5[0-5])|1?\d?\d)'\'
