@@ -10,7 +10,7 @@ zdefault -a ':zoppo:plugin:macos:brew:formulae' \
   'coreutils' 'grep' 'gnu-tar' 'gnu-sed' 'gawk' 'make' 'openssl' \
   'curl-openssl' 'expat' 'qt' 'openblas' 'ruby' 'apr' 'icu4c' \
   'sqlite' 'libffi' 'openal-soft' 'util-linux' 'libpq' 'sphinx-doc' \
-  'zlib'
+  'zlib' 'e2fsprogs'
 
 for formula ("${formulae[@]}"); do
   formula_fn="macos:brew:formula:$formula"

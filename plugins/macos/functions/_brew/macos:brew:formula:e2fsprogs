@@ -1,0 +1,5 @@
+macos:brew:add-bin-in-path e2fsprogs
+macos:brew:add-sbin-in-path e2fsprogs
+macos:brew:add-pkgconfig-in-path e2fsprogs
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}
