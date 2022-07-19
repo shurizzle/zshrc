@@ -1,5 +1,8 @@
-zstyle ':zoppo:path' plugins "${${(%):-%x}:a:h}"/zoppo/plugins "${${(%):-%x}:a:h}"/plugins
-zstyle ':zoppo:path' prompts "${${(%):-%x}:a:h}"/zoppo/prompts "${${(%):-%x}:a:h}"/prompts
+function {
+  local ZSHDIR="${${(%):-%x}:a:P:h}"
+  zstyle ':zoppo:path' plugins "$ZSHDIR/zoppo/plugins" "$ZSHDIR/plugins"
+  zstyle ':zoppo:path' prompts "$ZSHDIR/zoppo/prompts" "$ZSHDIR/prompts"
+}
 
 zstyle ':zoppo:*:*' color 'yes'
 zstyle ':zoppo:plugin:utility:grep' colors 'sl=97;48;5;236:cx=37;40:mt=30;48;5;186:fn=38;5;197:ln=38;5;154:bn=38;5;141:se=38;5;81'
