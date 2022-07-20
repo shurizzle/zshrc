@@ -120,6 +120,7 @@ eval "restore_tty() { stty '`stty -g`' }"
 
 add-zsh-hook precmd +shura-pre-cmd
 bindkey '^U' backward-kill-line
+bindkey '^K' kill-line
 
 [ -d "$HOME/.cargo/bin" ] && PATH="${PATH:+$PATH:}$HOME/.cargo/bin"
 export PATH
