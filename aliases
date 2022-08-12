@@ -9,7 +9,7 @@ alias pkill="pkill -9 -u ${USER}"
 alias getip='curl -s http://checkip.dyndns.org/ | grep --color=no -Po '\''((2([0-4]\d|5[0-5])|1?\d?\d)\.){3}(2([0-4]\d|5[0-5])|1?\d?\d)'\'
 alias diff="diff -ruEbBN"
 alias less="less -R"
-alias -g L='|less'
+alias -g L='|$PAGER'
 alias -g S="&>/dev/null"
 alias multidownload='aria2c -j16 -s16 -c --file-allocation=none -m0 --max-connection-per-server=16 --min-split-size=5M --summary-interval=60 -t5'
 
