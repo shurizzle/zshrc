@@ -41,7 +41,9 @@ if [ -z "$MANPATH" ]; then
 fi
 export MANPATH="${MANPATH:+$MANPATH:}${NPM_PACKAGES}/share/man"
 
-if is-command less; then
+if is-command nvimpager; then
+  export PAGER=nvimpager
+elif is-command less; then
   export PAGER=less
 elif is-command more; then
   export PAGER=more
