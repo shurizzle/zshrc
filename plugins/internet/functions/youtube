@@ -1,7 +1,10 @@
-local YC="${YOUTUBE_COOKIES:-"${HOME}/.ytdl"}"
-local -a PIECES; PIECES=(${(f)"$(youtube-dl --cookies="${YC}" -o '%(title)s.%(ext)s' --get-filename -g "${1}")"})
-shift
-set -- "$@" --load-cookies "${YC}" -O "${PIECES[2]}" "${PIECES[1]}"
-wget "$@"
+: ${1?"USAGE: youtube <url> [output template]"}
+
+if ! is-alias ytdl; then
+  echo 'youtube-dl or yt-dlp not found' >&2
+  return 1
+fi
+
+ytdl --cookies="${YOUTUBE_COOKIES:-"${HOME}/.ytdl"}" -o "${2:-"%(title)s.%(ext)s"}" "${1}"
 
 # vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}
