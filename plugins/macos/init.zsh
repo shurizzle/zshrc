@@ -39,7 +39,7 @@ if is-command brew && zdefault -t ':zoppo:plugin:macos:brew' enable 'yes'; then
     zstyle -s ':zoppo:plugin:macos:brew' prefix prefix
 
     export PATH="${prefix}/bin:${prefix}/sbin${PATH:+:$PATH}"
-    export MANPATH="${prefix}/share/man${MANPATH:+:$MANPATH}"
+    export MANPATH="/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/share/man:/usr/share/man:${prefix}/share/man${MANPATH:+:$MANPATH}"
     export INFOPATH="${prefix}/share/info${INFOPATH:+:$INFOPATH}"
   }
 
