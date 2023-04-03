@@ -127,9 +127,13 @@ function {
   fi
 }
 
-[ -d /bin ] && PATH="/bin${PATH:+:$PATH}"
-[ -d /usr/sbin ] && PATH="/usr/sbin${PATH:+:$PATH}"
-[ -d /sbin ] && PATH="/sbin${PATH:+:$PATH}"
+if os:is-freebsd; then
+  PATH="/usr/local/sbin:/usr/local/bin:/sbin:/usr/sbin:/bin:/usr/bin:${HOME}/bin"
+else
+  [ -d /bin ] && PATH="/bin${PATH:+:$PATH}"
+  [ -d /usr/sbin ] && PATH="/usr/sbin${PATH:+:$PATH}"
+  [ -d /sbin ] && PATH="/sbin${PATH:+:$PATH}"
+fi
 
 source "$ZSH_DIR/zoppo/zoppo/zoppo.zsh" -config "$ZSH_DIR/zopporc"
 
