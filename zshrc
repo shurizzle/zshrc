@@ -54,6 +54,10 @@ function {
     function os:linux:is-wsl2 {
       return 1
     }
+
+    function os:is-freebsd {
+      return 1
+    }
   elif [[ "$name" = *Win* ]]; then
     function os:is-macos {
       return 1
@@ -68,6 +72,10 @@ function {
     }
 
     function os:linux:is-wsl2 {
+      return 1
+    }
+
+    function os:is-freebsd {
       return 1
     }
   elif [[ "$name" = *Linux* ]]; then
@@ -92,6 +100,30 @@ function {
         return 1
       }
     fi
+
+    function os:is-freebsd {
+      return 1
+    }
+  elif [[ "$name" = FreeBSD ]]; then
+    function os:is-macos {
+      return 1
+    }
+
+    function os:is-linux {
+      return 1
+    }
+
+    function os:is-windows {
+      return 1
+    }
+
+    function os:linux:is-wsl2 {
+      return 1
+    }
+
+    function os:is-freebsd {
+      return 0
+    }
   fi
 }
 
