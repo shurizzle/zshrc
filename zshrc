@@ -66,6 +66,10 @@ function {
     function os:is-dragonflybsd {
       return 1
     }
+
+    function os:is-netbsd {
+      return 1
+    }
   elif [[ "$name" = *Win* ]]; then
     function os:is-macos {
       return 1
@@ -92,6 +96,10 @@ function {
     }
 
     function os:is-dragonflybsd {
+      return 1
+    }
+
+    function os:is-netbsd {
       return 1
     }
   elif [[ "$name" = *Linux* ]]; then
@@ -128,6 +136,10 @@ function {
     function os:is-dragonflybsd {
       return 1
     }
+
+    function os:is-netbsd {
+      return 1
+    }
   elif [[ "$name" = FreeBSD ]]; then
     function os:is-macos {
       return 1
@@ -154,6 +166,10 @@ function {
     }
 
     function os:is-dragonflybsd {
+      return 1
+    }
+
+    function os:is-netbsd {
       return 1
     }
   elif [[ "$name" = DragonFly ]]; then
@@ -184,10 +200,52 @@ function {
     function os:is-dragonflybsd {
       return 0
     }
+
+    function os:is-netbsd {
+      return 1
+    }
+  elif [[ "$name" = NetBSD ]]; then
+    function os:is-macos {
+      return 1
+    }
+
+    function os:is-linux {
+      return 1
+    }
+
+    function os:is-windows {
+      return 1
+    }
+
+    function os:linux:is-wsl2 {
+      return 1
+    }
+
+    function os:is-bsd {
+      return 0
+    }
+
+    function os:is-freebsd {
+      return 1
+    }
+
+    function os:is-dragonflybsd {
+      return 1
+    }
+
+    function os:is-netbsd {
+      return 0
+    }
   fi
 }
 
-if os:is-bsd; then
+if os:is-netbsd; then
+  PATH="/usr/pkg/sbin:/usr/pkg/bin:/sbin:/usr/sbin:/bin:/usr/bin"
+  if [[ "$TERM" = xterm-kitty ]]; then
+    TERM="xterm-256color"
+    export TERM
+  fi
+elif os:is-bsd; then
   PATH="/usr/local/sbin:/usr/local/bin:/sbin:/usr/sbin:/bin:/usr/bin:${HOME}/bin"
 else
   [ -d /bin ] && PATH="/bin${PATH:+:$PATH}"
