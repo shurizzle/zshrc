@@ -55,7 +55,15 @@ function {
       return 1
     }
 
+    function os:is-bsd {
+      return 0
+    }
+
     function os:is-freebsd {
+      return 1
+    }
+
+    function os:is-dragonflybsd {
       return 1
     }
   elif [[ "$name" = *Win* ]]; then
@@ -75,7 +83,15 @@ function {
       return 1
     }
 
+    function os:is-bsd {
+      return 1
+    }
+
     function os:is-freebsd {
+      return 1
+    }
+
+    function os:is-dragonflybsd {
       return 1
     }
   elif [[ "$name" = *Linux* ]]; then
@@ -101,7 +117,15 @@ function {
       }
     fi
 
+    function os:is-bsd {
+      return 1
+    }
+
     function os:is-freebsd {
+      return 1
+    }
+
+    function os:is-dragonflybsd {
       return 1
     }
   elif [[ "$name" = FreeBSD ]]; then
@@ -121,13 +145,49 @@ function {
       return 1
     }
 
+    function os:is-bsd {
+      return 0
+    }
+
     function os:is-freebsd {
+      return 0
+    }
+
+    function os:is-dragonflybsd {
+      return 1
+    }
+  elif [[ "$name" = DragonFly ]]; then
+    function os:is-macos {
+      return 1
+    }
+
+    function os:is-linux {
+      return 1
+    }
+
+    function os:is-windows {
+      return 1
+    }
+
+    function os:linux:is-wsl2 {
+      return 1
+    }
+
+    function os:is-bsd {
+      return 0
+    }
+
+    function os:is-freebsd {
+      return 1
+    }
+
+    function os:is-dragonflybsd {
       return 0
     }
   fi
 }
 
-if os:is-freebsd; then
+if os:is-bsd; then
   PATH="/usr/local/sbin:/usr/local/bin:/sbin:/usr/sbin:/bin:/usr/bin:${HOME}/bin"
 else
   [ -d /bin ] && PATH="/bin${PATH:+:$PATH}"
