@@ -301,10 +301,6 @@ function {
 
 if os:is-netbsd; then
   PATH="/usr/pkg/sbin:/usr/pkg/bin:/sbin:/usr/sbin:/bin:/usr/bin"
-  if [[ "$TERM" = xterm-kitty ]]; then
-    TERM="xterm-256color"
-    export TERM
-  fi
 elif os:is-bsd; then
   PATH="/usr/local/sbin:/usr/local/bin:/sbin:/usr/sbin:/bin:/usr/bin:${HOME}/bin"
   if [[ "$TERM" = xterm-kitty ]] && os:is-openbsd; then
