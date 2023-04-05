@@ -303,10 +303,6 @@ if os:is-netbsd; then
   PATH="/usr/pkg/sbin:/usr/pkg/bin:/sbin:/usr/sbin:/bin:/usr/bin"
 elif os:is-bsd; then
   PATH="/usr/local/sbin:/usr/local/bin:/sbin:/usr/sbin:/bin:/usr/bin:${HOME}/bin"
-  if [[ "$TERM" = xterm-kitty ]] && os:is-openbsd; then
-    TERM="xterm-256color"
-    export TERM
-  fi
 else
   [ -d /bin ] && PATH="/bin${PATH:+:$PATH}"
   [ -d /usr/sbin ] && PATH="/usr/sbin${PATH:+:$PATH}"
