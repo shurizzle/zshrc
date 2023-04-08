@@ -1,10 +1,12 @@
 : ${1?"USAGE: youtube <url> [output template]"}
 
-if ! is-alias ytdl; then
+if ! is-callable ytdl; then
   echo 'youtube-dl or yt-dlp not found' >&2
   return 1
 fi
 
-ytdl --cookies="${YOUTUBE_COOKIES:-"${HOME}/.ytdl"}" -o "${2:-"%(title)s.%(ext)s"}" "${1}"
+echo "$(which ytdl)"
+
+eval 'ytdl --cookies="${YOUTUBE_COOKIES:-"${HOME}/.ytdl"}" -o "${2:-"%(title)s.%(ext)s"}" "${1}"'
 
 # vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}
