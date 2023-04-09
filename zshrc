@@ -310,6 +310,7 @@ else
 fi
 
 source "$ZSH_DIR/zoppo/zoppo/zoppo.zsh" -config "$ZSH_DIR/zopporc"
+PROMPT2='%F{242}…%F{reset} '
 
 autoload -Uz add-zsh-hook
 setopt hist_ignore_all_dups autocd autopushd pushdignoredups correctall extended_glob prompt_subst
