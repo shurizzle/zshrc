@@ -45,3 +45,5 @@ fi
 if (( $+commands[tokei] )); then
   alias cloc=tokei
 fi
+
+alias+ cp '--reflink=auto'
