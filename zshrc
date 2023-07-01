@@ -385,3 +385,7 @@ export NVM_DIR="$HOME/.nvm"
 if (( $+commands[wezterm] )); then
   eval "$(command wezterm shell-completion --shell zsh)"
 fi
+
+if (( $+commands[opam] )); then
+  eval "$(command opam env)"
+fi
