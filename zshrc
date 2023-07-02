@@ -334,10 +334,6 @@ add-zsh-hook precmd +shura-pre-cmd
 bindkey '^U' backward-kill-line
 bindkey '^K' kill-line
 
-[ -d "$HOME/.cargo/bin" ] && PATH="${PATH:+$PATH:}$HOME/.cargo/bin"
-export PATH
-[ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
-
 if [[ -n $KITTY_INSTALLATION_DIR ]]; then
   export KITTY_SHELL_INTEGRATION="enabled"
   autoload -Uz -- "$KITTY_INSTALLATION_DIR"/shell-integration/zsh/kitty-integration
