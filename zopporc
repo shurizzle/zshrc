@@ -5,21 +5,22 @@ function {
 }
 
 zstyle ':zoppo:*:*' color 'yes'
+
 zstyle ':zoppo:plugin:utility:grep' colors 'sl=97;48;5;236:cx=37;40:mt=30;48;5;186:fn=38;5;197:ln=38;5;154:bn=38;5;141:se=38;5;81'
+zstyle ':zoppo:plugin:utility:fork' enable 'no'
+zstyle ':zoppo:plugin:utility:math' enable 'no'
 
 zstyle ':zoppo:plugin:agent:ssh' enable 'no'
 zstyle ':zoppo:plugin:agent:gpg' enable 'no'
 
-zstyle ':zoppo:plugin:utility:math' enable 'no'
-
+zstyle ':zoppo:plugin:ruby:rbenv' enable 'yes'
 if is-command rbenv; then
   zstyle ':zoppo:plugin:ruby:rbenv' path =rbenv
 fi
 
 zstyle ':zoppo:plugin:editor' mode vi
 
-zstyle ':zoppo:plugin:ruby:rbenv' enable 'yes'
-zstyle ':zoppo:plugin:utility:fork' enable 'no'
+zstyle ':zoppo:plugin:node:nvm' enable 'yes'
 
 function {
   local -a plugins=(

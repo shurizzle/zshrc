@@ -368,19 +368,11 @@ if [[ "$TERM" = "xterm-kitty" ]] && os:is-macos; then
   export TERMINFO="/Applications/kitty.app/Contents/Resources/kitty/terminfo"
 fi
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
 if is-command yay; then
   alias pacautoremove='yay -Ycc'
 elif is-command pacman; then
   alias pacautoremove='sudo pacman -Rcns $(pacman -Qdtq)'
 fi
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
 if (( $+commands[wezterm] )); then
   eval "$(command wezterm shell-completion --shell zsh)"
