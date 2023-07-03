@@ -1,4 +1,5 @@
 macos:brew:add-gnubin-in-path coreutils
+macos:brew:add-manpath coreutils
 
 # stty doesn't work good on macOS
 function stty {

@@ -1,0 +1,11 @@
+(( $+1 )) || {
+    warn "Usage: macos:brew:manpath <formula>"
+    return 1
+}
+
+local p
+p="$(macos:brew:prefix "$1")" || return 1
+
+print -n -- "${p}/share/man"
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

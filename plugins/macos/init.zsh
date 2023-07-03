@@ -39,7 +39,6 @@ if is-command brew && zdefault -t ':zoppo:plugin:macos:brew' enable 'yes'; then
     zstyle -s ':zoppo:plugin:macos:brew' prefix prefix
 
     export PATH="${prefix}/bin:${prefix}/sbin${PATH:+:$PATH}"
-    export MANPATH="/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/share/man:/usr/share/man:${prefix}/share/man${MANPATH:+:$MANPATH}"
     export INFOPATH="${prefix}/share/info${INFOPATH:+:$INFOPATH}"
   }
 
@@ -57,6 +56,7 @@ if is-command brew && zdefault -t ':zoppo:plugin:macos:brew' enable 'yes'; then
   +brew-postexec-installed
   +brew-postexec-formulae-exec
   +brew-postexec-casks-exec
+  +brew-postexec-rehash
 
   typeset -ga brew_preexec_functions=()
   typeset -ga brew_postexec_functions=()

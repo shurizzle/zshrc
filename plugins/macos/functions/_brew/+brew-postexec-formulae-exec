@@ -8,13 +8,22 @@ zdefault -a ':zoppo:plugin:macos:brew:formulae' \
   formulae formulae \
   \
   'coreutils' 'grep' 'gnu-tar' 'gnu-sed' 'gawk' 'make' 'openssl' \
-  'curl-openssl' 'expat' 'qt' 'openblas' 'ruby' 'apr' 'icu4c' \
-  'sqlite' 'libffi' 'openal-soft' 'util-linux' 'libpq' 'sphinx-doc' \
-  'zlib' 'e2fsprogs' 'libarchive'
+  'expat' 'qt' 'openblas' 'ruby' 'apr' 'icu4c' 'sqlite' 'libffi' \
+  'openal-soft' 'util-linux' 'libpq' 'sphinx-doc' 'zlib' 'e2fsprogs' \
+  'libarchive' 'curl'
 
 for formula ("${formulae[@]}"); do
   formula_fn="macos:brew:formula:$formula"
-  is-function "$formula_fn" && macos:brew:is-installed "$formula" && "$formula_fn"
+  if macos:brew:is-installed "$formula"; then
+    if is-function "$formula_fn"; then
+      "$formula_fn"
+    else
+      macos:brew:add-bin-in-path "$formula"
+      macos:brew:add-sbin-in-path "$formula"
+      macos:brew:add-pkgconfig-in-path "$formula"
+      macos:brew:add-manpath "$formula"
+    fi
+  fi
 done
 
 # vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

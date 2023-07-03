@@ -2,7 +2,7 @@ if (( $+1 )); then
     local caskroom
     zstyle -s ':zoppo:plugin:macos:brew' caskroom caskroom
 
-    [ -L "$caskroom/$1" ] && echo "$caskroom/$1"
+    [ -d "$caskroom/$1" ] && print -n -- "$caskroom/$1"
 else
     local caskroom
     zstyle -s ':zoppo:plugin:macos:brew' caskroom caskroom

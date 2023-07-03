@@ -3,7 +3,7 @@ if (( $+1 )); then
     zstyle -s ':zoppo:plugin:macos:brew' prefix opt
     opt="$opt/opt"
 
-    [ -L "$opt/$1" ] && echo "$opt/$1"
+    [ -e "$opt/$1" ] && print -n -- "$opt/$1"
 else
     local prefix
     zstyle -s ':zoppo:plugin:macos:brew' prefix prefix

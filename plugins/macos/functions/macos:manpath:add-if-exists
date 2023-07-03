@@ -1,0 +1,10 @@
+(( $+1 )) || {
+  warn "Path $1 doesn't exist"
+  return 1
+}
+
+if [[ -d "$1" ]]; then
+  export MANPATH="$1${MANPATH:+:$MANPATH}"
+fi
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

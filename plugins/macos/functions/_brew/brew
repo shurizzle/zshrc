@@ -12,7 +12,7 @@ command brew "$@"
 
 local res=$?
 
-for fn ("${brew_preexec_functions[@]}")
+for fn ("${brew_postexec_functions[@]}")
   $fn "$@"
 
 return $res
