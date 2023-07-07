@@ -49,8 +49,4 @@ elif is-command more; then
   export PAGER=more
 fi
 
-if [ -d ~/.ghcup/bin ]; then
-  PATH="$HOME/.ghcup/bin:$PATH"
-fi
-
 export RUBY_YJIT_ENABLE=1

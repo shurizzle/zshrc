@@ -18,6 +18,8 @@ if is-command rbenv; then
   zstyle ':zoppo:plugin:ruby:rbenv' path =rbenv
 fi
 
+zstyle ':zoppo:plugin:haskell:ghcup' enable 'yes'
+
 zstyle ':zoppo:plugin:editor' mode vi
 
 zstyle ':zoppo:plugin:node:nvm' enable 'yes'
@@ -35,6 +37,7 @@ function {
     'ruby'
     'rust'
     'node'
+    'haskell'
     'history-substring-search'
     'command-not-found'
     'my-completion'
