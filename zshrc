@@ -6,6 +6,16 @@
 #  / /__   ___| | | | | |      | |___  | |_| | | | \  | | |     | | | |_| |
 # /_____| /_____/ |_| |_|      \_____| \_____/ |_|  \_| |_|     |_| \_____/
 
+if (( $+TERMUX_APP_PID )) && (( $+commands[termux-chroot] )); then
+  if ! (( $+TERMUX_CHROOTED )); then
+    export TERMUX_CHROOTED=0
+    exec termux-chroot
+  elif [ $TERMUX_CHROOTED = 0 ]; then
+    export TERMUX_CHROOTED=1
+    cd
+  fi
+fi
+
 export ZSH_DIR="${${(%):-%x}:a:P:h}"
 
 # Auto Updating
