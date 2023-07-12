@@ -8,11 +8,10 @@
 
 if (( $+TERMUX_APP_PID )) && (( $+commands[termux-chroot] )); then
   if ! (( $+TERMUX_CHROOTED )); then
-    export TERMUX_CHROOTED=0
+    export TERMUX_CHROOTED=true
     exec termux-chroot
-  elif [ $TERMUX_CHROOTED = 0 ]; then
-    export TERMUX_CHROOTED=1
-    cd
+  elif [ "$PWD" = /data/data/com.termux/files/home ]; then
+    cd ~
   fi
 fi
 
