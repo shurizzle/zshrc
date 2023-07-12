@@ -1,4 +1,3 @@
-zmodload zsh/net/tcp
 zmodload zsh/system
 zmodload zsh/pcre
 
