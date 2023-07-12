@@ -56,7 +56,7 @@ function {
     windows=0
   elif [[ "$name" = *Linux* ]]; then
     linux=0
-    if [ -n "${TERMUX_APP_ID-}" ]; then
+    if [ -n "${TERMUX_APP_PID-}" ]; then
       termux=0
     elif [ "$(< /proc/sys/kernel/osrelease)" = *[Mm]icrosoft* ]; then
       wsl2=0
