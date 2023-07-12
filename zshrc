@@ -67,7 +67,7 @@ function {
     linux=0
     if [ -n "${TERMUX_APP_PID-}" ]; then
       termux=0
-    elif [ "$(< /proc/sys/kernel/osrelease)" = *[Mm]icrosoft* ]; then
+    elif [[ "$(< /proc/sys/kernel/osrelease)" = *[Mm]icrosoft* ]]; then
       wsl2=0
     fi
   elif [[ "$name" = FreeBSD ]]; then
