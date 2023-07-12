@@ -38,265 +38,52 @@ function {
     name="Windows"
   fi
 
+  local windows=1
+  local macos=1
+  local linux=1
+  local wsl2=1
+  local termux=1
+  local bsd=1
+  local freebsd=1
+  local dragonflybsd=1
+  local netbsd=1
+  local openbsd=1
+
   if [[ "$name" = *Darwin* ]]; then
-    function os:is-macos {
-      return 0
-    }
-
-    function os:is-linux {
-      return 1
-    }
-
-    function os:is-windows {
-      return 1
-    }
-
-    function os:linux:is-wsl2 {
-      return 1
-    }
-
-    function os:is-bsd {
-      return 0
-    }
-
-    function os:is-freebsd {
-      return 1
-    }
-
-    function os:is-dragonflybsd {
-      return 1
-    }
-
-    function os:is-netbsd {
-      return 1
-    }
-
-    function os:is-openbsd {
-      return 1
-    }
+    bsd=0
+    macos=0
   elif [[ "$name" = *Win* ]]; then
-    function os:is-macos {
-      return 1
-    }
-
-    function os:is-linux {
-      return 1
-    }
-
-    function os:is-windows {
-      return 0
-    }
-
-    function os:linux:is-wsl2 {
-      return 1
-    }
-
-    function os:is-bsd {
-      return 1
-    }
-
-    function os:is-freebsd {
-      return 1
-    }
-
-    function os:is-dragonflybsd {
-      return 1
-    }
-
-    function os:is-netbsd {
-      return 1
-    }
-
-    function os:is-openbsd {
-      return 1
-    }
+    windows=0
   elif [[ "$name" = *Linux* ]]; then
-    function os:is-macos {
-      return 1
-    }
-
-    function os:is-linux {
-      return 0
-    }
-
-    function os:is-windows {
-      return 1
-    }
-
-    if [[ "$(< /proc/sys/kernel/osrelease)" = *[Mm]icrosoft* ]]; then
-      function os:linux:is-wsl2 {
-        return 0
-      }
-    else
-      function os:linux:is-wsl2 {
-        return 1
-      }
+    linux=0
+    if [ -n "${TERMUX_APP_ID-}" ]; then
+      termux=0
+    elif [ "$(< /proc/sys/kernel/osrelease)" = *[Mm]icrosoft* ]; then
+      wsl2=0
     fi
-
-    function os:is-bsd {
-      return 1
-    }
-
-    function os:is-freebsd {
-      return 1
-    }
-
-    function os:is-dragonflybsd {
-      return 1
-    }
-
-    function os:is-netbsd {
-      return 1
-    }
-
-    function os:is-openbsd {
-      return 1
-    }
   elif [[ "$name" = FreeBSD ]]; then
-    function os:is-macos {
-      return 1
-    }
-
-    function os:is-linux {
-      return 1
-    }
-
-    function os:is-windows {
-      return 1
-    }
-
-    function os:linux:is-wsl2 {
-      return 1
-    }
-
-    function os:is-bsd {
-      return 0
-    }
-
-    function os:is-freebsd {
-      return 0
-    }
-
-    function os:is-dragonflybsd {
-      return 1
-    }
-
-    function os:is-netbsd {
-      return 1
-    }
-
-    function os:is-openbsd {
-      return 1
-    }
+    bsd=0
+    freebsd=0
   elif [[ "$name" = DragonFly ]]; then
-    function os:is-macos {
-      return 1
-    }
-
-    function os:is-linux {
-      return 1
-    }
-
-    function os:is-windows {
-      return 1
-    }
-
-    function os:linux:is-wsl2 {
-      return 1
-    }
-
-    function os:is-bsd {
-      return 0
-    }
-
-    function os:is-freebsd {
-      return 1
-    }
-
-    function os:is-dragonflybsd {
-      return 0
-    }
-
-    function os:is-netbsd {
-      return 1
-    }
-
-    function os:is-openbsd {
-      return 1
-    }
+    bsd=0
+    dragonflybsd=0
   elif [[ "$name" = NetBSD ]]; then
-    function os:is-macos {
-      return 1
-    }
-
-    function os:is-linux {
-      return 1
-    }
-
-    function os:is-windows {
-      return 1
-    }
-
-    function os:linux:is-wsl2 {
-      return 1
-    }
-
-    function os:is-bsd {
-      return 0
-    }
-
-    function os:is-freebsd {
-      return 1
-    }
-
-    function os:is-dragonflybsd {
-      return 1
-    }
-
-    function os:is-netbsd {
-      return 0
-    }
-
-    function os:is-openbsd {
-      return 1
-    }
+    bsd=0
+    netbsd=0
   elif [[ "$name" = OpenBSD ]]; then
-    function os:is-macos {
-      return 1
-    }
-
-    function os:is-linux {
-      return 1
-    }
-
-    function os:is-windows {
-      return 1
-    }
-
-    function os:linux:is-wsl2 {
-      return 1
-    }
-
-    function os:is-bsd {
-      return 0
-    }
-
-    function os:is-freebsd {
-      return 1
-    }
-
-    function os:is-dragonflybsd {
-      return 1
-    }
-
-    function os:is-netbsd {
-      return 1
-    }
-
-    function os:is-openbsd {
-      return 0
-    }
+    bsd=0
+    openbsd=0
   fi
+
+  local n
+  typeset -g functions
+
+  for n in 'windows' 'macos' 'linux' 'bsd' 'freebsd' 'dragonflybsd' 'netbsd' \
+    'openbsd'; do
+    functions[os:is-${n}]="return ${(P)n}"
+  done
+  functions[os:linux:is-wsl2]="return ${wsl2}"
+  functions[os:linux:is-termux]="return ${termux}"
 }
 
 if os:is-netbsd; then
