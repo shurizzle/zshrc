@@ -31,3 +31,5 @@ echo -n "Pushing local code to remote..."
 git remote add origin git@github.com:"${GITHUBUSER}/${REPONAME}.git" &>/dev/null
 git push -u origin master &>/dev/null
 echo " done."
+
+# vim: set ft=zsh sts=2 ts=2 sw=2 et:

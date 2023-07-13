@@ -1,5 +1,3 @@
-# vim: set ft=zsh
-
 export HOSTTYPE="$(uname -m)"
 export LD_LIBRARY_PATH="/usr/lib:/usr/local/lib:."
 
@@ -50,3 +48,5 @@ elif is-command more; then
 fi
 
 export RUBY_YJIT_ENABLE=1
+
+# vim: set ft=zsh sts=2 ts=2 sw=2 et:

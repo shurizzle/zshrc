@@ -6,3 +6,5 @@ if is-function sudo:dispatch; then
   is-command sg_raw && sudo:dispatch true sg_raw
   is-command partprobe && sudo:dispatch true partprobe
 fi
+
+# vim: set ft=zsh sts=2 ts=2 sw=2 et:

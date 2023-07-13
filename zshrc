@@ -174,3 +174,5 @@ fi
 if (( $+commands[wezterm] )); then
   eval "$(command wezterm shell-completion --shell zsh)"
 fi
+
+# vim: set ft=zsh sts=2 ts=2 sw=2 et:
