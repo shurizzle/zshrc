@@ -52,4 +52,8 @@ if is-command celluloid; then
   alias mpv=celluloid
 fi
 
+if is-command bfs; then
+  alias find=bfs
+fi
+
 # vim: set ft=zsh sts=2 ts=2 sw=2 et:
