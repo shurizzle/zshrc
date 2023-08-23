@@ -85,4 +85,16 @@ if is-command docker-machine && zdefault -t ':zoppo:plugin:macos:docker-machine'
   }
 fi
 
+if is-command xcrun; then
+  function {
+    local sdk
+    sdk="$(command xcrun --sdk macosx --show-sdk-path)"
+    if [ $? -eq 0 ]; then
+      typeset -g SDKROOT
+      SDKROOT="$sdk"
+      export SDKROOT
+    fi
+  }
+fi
+
 # vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}
