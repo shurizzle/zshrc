@@ -23,7 +23,10 @@ fi
 
 alias respawn="zoppo:restart"
 
-if is-command exa; then
+if is-command eza; then
+  alias ls='command eza --color=auto --icons --group --links'
+  alias exa='command eza'
+elif is-command exa; then
   alias ls='command exa --color=auto --icons --group --links'
 fi
 
