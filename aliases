@@ -45,7 +45,7 @@ if is-command btm; then
   alias htop=btm
 fi
 
-if is-command tokie; then
+if is-command tokei; then
   alias cloc=tokei
 fi
 
