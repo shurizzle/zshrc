@@ -1,15 +1,5 @@
 : ${1?"USAGE: youtube-mp3 <url> [output template]"}
 
-if ! is-callable ytdl; then
-  echo 'youtube-dl or yt-dlp not found' >&2
-  return 1
-fi
-
-eval 'ytdl --cookies="${YOUTUBE_COOKIES:-"${HOME}/.ytdl"}" \
-  -i -f bestaudio \
-  -o "${2:-"%(title)s.%(ext)s"}" \
-  -x --audio-format mp3 \
-  --audio-quality 0 \
-  "${1}"'
+youtube-music --audio-format mp3 "$@"
 
 # vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

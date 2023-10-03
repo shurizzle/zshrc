@@ -1,0 +1,23 @@
+: ${1?"USAGE: youtube-mp3 <args...>"}
+
+local ytdl
+
+if is-callable youtube-dl; then
+  ytdl=youtube-dl
+elif is-callable yt-dlp; then
+  ytdl=yt-dlp
+else
+  echo 'youtube-dl or yt-dlp not found' >&2
+  return 1
+fi
+
+$ytdl --cookies="${YOUTUBE_COOKIES:-"${HOME}/.ytdl"}" \
+  -i -f bestaudio -x \
+  -o "${2:-"%(title)s.%(ext)s"}" \
+  --audio-quality 0 \
+  --add-metadata \
+  --ppa "ffmpeg: -c:v mjpeg -vf crop=\"'if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'\"" \
+  --convert-thumbnails jpg --embed-thumbnail \
+  "$@"
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}
