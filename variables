@@ -30,14 +30,11 @@ elif is-command vi; then
   export EDITOR=vi
 fi
 
-if [ -z "$MANPATH" ]; then
-  if (( $+commands[manpath] )); then
-    MANPATH="$(manpath)"
-  else
-    MANPATH="/usr/share/man:/usr/X11R6/man:/usr/local/man"
-  fi
+if os:is-linux; then
+  unset MANPATH
+else
+  export MANPATH="${MANPATH:+$MANPATH:}${NPM_PACKAGES}/share/man"
 fi
-export MANPATH="${MANPATH:+$MANPATH:}${NPM_PACKAGES}/share/man"
 
 if is-command nvimpager; then
   export PAGER=nvimpager
