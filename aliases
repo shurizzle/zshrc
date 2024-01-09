@@ -59,4 +59,7 @@ if is-command bfs; then
   alias find=bfs
 fi
 
+! is-callable hostname && is-callable hostnamectl && \
+    alias hostname='hostnamectl hostname'
+
 # vim: set ft=zsh sts=2 ts=2 sw=2 et:
