@@ -50,7 +50,7 @@ if is-command brew && zdefault -t ':zoppo:plugin:macos:brew' enable 'yes'; then
 
     setopt LOCAL_OPTIONS EXTENDED_GLOB BARE_GLOB_QUAL
     for zfunction ("$basepath"/functions/_brew/^([._]|README)*(.N:t))
-      autoload -Uz -- "$zfunction"
+    autoload -Uz -- "$zfunction"
   } "${0:h:a}"
 
   +brew-postexec-installed

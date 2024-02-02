@@ -2,6 +2,6 @@ macos:brew:add-manpath binutils
 
 local bin
 for bin ("$(macos:brew:bin binutils)"/*(.))
-  alias "g${bin:t}=${bin}"
+alias "g${bin:t}=${bin}"
 
 # vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

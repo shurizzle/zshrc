@@ -3,7 +3,7 @@ emulate -L zsh
 local encoding
 
 case "$1" in
-  (-e)
+    (-e)
     shift
 
     encoding="$1"

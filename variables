@@ -1,5 +1,4 @@
 export HOSTTYPE="$(uname -m)"
-export LD_LIBRARY_PATH="/usr/lib:/usr/local/lib:."
 
 if is-command bc; then
   BC_ENV_ARGS="-l"

@@ -2,16 +2,16 @@ local c byte
 
 ( (( $+1 )) && print -rn -- "$1" || <&0) | \
   while read -u0 -rsk1 c; do
-    if [[ "$c" -pcre-match '^[a-zA-Z0-9\;/:@\$,_\.!~\*'\''\(\)\-]$' ]]; then
-      print -n -- "$c"
-    else
+  if [[ "$c" -pcre-match '^[a-zA-Z0-9\;/:@\$,_\.!~\*'\''\(\)\-]$' ]]; then
+    print -n -- "$c"
+  else
 
-      print -rn -- "$c" | \
-        while sysread -i 0 -s 1 byte; do
-          byte="$(( [##16] #byte ))"
-          print -n "%$( (( $#byte < 2 )) && print -n '0' )$byte"
-        done
-    fi
-  done
+    print -rn -- "$c" | \
+      while sysread -i 0 -s 1 byte; do
+      byte="$(( [##16] #byte ))"
+      print -n "%$( (( $#byte < 2 )) && print -n '0' )$byte"
+    done
+  fi
+done
 
 # vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

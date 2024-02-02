@@ -1,6 +1,6 @@
 (( $+1 )) || {
-    warn "Usage: macos:brew:pkgconfig <formula>"
-    return 1
+  warn "Usage: macos:brew:pkgconfig <formula>"
+  return 1
 }
 
 local p

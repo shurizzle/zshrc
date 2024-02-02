@@ -1,12 +1,12 @@
 if (( $+1 )); then
-    local caskroom
-    zstyle -s ':zoppo:plugin:macos:brew' caskroom caskroom
+  local caskroom
+  zstyle -s ':zoppo:plugin:macos:brew' caskroom caskroom
 
-    [ -d "$caskroom/$1" ] && print -n -- "$caskroom/$1"
+  [ -d "$caskroom/$1" ] && print -n -- "$caskroom/$1"
 else
-    local caskroom
-    zstyle -s ':zoppo:plugin:macos:brew' caskroom caskroom
-    print -n -- "$caskroom"
+  local caskroom
+  zstyle -s ':zoppo:plugin:macos:brew' caskroom caskroom
+  print -n -- "$caskroom"
 fi
 
 # vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

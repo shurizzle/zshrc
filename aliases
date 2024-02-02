@@ -24,10 +24,17 @@ fi
 alias respawn="zoppo:restart"
 
 if is-command eza; then
-  alias ls='command eza --color=auto --icons --group --links'
-  alias exa='command eza'
+  alias+ eza --color=auto --icons --group --links --hyperlink
+  alias ls=eza
+  alias exa=eza
 elif is-command exa; then
-  alias ls='command exa --color=auto --icons --group --links'
+  alias+ exa --color=auto --icons --group --links --hyperlink
+  alias ls=exa
+else
+  alias+ ls --color=auto --group-directories-first # --hyperlink=auto
+  if ls --hyperlink=auto &>/dev/null; then
+    alias+ ls --hyperlink=auto
+  fi
 fi
 
 if is-command nvim; then
@@ -60,6 +67,6 @@ if is-command bfs; then
 fi
 
 ! is-callable hostname && is-callable hostnamectl && \
-    alias hostname='hostnamectl hostname'
+  alias hostname='hostnamectl hostname'
 
 # vim: set ft=zsh sts=2 ts=2 sw=2 et:

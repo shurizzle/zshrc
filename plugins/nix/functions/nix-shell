@@ -16,7 +16,7 @@ do
     NIX_SHELL_PACKAGES+=${NIX_SHELL_PACKAGES:+ }${ARGS[2]}
     ARGS=("${ARGS[@]:1}")
 
-  # skip "--arg name value" argument
+    # skip "--arg name value" argument
   elif [[ $key = "--arg" ]]
   then
     IN_PACKAGES=0
@@ -26,14 +26,14 @@ do
   then
     PURE=1
 
-  # skip all other unary arguments
+    # skip all other unary arguments
   elif [[ $key == "-"* ]]
   then
     IN_PACKAGES=0
     ARGS=("${ARGS[@]:1}")
 
-  # If we don't have any argument prefix we are either in package mode
-  # or we have encountered the path argument
+    # If we don't have any argument prefix we are either in package mode
+    # or we have encountered the path argument
   elif [[ $IN_PACKAGES = 1 ]]
   then
     NIX_SHELL_PACKAGES+=" $key"
@@ -52,9 +52,9 @@ else
     chmod +x "$S"
     shift
     NIX_SHELL_PACKAGES="$NIX_SHELL_PACKAGES" \
-    NIX_BUILD_SHELL="$S" \
-    NIX_EXECUTING_SHELL="$SHELL" \
-    command nix-shell "$@"
+      NIX_BUILD_SHELL="$S" \
+      NIX_EXECUTING_SHELL="$SHELL" \
+      command nix-shell "$@"
   } =(echo "#\!$SHELL"; <"${${(%):-%x}:a:h}/../scripts/zsh-nix-shell-builder") "$@"
 fi
 

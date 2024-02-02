@@ -6,14 +6,14 @@ typeset -ga brew_postexec_functions
 local fn
 
 for fn ("${brew_preexec_functions[@]}")
-  $fn "$@"
+$fn "$@"
 
 command brew "$@"
 
 local res=$?
 
 for fn ("${brew_postexec_functions[@]}")
-  $fn "$@"
+$fn "$@"
 
 return $res
 

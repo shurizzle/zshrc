@@ -2,13 +2,13 @@ local c0 c1 c2
 
 ( (( $+1 )) && print -n "$1" || <&0) | \
   while read -u0 -rsk1 c0; do
-    if [[ "$c0" == "%" ]]; then
-      read -u0 -rsk1 c1
-      read -u0 -rsk1 c2
-      print -n "\x$c1$c2"
-    else
-      print -n -- "${c0}"
-    fi
-  done
+  if [[ "$c0" == "%" ]]; then
+    read -u0 -rsk1 c1
+    read -u0 -rsk1 c2
+    print -n "\x$c1$c2"
+  else
+    print -n -- "${c0}"
+  fi
+done
 
 # vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

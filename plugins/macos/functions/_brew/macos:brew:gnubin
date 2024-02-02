@@ -1,6 +1,6 @@
 (( $+1 )) || {
-    warn "Usage: macos:brew:gnubin <formula>"
-    return 1
+  warn "Usage: macos:brew:gnubin <formula>"
+  return 1
 }
 local p
 p="$(macos:brew:prefix "$1")" || return 1

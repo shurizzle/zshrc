@@ -15,7 +15,7 @@ for i ("$prefix/opt"/*(@N)); do
 done
 
 for i ("$caskroom"/*(/N:t))
-  installed+="${i:t}"
+installed+="${i:t}"
 zstyle ':zoppo:plugin:macos:brew' installed "${installed[@]}"
 
 # vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

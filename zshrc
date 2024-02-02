@@ -127,6 +127,7 @@ eval "restore_tty() { stty '`stty -g`' }"
   update_proxy
   restore_tty
   printf '\033[?25h\033[0 q'
+  print -Pn "\e]133;A\e\\"
 }
 
 add-zsh-hook precmd +shura-pre-cmd
