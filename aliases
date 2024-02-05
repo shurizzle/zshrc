@@ -28,7 +28,7 @@ if is-command eza; then
   alias ls=eza
   alias exa=eza
 elif is-command exa; then
-  alias+ exa --color=auto --icons --group --links --hyperlink
+  alias+ exa --color=auto --icons --group --links
   alias ls=exa
 else
   alias+ ls --color=auto --group-directories-first # --hyperlink=auto
