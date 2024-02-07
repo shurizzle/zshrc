@@ -126,7 +126,7 @@ eval "restore_tty() { stty '`stty -g`' }"
 +shura-pre-cmd() {
   update_proxy
   restore_tty
-  printf '\033[?25h\033[0 q'
+  printf '\033[?25h\033[6 q'
   print -Pn "\e]133;A\e\\"
 }
 
