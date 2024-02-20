@@ -1,0 +1,35 @@
+function yazi {
+  local arg next=false file
+  for arg ($@); do
+    if $next; then
+      file="$arg"
+      break
+    fi
+
+    case "$arg" in
+      --cwd-file)
+        next=true
+        ;;
+      --cwd-file=*)
+        file="${arg:11}"
+        break
+        ;;
+    esac
+  done
+
+  if [ -z "$file" ]; then
+    if $next; then
+      yazi "$@"
+    else
+      yazi --cwd-file =(:) "$@"
+    fi
+  else
+    command yazi "$@" || return $?
+    local cwd
+    if cwd="$(< "$file")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+      cd -- "$cwd"
+    fi
+  fi
+}
+
+# vim: set ft=zsh sts=2 ts=2 sw=2 et:
