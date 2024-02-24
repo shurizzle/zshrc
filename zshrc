@@ -118,19 +118,37 @@ source "${ZSH_DIR}/variables"
 source "${ZSH_DIR}/aliases"
 source "${ZSH_DIR}/autostart"
 
-update_proxy() {
-  [ -f /etc/profile.d/proxy.sh ] && source /etc/profile.d/proxy.sh
-}
 eval "restore_tty() { stty '`stty -g`' }"
 
-+shura-pre-cmd() {
-  update_proxy
+__shura_prompt_executing=""
+function +shura-pre-cmd() {
+  local ret="$?"
   restore_tty
   printf '\033[?25h\033[6 q'
-  print -Pn "\e]133;A\e\\"
+  if test "$__shura_prompt_executing" != "0"; then
+    _PROMPT_SAVE_PS1="$PS1"
+    _PROMPT_SAVE_PS2="$PS2"
+    PS1=$'%{\e]133;P;k=i\a%}'$PS1$'%{\e]133;B\a\e]122;> \a%}'
+    PS2=$'%{\e]133;P;k=s\a%}'$PS2$'%{\e]133;B\a%}'
+  fi
+  if test "$__shura_prompt_executing" != ""
+  then
+    printf "\033]133;D;%s;aid=%s\007" "$ret" "$$"
+  fi
+  printf "\033]133;A;cl=m;aid=%s\007" "$$"
+  __shura_prompt_executing=0
+}
+
+function +shura-pre-exec() {
+    PS1="$_PROMPT_SAVE_PS1"
+    PS2="$_PROMPT_SAVE_PS2"
+    printf "\033]133;C;\007"
+    __shura_prompt_executing=1
 }
 
 add-zsh-hook precmd +shura-pre-cmd
+add-zsh-hook preexec +shura-pre-exec
+
 bindkey '^U' backward-kill-line
 bindkey '^K' kill-line
 
