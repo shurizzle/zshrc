@@ -1,48 +1,50 @@
 export HOSTTYPE="$(uname -m)"
 
 if is-command bc; then
-  BC_ENV_ARGS="-l"
-  if [ -f ~/.bcrc ]; then
-    BC_ENV_ARGS="$BC_ENV_ARGS $HOME/.bcrc"
-  fi
+    BC_ENV_ARGS="-ql"
+    if [ -f ~/.bcrc ]; then
+        BC_ENV_ARGS="$BC_ENV_ARGS $HOME/.bcrc"
+    fi
 
-  export BC_ENV_ARGS
+    export BC_ENV_ARGS
 fi
 
 is-command rustc && function {
-  local VERSION="$(rustc --version | cut -d' ' -f2)"
+    local VERSION="$(rustc --version | cut -d' ' -f2)"
 
-  if [[ "$VERSION" = *-nightly ]]; then
-    export CFG_RELEASE_CHANNEL=nightly
-    export CFG_RELEASE="$VERSION"
-  else
-    export CFG_RELEASE_CHANNEL=stable
-    export CFG_RELEASE="$VERSION"
-  fi
+    if [[ "$VERSION" = *-nightly ]]; then
+        export CFG_RELEASE_CHANNEL=nightly
+        export CFG_RELEASE="$VERSION"
+    else
+        export CFG_RELEASE_CHANNEL=stable
+        export CFG_RELEASE="$VERSION"
+    fi
 }
 
 if is-command nvim; then
-  export EDITOR=nvim
+    export EDITOR=nvim
 elif is-command vim; then
-  export EDITOR=vim
+    export EDITOR=vim
 elif is-command vi; then
-  export EDITOR=vi
+    export EDITOR=vi
 fi
 
 if os:is-linux; then
-  unset MANPATH
+    unset MANPATH
 else
-  export MANPATH="${MANPATH:+$MANPATH:}${NPM_PACKAGES}/share/man"
+    export MANPATH="${MANPATH:+$MANPATH:}${NPM_PACKAGES}/share/man"
 fi
 
 if is-command nvimpager; then
-  export PAGER=nvimpager
+    export PAGER=nvimpager
 elif is-command less; then
-  export PAGER=less
+    export PAGER=less
 elif is-command more; then
-  export PAGER=more
+    export PAGER=more
 fi
 
 export RUBY_YJIT_ENABLE=1
+
+export RIPGREP_CONFIG_PATH="$HOME/.config/rg/rc"
 
 # vim: set ft=zsh sts=2 ts=2 sw=2 et:

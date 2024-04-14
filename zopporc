@@ -1,7 +1,7 @@
 function {
-  local ZSHDIR="${${(%):-%x}:a:P:h}"
-  zstyle ':zoppo:path' plugins "$ZSHDIR/zoppo/plugins" "$ZSHDIR/plugins"
-  zstyle ':zoppo:path' prompts "$ZSHDIR/zoppo/prompts" "$ZSHDIR/prompts"
+    local ZSHDIR="${${(%):-%x}:a:P:h}"
+    zstyle ':zoppo:path' plugins "$ZSHDIR/zoppo/plugins" "$ZSHDIR/plugins"
+    zstyle ':zoppo:path' prompts "$ZSHDIR/zoppo/prompts" "$ZSHDIR/prompts"
 }
 
 zstyle ':zoppo:*:*' color 'yes'
@@ -15,7 +15,7 @@ zstyle ':zoppo:plugin:agent:gpg' enable 'no'
 
 zstyle ':zoppo:plugin:ruby:rbenv' enable 'yes'
 if is-command rbenv; then
-  zstyle ':zoppo:plugin:ruby:rbenv' path =rbenv
+    zstyle ':zoppo:plugin:ruby:rbenv' path =rbenv
 fi
 
 zstyle ':zoppo:plugin:haskell:ghcup' enable 'yes'
@@ -25,49 +25,49 @@ zstyle ':zoppo:plugin:editor' mode vi
 zstyle ':zoppo:plugin:node:nvm' enable 'yes'
 
 function {
-  local -a plugins=(
-    'agent'
-    'history'
-    'utility'
-    'editor'
-    'syntax-highlight'
-    'archive'
-    'python'
-    'ocaml'
-    'ruby'
-    'rust'
-    'node'
-    'haskell'
-    'history-substring-search'
-    'command-not-found'
-    'my-completion'
-    'completion'
-    'sudo'
-    'autosuggestions'
+    local -a plugins=(
+        'agent'
+        'history'
+        'utility'
+        'editor'
+        'syntax-highlight'
+        'archive'
+        'python'
+        'ocaml'
+        'ruby'
+        'rust'
+        'node'
+        'haskell'
+        'history-substring-search'
+        'command-not-found'
+        'my-completion'
+        'completion'
+        'sudo'
+        'autosuggestions'
 
-    'converters'
-    'daemons'
-    'internet'
-    'system'
-  )
+        'converters'
+        'daemons'
+        'internet'
+        'system'
+    )
 
-  os:is-macos && plugins+=('macos')
-  [ -d /etc/nixos ] && plugins+=('nix')
+    os:is-macos && plugins+=('macos')
+    [ -d /etc/nixos ] && plugins+=('nix')
 
-  zstyle ':zoppo:load' plugins "${plugins[@]}"
+    zstyle ':zoppo:load' plugins "${plugins[@]}"
 }
 
 zstyle ':zoppo' prompt 'pure'
 
 function {
-  local -a envs=(
-    'system'
-    'editors'
-  )
+    local -a envs=(
+        'system'
+        'editors'
+    )
 
-  [ -f "/etc/arch-release" ] && envs+=('arch')
+    [ -f "/etc/arch-release" ] && envs+=('arch')
 
-  zstyle ':zoppo:plugin:sudo' environments "${envs[@]}"
+    zstyle ':zoppo:plugin:sudo' environments "${envs[@]}"
 }
 
 zstyle ':zoppo:plugin:archive' disable
