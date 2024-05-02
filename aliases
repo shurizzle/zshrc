@@ -70,7 +70,7 @@ fi
     alias hostname='hostnamectl hostname'
 
 if is-command xcp; then
-    alias+ xcp '-i --reflink=auto'
+    alias+ xcp '--reflink=auto'
     alias cp=xcp
 fi
 
