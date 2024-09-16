@@ -24,6 +24,11 @@ zstyle ':zoppo:plugin:editor' mode vi
 
 zstyle ':zoppo:plugin:node:nvm' enable 'yes'
 
+zstyle ':zoppo:plugin:utility:gnu' enable 'yes'
+if os:is-linux || is-command uu-coreutils; then
+  zstyle ':zoppo:plugin:utility:gnu' prefix 'uu-'
+fi
+
 function {
     local -a plugins=(
         'agent'
