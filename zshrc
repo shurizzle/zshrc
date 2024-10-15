@@ -109,6 +109,8 @@ else
 fi
 
 source "$ZSH_DIR/zoppo/zoppo/zoppo.zsh" -config "$ZSH_DIR/zopporc"
+prompt_pure_colors[yazi]="${prompt_pure_colors[virtualenv]}"
+PROMPT='%(13V.%F{$prompt_pure_colors[yazi]}%13v%f .)'"$PROMPT"
 PROMPT2='%F{242}…%F{reset} '
 
 autoload -Uz add-zsh-hook
@@ -119,6 +121,18 @@ source "${ZSH_DIR}/aliases"
 source "${ZSH_DIR}/autostart"
 
 eval "restore_tty() { stty '`stty -g`' }"
+
++pure-yazi() {
+    psvar[13]=
+    if [ -n "$YAZI_LEVEL" ]; then
+        if (( YAZI_LEVEL > 1 )); then
+            psvar[13]="$YAZI_LEVEL"$'\uef81 '
+        else
+            psvar[13]=$'\uef81 '
+        fi
+    fi
+}
+add-zsh-hook precmd +pure-yazi
 
 __shura_prompt_executing=""
 function +shura-pre-cmd() {
