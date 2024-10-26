@@ -54,6 +54,7 @@ function {
         'daemons'
         'internet'
         'system'
+        'hare'
     )
 
     os:is-macos && plugins+=('macos')
