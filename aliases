@@ -74,4 +74,8 @@ if is-command xcp; then
     alias cp=xcp
 fi
 
+if is-command intentrace; then
+  alias strace=intentrace
+fi
+
 # vim: set ft=zsh sts=2 ts=2 sw=2 et:
