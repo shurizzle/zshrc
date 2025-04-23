@@ -47,4 +47,6 @@ export RUBY_YJIT_ENABLE=1
 
 export RIPGREP_CONFIG_PATH="$HOME/.config/rg/rc"
 
+[ -d "${RAD_HOME:-$HOME/.radicle}/bin" ] && export PATH="${PATH:+$PATH:}${RAD_HOME:-$HOME/.radicle}/bin"
+
 # vim: set ft=zsh sts=2 ts=2 sw=2 et:
