@@ -17,54 +17,60 @@ if zdefault -t ':zoppo:plugin:macos:locale' enable 'yes'; then
   }
 fi
 
-if is-command brew && zdefault -t ':zoppo:plugin:macos:brew' enable 'yes'; then
-  autoload -Uz regexp-replace
+if zdefault -t ':zoppo:plugin:macos:brew' enable 'yes'; then
+  if ! is-command brew; then
+    macos:path:add-if-exists "${HOMEBREW_PREFIX:-"/opt/homebrew"}/bin"
+  fi
 
-  function {
-    setopt LOCAL_OPTIONS RE_MATCH_PCRE
+  if is-command brew; then
+    autoload -Uz regexp-replace
 
-    local x="$(brew shellenv)"
-    regexp-replace x '(^|;|\n)(\s*)export(\s+)' '${match[1]}${match[2]}local${match[3]}'
-    eval "$x"
-    unset x
+    function {
+      setopt LOCAL_OPTIONS RE_MATCH_PCRE
 
-    zstyle ':zoppo:plugin:macos:brew' prefix      "$HOMEBREW_PREFIX"
-    zstyle ':zoppo:plugin:macos:brew' cellar      "$HOMEBREW_CELLAR"
-    zstyle ':zoppo:plugin:macos:brew' caskroom    "$HOMEBREW_PREFIX/Caskroom"
-    zstyle ':zoppo:plugin:macos:brew' repository  "$HOMEBREW_REPOSITORY"
-  }
+      local x="$(brew shellenv)"
+      regexp-replace x '(^|;|\n)(\s*)export(\s+)' '${match[1]}${match[2]}local${match[3]}'
+      eval "$x"
+      unset x
 
-  function {
-    local prefix
-    zstyle -s ':zoppo:plugin:macos:brew' prefix prefix
+      zstyle ':zoppo:plugin:macos:brew' prefix      "$HOMEBREW_PREFIX"
+      zstyle ':zoppo:plugin:macos:brew' cellar      "$HOMEBREW_CELLAR"
+      zstyle ':zoppo:plugin:macos:brew' caskroom    "$HOMEBREW_PREFIX/Caskroom"
+      zstyle ':zoppo:plugin:macos:brew' repository  "$HOMEBREW_REPOSITORY"
+    }
 
-    export PATH="${prefix}/bin:${prefix}/sbin${PATH:+:$PATH}"
-    export INFOPATH="${prefix}/share/info${INFOPATH:+:$INFOPATH}"
-  }
+    function {
+      local prefix
+      zstyle -s ':zoppo:plugin:macos:brew' prefix prefix
 
-  function {
-    local basepath="$1"
-    local zfunction
+      export PATH="${prefix}/bin:${prefix}/sbin${PATH:+:$PATH}"
+      export INFOPATH="${prefix}/share/info${INFOPATH:+:$INFOPATH}"
+    }
 
-    functions:add "$basepath"/functions/_brew
+    function {
+      local basepath="$1"
+      local zfunction
 
-    setopt LOCAL_OPTIONS EXTENDED_GLOB BARE_GLOB_QUAL
-    for zfunction ("$basepath"/functions/_brew/^([._]|README)*(.N:t))
-    autoload -Uz -- "$zfunction"
-  } "${0:h:a}"
+      functions:add "$basepath"/functions/_brew
 
-  +brew-postexec-installed
-  +brew-postexec-formulae-exec
-  +brew-postexec-casks-exec
-  +brew-postexec-rehash
+      setopt LOCAL_OPTIONS EXTENDED_GLOB BARE_GLOB_QUAL
+      for zfunction ("$basepath"/functions/_brew/^([._]|README)*(.N:t))
+      autoload -Uz -- "$zfunction"
+    } "${0:h:a}"
 
-  typeset -ga brew_preexec_functions=()
-  typeset -ga brew_postexec_functions=()
+    +brew-postexec-installed
+    +brew-postexec-formulae-exec
+    +brew-postexec-casks-exec
+    +brew-postexec-rehash
 
-  add-brew-hook postexec +brew-postexec-rehash
-  add-brew-hook postexec +brew-postexec-installed
-  add-brew-hook postexec +brew-postexec-formulae-exec
-  add-brew-hook postexec +brew-postexec-casks-exec
+    typeset -ga brew_preexec_functions=()
+    typeset -ga brew_postexec_functions=()
+
+    add-brew-hook postexec +brew-postexec-rehash
+    add-brew-hook postexec +brew-postexec-installed
+    add-brew-hook postexec +brew-postexec-formulae-exec
+    add-brew-hook postexec +brew-postexec-casks-exec
+  fi
 fi
 
 if is-command docker-machine && zdefault -t ':zoppo:plugin:macos:docker-machine' enable 'yes'; then
