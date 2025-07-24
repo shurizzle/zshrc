@@ -30,7 +30,12 @@ if os:is-linux || is-command uu-coreutils; then
 fi
 
 function {
-    local -a plugins=(
+    local -a plugins=()
+
+    os:is-macos && plugins+=('macos')
+    [ -d /etc/nixos ] && plugins+=('nix')
+
+    plugins+=(
         'agent'
         'history'
         'utility'
@@ -56,9 +61,6 @@ function {
         'system'
         'hare'
     )
-
-    os:is-macos && plugins+=('macos')
-    [ -d /etc/nixos ] && plugins+=('nix')
 
     zstyle ':zoppo:load' plugins "${plugins[@]}"
 }
