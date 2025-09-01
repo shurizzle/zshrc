@@ -26,13 +26,22 @@ zstyle ':zoppo:plugin:node:nvm' enable 'yes'
 
 zstyle ':zoppo:plugin:utility:gnu' enable 'yes'
 if os:is-linux || is-command uu-coreutils; then
-  zstyle ':zoppo:plugin:utility:gnu' prefix 'uu-'
+    zstyle ':zoppo:plugin:utility:gnu' prefix 'uu-'
 fi
 
 function {
     local -a plugins=()
 
-    os:is-macos && plugins+=('macos')
+    if os:is-macos; then
+        zstyle ':zoppo:plugin:macos:brew:formulae' \
+            formulae \
+            \
+            'coreutils' 'grep' 'gnu-tar' 'gnu-sed' 'gawk' 'make' 'openssl' \
+            'expat' 'qt' 'openblas' 'ruby' 'apr' 'icu4c' 'sqlite' 'libffi' \
+            'openal-soft' 'util-linux' 'libpq' 'sphinx-doc' 'zlib' 'e2fsprogs' \
+            'libarchive' 'curl' 'binutils' 'rustup' 'nvm' 'postgresql@17'
+        os:is-macos && plugins+=('macos')
+    fi
     [ -d /etc/nixos ] && plugins+=('nix')
 
     plugins+=(
