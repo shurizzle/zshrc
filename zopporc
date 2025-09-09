@@ -24,6 +24,9 @@ zstyle ':zoppo:plugin:editor' mode vi
 
 zstyle ':zoppo:plugin:node:nvm' enable 'yes'
 
+if ! is-function stty && (( $+commands[stty] )); then
+    eval "function stty { $commands[stty] \"\$@\" }"
+fi
 zstyle ':zoppo:plugin:utility:gnu' enable 'yes'
 if os:is-linux || is-command uu-coreutils; then
     zstyle ':zoppo:plugin:utility:gnu' prefix 'uu-'
