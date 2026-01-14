@@ -49,4 +49,7 @@ export RIPGREP_CONFIG_PATH="$HOME/.config/rg/rc"
 
 [ -d "${RAD_HOME:-$HOME/.radicle}/bin" ] && export PATH="${PATH:+$PATH:}${RAD_HOME:-$HOME/.radicle}/bin"
 
+export GOPATH="$HOME/.go"
+export PATH="$GOPATH/bin:$PATH"
+
 # vim: set ft=zsh sts=2 ts=2 sw=2 et:
