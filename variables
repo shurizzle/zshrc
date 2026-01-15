@@ -35,6 +35,10 @@ else
     export MANPATH="${MANPATH:+$MANPATH:}${NPM_PACKAGES}/share/man"
 fi
 
+if is-command vim; then
+    export MANPAGER='vim +MANPAGER --not-a-term -'
+fi
+
 if is-command nvimpager; then
     export PAGER=nvimpager
 elif is-command less; then
@@ -49,7 +53,12 @@ export RIPGREP_CONFIG_PATH="$HOME/.config/rg/rc"
 
 [ -d "${RAD_HOME:-$HOME/.radicle}/bin" ] && export PATH="${PATH:+$PATH:}${RAD_HOME:-$HOME/.radicle}/bin"
 
+export NODE_OPTIONS="--max-old-space-size=8192"
+
 export GOPATH="$HOME/.go"
 export PATH="$GOPATH/bin:$PATH"
+
+[ -d "$HOME/.phpenv/bin" ] && export PATH="$HOME/.phpenv/bin:$PATH"
+is-command phpenv && eval "$(phpenv init -)"
 
 # vim: set ft=zsh sts=2 ts=2 sw=2 et:

@@ -208,4 +208,8 @@ if (( $+commands[wezterm] )); then
     eval "$(command wezterm shell-completion --shell zsh)"
 fi
 
+if (( $+commands[mago] )); then
+    eval "$(command mago generate-completions zsh)"
+fi
+
 # vim: set ft=zsh sts=2 ts=2 sw=2 et:

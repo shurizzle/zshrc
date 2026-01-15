@@ -50,6 +50,8 @@ fi
 if is-command btm; then
     alias top=btm
     alias htop=btm
+elif is-command htop; then
+    alias top=htop
 fi
 
 if is-command tokei; then
