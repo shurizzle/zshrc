@@ -35,7 +35,9 @@ else
     export MANPATH="${MANPATH:+$MANPATH:}${NPM_PACKAGES}/share/man"
 fi
 
-if is-command vim; then
+if is-command nvim; then
+    export MANPAGER='nvim +Man!'
+elif is-command vim; then
     export MANPAGER='vim +MANPAGER --not-a-term -'
 fi
 
